@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('docs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('appreq_id')->constrained();
             $table->string('name_doc');
             $table->enum('type_doc', ['Ajuan', 'Revisi']);
-            $table->text('desc_doc');
+            $table->text('desc_doc')->nullable();
+            $table->string('file_name');
             $table->timestamps();
         });
     }
