@@ -14,7 +14,7 @@ class TopicSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('topic')->insert([
+        DB::table('topics')->insert([
             [
                 'name_topic' => 'Topic 1',
                 'desc_topic' => 'Perbaikan 1',

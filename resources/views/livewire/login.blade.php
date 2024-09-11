@@ -21,7 +21,8 @@
                     </div>
                 </div>
                 <div class="mb-2 d-grid">
-                    <button class="btn btn-success btn-block" type="submit">Login</button>
+                    <a wire:navigate href="{{ url('users') }}" class="btn btn-success btn-block">Login</a>
+                    {{-- <button class="btn btn-success btn-block" type="submit">Login</button> --}}
                 </div>
             </form>
             <p class="mb-1 text-center"> <a style="color: #4d4d4d !important;" wire:navigate href="{{ URL::route('resetpass') }}">I forgot my password</a> </p>

@@ -16,6 +16,7 @@ class CompanySeeder extends Seeder
     {
         DB::table('companies')->insert([
             [
+                'user_id' => 2,
                 'name_company' => 'PT Sejahtera Abadi',
                 'type_company' => 'PT',
                 'npwp_company' => '198230912386723',

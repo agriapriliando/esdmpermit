@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('login');
 // });
 
-// Route::get('/', Login::class)->name('login');
-// Route::get('reset', Resetpass::class)->name('resetpass');
+Route::get('/', Login::class)->name('login');
+Route::get('reset', Resetpass::class)->name('resetpass');
+Route::get('users', UsersList::class)->name('users.list');
 // Route::get('dashboard', Dashboard::class)->name('dashboard');
-// Route::get('users', UsersList::class)->name('users.list');

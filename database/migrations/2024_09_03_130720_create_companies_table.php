@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('npwp_company');
             $table->string('act_company');
             $table->string('city_company');
+            $table->string('kecamatan_company');
             $table->string('address_company');
             $table->timestamps();
         });

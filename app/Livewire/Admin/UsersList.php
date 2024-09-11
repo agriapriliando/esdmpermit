@@ -14,10 +14,18 @@ class UsersList extends Component
     public $pagelength = 10;
     public $user = '';
 
+    public $name;
+    public $username;
+    public $nohp;
+    public $email;
+    public $password;
+
     public function getUserDelete($id)
     {
-        $this->user = User::find($id);
-        // dd($this->user);
+        $user = User::find($id);
+        $user->delete();
+
+        $this->dispatch('user-deleted', message: 'Akun ' . $user->name . ' Berhasil Dihapus');
     }
 
     public function render()
