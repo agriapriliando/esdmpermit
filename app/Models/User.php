@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'username',
+        'nohp',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -48,8 +51,8 @@ class User extends Authenticatable
         $term = "%$term%";
         $query->where(function ($query) use ($term) {
             $query->where('name', 'like', $term)
-                ->where('username', 'like', $term)
-                ->where('nohp', 'like', $term);
+                ->orWhere('username', 'like', $term)
+                ->orWhere('nohp', 'like', $term);
         });
     }
 }
