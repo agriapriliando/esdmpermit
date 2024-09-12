@@ -71,38 +71,40 @@
                         <div class="card-header">
                             <h3 class="card-title">Daftar Akun</h3>
                             <div class="card-tools">
-                                <div class="d-flex">
-                                    <div class="me-2">
-                                        <select wire:model.live="pagelength" class="form-select" aria-label="Default select example">
-                                            <option value="">All</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                        </select>
-                                    </div>
-                                    <div class="me-2">
-                                        <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example">
-                                            <option value="">Semua Role</option>
-                                            <option value="admin">Admin</option>
-                                            <option value="pemohon">Pemohon</option>
-                                        </select>
-                                    </div>
-                                    <a href="#edit" class="btn btn-success me-2"><i class="bi bi-plus"></i> Tambah</a>
-                                    <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2" type="button" x-on:click="$wire.$refresh()"
-                                        wire:loading.attr="disabled">
-                                        <i class="bi bi-arrow-repeat"></i> Refresh
-                                    </button>
-                                    <div class="input-group" style="width: 280px;" x-data="{ search: '' }">
-                                        <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
-                                        <div class="input-group-append">
-                                            <button wire:click="resetSearch" type="submit" class="btn btn-warning">
-                                                <i class="bi bi-x-square-fill"></i>
-                                            </button>
-                                        </div>
+                                <div class="input-group" x-data="{ search: '' }">
+                                    <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
+                                    <div class="input-group-append">
+                                        <button wire:click="resetSearch" type="submit" class="btn btn-warning">
+                                            <i class="bi bi-x-square-fill"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div> <!-- /.card-header -->
                         <div class="card-body table-responsive">
+                            <div class="d-flex flex-column flex-lg-row float-end">
+                                <a wire:click="resetForm" href="#edit" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</a>
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
+                                    wire:loading.attr="disabled">
+                                    <i class="bi bi-arrow-repeat"></i> Refresh
+                                </button>
+                            </div>
+                            <div class="d-flex flex-column flex-lg-row">
+                                <div class="me-2 mb-2">
+                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example">
+                                        <option value="">All</option>
+                                        <option value="20">20</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                </div>
+                                <div class="me-2 mb-2">
+                                    <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example">
+                                        <option value="">Semua Role</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="pemohon">Pemohon</option>
+                                    </select>
+                                </div>
+                            </div>
                             <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
