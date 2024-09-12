@@ -38,11 +38,6 @@ class UsersList extends Component
 
     public $company_id;
 
-    public function mount(User $user)
-    {
-        $this->company_id = Company::where('user_id', $user->id)->get()->pluck('id')->toArray();
-    }
-
     public function resetSearch()
     {
         $this->reset('search');

@@ -10,7 +10,7 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->routeIs('dashboard') ? 'active' : '' }}"> <a href="#" class="nav-link active"> <i class="nav-icon bi bi-box-seam-fill"></i>
+                <li class="nav-item"> <a href="#" class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}"> <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>
                             Permohonan
                             <i class="nav-arrow bi bi-chevron-right"></i>
@@ -35,7 +35,8 @@
                     </a>
                 </li>
                 <li class="nav-header">Data Master</li>
-                <li class="nav-item"> <a href="#" class="nav-link"> <i class="nav-icon bi bi-tree-fill"></i>
+                <li class="nav-item {{ request()->routeIs('dcompany.*') || request()->routeIs('users.*') ? 'menu-open' : '' }}"> <a href="#" class="nav-link"> <i
+                            class="nav-icon bi bi-tree-fill"></i>
                         <p>
                             Master Data
                             <i class="nav-arrow bi bi-chevron-right"></i>
