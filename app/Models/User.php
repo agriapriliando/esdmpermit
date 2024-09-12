@@ -55,4 +55,9 @@ class User extends Authenticatable
                 ->orWhere('nohp', 'like', $term);
         });
     }
+
+    public function company()
+    {
+        return $this->hasMany(Company::class);
+    }
 }

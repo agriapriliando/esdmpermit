@@ -2,11 +2,11 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Company;
 use App\Models\User;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
-use PhpParser\Node\Stmt\TryCatch;
 
 class UsersList extends Component
 {
@@ -14,7 +14,7 @@ class UsersList extends Component
 
     public $search = '';
     public $pagelength = 10;
-    public $user = '';
+    public $title = 'Tambah Akun';
 
     #[Validate('required', message: 'Nama tidak boleh kosong')]
     public $name;
@@ -25,9 +25,23 @@ class UsersList extends Component
     #[Validate('unique:users,nohp', message: 'No HP Telah Digunakan')]
     public $nohp;
     #[Validate('required', message: 'Email tidak boleh kosong')]
+    #[Validate('unique:users,email', message: 'Email Telah digunakan')]
     #[Validate('email', message: 'Format Email Belum Benar, gunakan @')]
     public $email;
     public $password;
+    public $role;
+    public $id;
+
+    public $jenis_role;
+
+    public User $user;
+
+    public $company_id;
+
+    public function mount(User $user)
+    {
+        $this->company_id = Company::where('user_id', $user->id)->get()->pluck('id')->toArray();
+    }
 
     public function resetSearch()
     {
@@ -36,12 +50,23 @@ class UsersList extends Component
 
     public function resetForm()
     {
+        $this->title = 'Tambah Akun';
         $this->reset('name', 'username', 'nohp', 'email', 'password');
     }
 
-    public function save()
+    public function save($id = null)
     {
-        $this->validate();
+        if ($this->title == 'Tambah Akun') {
+            $this->validate();
+        } else {
+            $dataUser = User::where('id', $id)->first();
+            $this->validate([
+                'name' => 'required',
+                'username' => 'required|unique:users,username,' . $dataUser->id,
+                'nohp' => 'required|numeric',
+                'email' => 'required|email|unique:users,email,' . $dataUser->id,
+            ]);
+        }
         if ($this->password == null) {
             $data = $this->only('name', 'username', 'nohp', 'email');
             $data['password'] = bcrypt($this->username);
@@ -51,14 +76,39 @@ class UsersList extends Component
             $data['password'] = bcrypt($this->password);
             $data['role'] = 'admin';
         }
-        // dd($data);
-        try {
-            User::create($data);
-            $this->reset();
-            $this->dispatch('user-created', message: 'Akun ' . $data['name'] . ' Berhasil Ditambahkan');
-        } catch (\Exception $e) {
-            $this->dispatch('user-add-error', message: 'Created User Error ' . $e->getMessage() . ' ERROR');
+
+        if ($this->title == 'Tambah Akun') {
+            try {
+                User::create($data);
+                $this->reset();
+                $this->dispatch('user-created', message: 'Akun ' . $data['name'] . ' Berhasil Ditambahkan');
+            } catch (\Exception $e) {
+                $this->dispatch('user-add-error', message: 'Created User Error ' . $e->getMessage() . ' ERROR');
+            }
+        } else {
+            try {
+                $dataUser->update($data);
+                $this->reset();
+                $this->dispatch('user-updated', message: 'Akun ' . $data['name'] . ' Berhasil Perbaharui');
+            } catch (\Exception $e) {
+                $this->dispatch('user-add-error', message: 'Updated User Error ' . $e->getMessage() . ' ERROR');
+            }
         }
+        // dd($data);
+    }
+
+    public function edit(User $user)
+    {
+        $this->title = 'Edit Akun';
+
+        $this->company_id = Company::where('user_id', $user->id)->get()->pluck('id')->toArray();
+        // dd($this->company_id);
+
+        $this->id = $user->id;
+        $this->name = $user->name;
+        $this->username = $user->username;
+        $this->nohp = $user->nohp;
+        $this->email = $user->email;
     }
 
     public function getUserDelete($id)
@@ -73,8 +123,12 @@ class UsersList extends Component
     {
         return view('livewire.admin.users-list', [
             'users' => User::search($this->search)
+                ->when($this->jenis_role, function ($query) {
+                    $query->where('role', $this->jenis_role);
+                })
                 ->orderBy('name')
-                ->paginate($this->pagelength)
+                ->paginate($this->pagelength),
+            'companies' => Company::all()
         ]);
     }
 }

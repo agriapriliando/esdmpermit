@@ -15,18 +15,42 @@ class CompanySeeder extends Seeder
     public function run(): void
     {
         DB::table('companies')->insert([
+            // [
+            //     'user_id' => 1,
+            //     'name_company' => 'PT Sejahtera Abadi',
+            //     'type_company' => 'PT',
+            //     'npwp_company' => '198230912386723',
+            //     'act_company' => 'Pasir Kuarsa',
+            //     'city_company' => 'Palangka Raya',
+            //     'kecamatan_company' => 'Kec. Pahandut',
+            //     'address_company' => 'Jalan Bukit Bahagia',
+            //     'created_at' => Carbon::now(),
+            //     'updated_at' => Carbon::now(),
+            // ],
             [
-                'user_id' => 2,
-                'name_company' => 'PT Sejahtera Abadi',
+                'user_id' => 1,
+                'name_company' => 'PT Sukacita',
                 'type_company' => 'PT',
-                'npwp_company' => '198230912386723',
-                'act_company' => 'Pasir Kuarsa',
+                'npwp_company' => '198230912226723',
+                'act_company' => 'Pasir',
                 'city_company' => 'Palangka Raya',
                 'kecamatan_company' => 'Kec. Pahandut',
                 'address_company' => 'Jalan Bukit Bahagia',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
-            ]
+            ],
+            [
+                'user_id' => 1,
+                'name_company' => 'CV Berkat',
+                'type_company' => 'CV',
+                'npwp_company' => '198230912226723',
+                'act_company' => 'Pasir',
+                'city_company' => 'Palangka Raya',
+                'kecamatan_company' => 'Kec. Pahandut',
+                'address_company' => 'Jalan Bukit Bahagia',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
     }
 }

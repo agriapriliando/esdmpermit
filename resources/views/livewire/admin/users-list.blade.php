@@ -72,6 +72,14 @@
                             <h3 class="card-title">Daftar Akun</h3>
                             <div class="card-tools">
                                 <div class="d-flex">
+                                    <div class="me-2">
+                                        <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example">
+                                            <option value="">Semua Role</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="pemohon">Pemohon</option>
+                                        </select>
+                                    </div>
+                                    <a href="#edit" class="btn btn-success me-2"><i class="bi bi-plus"></i> Tambah</a>
                                     <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2" type="button" x-on:click="$wire.$refresh()"
                                         wire:loading.attr="disabled">
                                         <i class="bi bi-arrow-repeat"></i> Refresh
@@ -92,7 +100,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Task</th>
+                                        <th>Nama | Username | Role</th>
                                         <th>Kontak</th>
                                         <th>Tanggal</th>
                                         <th style="width: 40px">Label</th>
@@ -104,13 +112,18 @@
                                     @foreach ($users as $item)
                                         <tr class="align-middle" x-data="{ open: false }">
                                             <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}</td>
-                                            <td>{{ $item->name }} <br> <span class="badge text-bg-warning">{{ $item->username }}</span></td>
+                                            <td>{{ $item->name }} <br> <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
+                                                <br> <span class="badge {{ $item->role == 'admin' ? 'text-bg-primary' : 'text-bg-info' }}">Role: {{ $item->role }}</span>
+                                            </td>
                                             <td><a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a></td>
                                             <td>
                                                 <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div><br>
                                                 <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
                                             </td>
-                                            <td>
+                                            <td class="d-flex">
+                                                <a wire:click="edit({{ $item->id }})" href="#edit" class="btn btn-sm btn-warning me-2">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
                                                 <button @click="open = true" class="btn btn-sm btn-danger">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
@@ -133,16 +146,16 @@
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->
-                <div class="col-md-6">
+                <div class="col-md-6" id="edit">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Tambah Akun</h3>
+                            <h3 class="card-title">{{ $title }}</h3>
                             <div class="card-tools">
                                 <button wire:click="resetForm" class="btn btn-sm btn-warning"><i class="bi bi-arrow-counterclockwise"></i> Reset Form</button>
                             </div>
                         </div> <!-- /.card-header -->
                         <div class="card-body" x-data="{ pass: false, password: '' }">
-                            <form wire:submit.prevent="save">
+                            <form wire:submit.prevent="save({{ $id }})">
                                 <div class="mb-2">
                                     <label for="name">Nama</label>
                                     <input wire:model.blur="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name">
@@ -191,7 +204,7 @@
                                     </div>
                                 </div>
                                 <div class="mb-2 d-grid">
-                                    <button class="btn btn-success" type="submit">Simpan</button>
+                                    <button class="btn btn-success" type="submit">{{ $title }}</button>
                                 </div>
                             </form>
                         </div> <!-- /.card-body -->
@@ -217,6 +230,19 @@
             }, 2000);
         });
         $wire.on('user-created', (event) => {
+            var element = document.getElementById('liveToast');
+            const myToast = bootstrap.Toast.getOrCreateInstance(element);
+            setTimeout(function() {
+                myToast.show();
+                document.getElementById('pesan').innerHTML = event.message;
+                element.className += " text-bg-success";
+                console.log(event.message);
+            }, 10);
+            setTimeout(function() {
+                myToast.hide();
+            }, 2000);
+        });
+        $wire.on('user-updated', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {

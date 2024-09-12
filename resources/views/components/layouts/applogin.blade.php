@@ -22,6 +22,29 @@
 </head> <!--end::Head--> <!--begin::Body-->
 
 <body class="login-page bg-body-secondary">
+    <style>
+        @keyframes scrollBg {
+            from {
+                transform: translateY(0px);
+            }
+
+            to {
+                transform: translateY(-1300px);
+            }
+        }
+
+        .scroll-bg {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            padding-bottom: 1300px;
+            background-color: #E8BA9B;
+            background-image: url('/assets/img/bg-login.jpg');
+            background-size: cover;
+            animation: scrollBg 250s linear forwards;
+        }
+    </style>
+    <div class="scroll-bg"></div>
     {{ $slot }}
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js" integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous">
     </script> <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
