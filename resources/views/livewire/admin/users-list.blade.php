@@ -73,6 +73,13 @@
                             <div class="card-tools">
                                 <div class="d-flex">
                                     <div class="me-2">
+                                        <select wire:model.live="pagelength" class="form-select" aria-label="Default select example">
+                                            <option value="">All</option>
+                                            <option value="20">20</option>
+                                            <option value="50">50</option>
+                                        </select>
+                                    </div>
+                                    <div class="me-2">
                                         <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example">
                                             <option value="">Semua Role</option>
                                             <option value="admin">Admin</option>
@@ -84,10 +91,10 @@
                                         wire:loading.attr="disabled">
                                         <i class="bi bi-arrow-repeat"></i> Refresh
                                     </button>
-                                    <div class="input-group " style="width: 280px;" x-data="{ search: '' }">
-                                        <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control float-right" placeholder="Search">
+                                    <div class="input-group" style="width: 280px;" x-data="{ search: '' }">
+                                        <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
                                         <div class="input-group-append">
-                                            <button wire:click="resetSearch" type="submit" class="btn btn-default btn-lg">
+                                            <button wire:click="resetSearch" type="submit" class="btn btn-warning">
                                                 <i class="bi bi-x-square-fill"></i>
                                             </button>
                                         </div>
