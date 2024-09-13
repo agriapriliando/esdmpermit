@@ -22,7 +22,7 @@
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Daftar Akun
+                            Daftar Topik
                         </li>
                     </ol>
                 </div>
@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Layanan Izin Tersedia</h3>
+                            <h3 class="card-title">Daftar Topik Koresponden</h3>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -51,8 +51,8 @@
                         <div class="card-body table-responsive">
                             <div class="d-flex flex-column flex-lg-row float-end">
                                 <a wire:click="resetForm" href="#edit" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</a>
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Layanan Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
-                                    wire:loading.attr="disabled">
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Topik Koresponden Berhasil' })" class="btn btn-warning me-2 mb-2" type="button"
+                                    x-on:click="$wire.$refresh()" wire:loading.attr="disabled">
                                     <i class="bi bi-arrow-repeat"></i> Refresh
                                 </button>
                             </div>
@@ -67,8 +67,8 @@
                                 <div class="me-2 mb-2">
                                     <select wire:model.live="tertaut_count" class="form-select" aria-label="Default select example">
                                         <option value="">All</option>
-                                        <option value="A">Permohonan Tertaut</option>
-                                        <option value="B">Permohonan : 0</option>
+                                        <option value="A">Topik Tertaut</option>
+                                        <option value="B">Topik : 0</option>
                                     </select>
                                 </div>
                             </div>
@@ -85,11 +85,11 @@
                                 <tbody>
                                     <!-- Modal -->
 
-                                    @foreach ($permitworks as $item)
+                                    @foreach ($topics as $item)
                                         <tr class="align-middle" x-data="{ open: false }">
-                                            <td>{{ ($permitworks->currentpage() - 1) * $permitworks->perpage() + $loop->index + 1 }}</td>
-                                            <td>{{ $item->name_permit }}<br> <span class="badge text-bg-success">Permohonan : {{ $item->appreqs_count }} Data</span></td>
-                                            <td>{!! Str::limit($item->desc_permit, 40, '...') !!}</td>
+                                            <td>{{ ($topics->currentpage() - 1) * $topics->perpage() + $loop->index + 1 }}</td>
+                                            <td>{{ $item->name_topic }}<br> <span class="badge text-bg-success">Permohonan : {{ $item->correspondences_count }} Data</span></td>
+                                            <td>{!! Str::limit($item->desc_topic, 40, '...') !!}</td>
                                             <td>
                                                 <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div><br>
                                                 <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
@@ -104,9 +104,9 @@
                                                 <div x-show="open" @click.outside="open = false" class="overlay"></div>
                                                 <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out" class="modal-hapus">
                                                     <div class="alert alert-danger text-center">
-                                                        {{ $item->appreqs_count > 0 ? 'Layanan tidak bisa dihapus, layanan ini telah tertaut dengan data permohonan' : 'Yakin ingin menghapus Layanan?' }}
-                                                        <p class="fw-bold">{{ $item->name_permit }}</p>
-                                                        @if ($item->appreqs_count == 0)
+                                                        {{ $item->correspondences_count > 0 ? 'Topik tidak bisa dihapus, Topik ini telah tertaut dengan data Korespondensi' : 'Yakin ingin menghapus Topik?' }}
+                                                        <p class="fw-bold">{{ $item->name_topic }}</p>
+                                                        @if ($item->correspondences_count == 0)
                                                             <button wire:click.prevent="delete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
                                                         @endif
                                                         <button class="btn btn-sm btn-warning">Batal</button>
@@ -119,7 +119,7 @@
                             </table>
                         </div> <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            {{ $permitworks->links() }}
+                            {{ $topics->links() }}
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->
@@ -133,25 +133,25 @@
                         </div> <!-- /.card-header -->
                         <div class="card-body" x-data="{ pass: false, password: '' }">
                             <form wire:submit.prevent="save({{ $id }})">
-                                @if ($title == 'Edit Layanan')
-                                    <div class="mb-2 alert alert-danger">* PERINGATAN, melakukan perubahan Nama Layanan ini berarti merubah seluruh Permohonan (Layanan) yang tertaut
+                                @if ($title == 'Edit Topik')
+                                    <div class="mb-2 alert alert-danger">* PERINGATAN, melakukan perubahan Nama Topik ini berarti merubah seluruh Korespondensi (Topik) yang tertaut
                                     </div>
                                 @endif
                                 <div class="mb-2">
-                                    <label for="name_permit">Nama Layanan</label>
-                                    <input wire:model="name_permit" type="text" class="form-control @error('name_permit') is-invalid @enderror" id="name_permit">
-                                    @error('name_permit')
+                                    <label for="name_topic">Nama Topic</label>
+                                    <input wire:model="name_topic" type="text" class="form-control @error('name_topic') is-invalid @enderror" id="name_topic">
+                                    @error('name_topic')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
                                 </div>
                                 <div class="mb-2">
-                                    <label for="desc_permit">Deskripsi Layanan</label>
-                                    <input wire:model="desc_permit" id="desc1" type="hidden" name="desc_permit" value="{{ $desc_permit ?? '' }}"
-                                        class="@error('desc_permit') is-invalid @enderror">
-                                    <trix-editor input="desc1" class="@error('desc_permit') is-invalid @enderror"></trix-editor>
-                                    @error('desc_permit')
+                                    <label for="desc_topic">Deskripsi Layanan</label>
+                                    <input wire:model="desc_topic" id="desc1" type="hidden" name="desc_topic" value="{{ $desc_topic ?? '' }}"
+                                        class="@error('desc_topic') is-invalid @enderror">
+                                    <trix-editor input="desc1" class="@error('desc_topic') is-invalid @enderror"></trix-editor>
+                                    @error('desc_topic')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
@@ -172,10 +172,10 @@
     <script>
         $wire.on('trix-blur', (event) => {
             var trix = document.getElementById("desc1");
-            $wire.desc_permit = trix.getAttribute('value');
+            $wire.desc_topic = trix.getAttribute('value');
             // console.log(trix.getAttribute('value'));
         });
-        $wire.on('permitwork-deleted', (event) => {
+        $wire.on('topic-deleted', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {
@@ -188,7 +188,7 @@
                 myToast.hide();
             }, 2000);
         });
-        $wire.on('permitwork-created', (event) => {
+        $wire.on('topic-created', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {
@@ -201,7 +201,7 @@
                 myToast.hide();
             }, 2000);
         });
-        $wire.on('permitwork-updated', (event) => {
+        $wire.on('topic-updated', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {
@@ -214,7 +214,7 @@
                 myToast.hide();
             }, 2000);
         });
-        $wire.on('permitwork-error', (event) => {
+        $wire.on('topic-error', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {

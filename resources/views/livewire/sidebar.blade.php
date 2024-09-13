@@ -48,6 +48,10 @@
                             </a>
                         </li>
                         <li class="nav-item"> <a wire:navigate href="{{ url('permitworks') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+                                <p>Data Layanan<br>Permohonan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item"> <a wire:navigate href="{{ url('topics') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Data Topik <br>Korespondensi</p>
                             </a>
                         </li>
