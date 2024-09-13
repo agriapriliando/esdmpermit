@@ -47,7 +47,7 @@
                                 <p>Data Perusahaan</p>
                             </a>
                         </li>
-                        <li class="nav-item"> <a href="../UI/general.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+                        <li class="nav-item"> <a wire:navigate href="{{ url('permitworks') }}" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
                                 <p>Data Topik <br>Korespondensi</p>
                             </a>
                         </li>

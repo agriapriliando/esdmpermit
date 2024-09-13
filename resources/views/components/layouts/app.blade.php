@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="https://adminlte.io/themes/v3/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     {{-- select2 --}}
 
+    {{-- trix editor --}}
+    <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head> <!--end::Head--> <!--begin::Body-->
 <style>
@@ -47,6 +50,46 @@
         border-color: rgba(46, 46, 46, 0.8);
         box-shadow: 0 0px 0px rgba(0, 0, 0, 0.075) inset, 0 0 1px rgba(61, 61, 61, 0.6);
         outline: 0 none;
+    }
+
+    .modal-hapus {
+        position: fixed;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 99999;
+        width: 250px;
+        opacity: 100;
+        border-radius: 10px;
+        transition: top 0.2s, opacity 0.5s;
+    }
+
+    .modal-hapus-in {
+        top: 0;
+        opacity: 0;
+    }
+
+    .modal-hapus-out {
+        top: 10%;
+        opacity: 0;
+        /* transition: top 5s; */
+    }
+
+    .overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 99998;
+        backdrop-filter: blur(2px);
+        background-color: rgb(0, 0, 0, 0.1);
+        transition: 5s ease;
+    }
+
+    .trix-button--icon-increase-nesting-level,
+    .trix-button--icon-decrease-nesting-level,
+    .trix-button-group--file-tools,
+    .trix-button--icon-attach,
+    .trix-button--icon-quote {
+        display: none;
     }
 </style>
 
@@ -81,6 +124,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha256-YMa+wAM6QkVyz999odX7lPRxkoYAan8suedu4k2Zur8=" crossorigin="anonymous"></script> <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
     <script src="{{ asset('') }}assets/js/adminlte.js"></script> <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
     <script src="https://adminlte.io/themes/v3/plugins/select2/js/select2.full.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
         const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
         const Default = {
@@ -103,6 +147,7 @@
                 });
             }
         });
+        // document.querySelector("trix-editor").style.minHeight = "200px";
     </script> <!--end::OverlayScrollbars Configure--> <!--end::Script-->
     @stack('scripts')
 

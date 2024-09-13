@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Akun</h3>
+                            <h3 class="card-title">Daftar Layanan Izin Tersedia</h3>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -51,7 +51,7 @@
                         <div class="card-body table-responsive">
                             <div class="d-flex flex-column flex-lg-row float-end">
                                 <a wire:click="resetForm" href="#edit" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</a>
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Layanan Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
                                     wire:loading.attr="disabled">
                                     <i class="bi bi-arrow-repeat"></i> Refresh
                                 </button>
@@ -65,10 +65,10 @@
                                     </select>
                                 </div>
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example">
-                                        <option value="">Semua Role</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="pemohon">Pemohon</option>
+                                    <select wire:model.live="tertaut_count" class="form-select" aria-label="Default select example">
+                                        <option value="">All</option>
+                                        <option value="A">Permohonan Tertaut</option>
+                                        <option value="B">Permohonan : 0</option>
                                     </select>
                                 </div>
                             </div>
@@ -76,8 +76,8 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Nama | Username | Role</th>
-                                        <th>Kontak</th>
+                                        <th>Nama Layanan</th>
+                                        <th>Deskripsi</th>
                                         <th>Tanggal</th>
                                         <th style="width: 40px">Label</th>
                                     </tr>
@@ -85,13 +85,11 @@
                                 <tbody>
                                     <!-- Modal -->
 
-                                    @foreach ($users as $item)
+                                    @foreach ($permitworks as $item)
                                         <tr class="align-middle" x-data="{ open: false }">
-                                            <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}</td>
-                                            <td>{{ $item->name }} <br> <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
-                                                <br> <span class="badge {{ $item->role == 'admin' ? 'text-bg-primary' : 'text-bg-info' }}">Role: {{ $item->role }}</span>
-                                            </td>
-                                            <td><a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a></td>
+                                            <td>{{ ($permitworks->currentpage() - 1) * $permitworks->perpage() + $loop->index + 1 }}</td>
+                                            <td>{{ $item->name_permit }}<br> <span class="badge text-bg-success">Permohonan : {{ $item->appreqs_count }} Data</span></td>
+                                            <td>{!! Str::limit($item->desc_permit, 40, '...') !!}</td>
                                             <td>
                                                 <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div><br>
                                                 <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
@@ -105,9 +103,12 @@
                                                 </button>
                                                 <div x-show="open" @click.outside="open = false" class="overlay"></div>
                                                 <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out" class="modal-hapus">
-                                                    <div class="alert alert-danger text-center">Yakin ingin menghapus?
-                                                        <p class="fw-bold">{{ $item->name }}</p>
-                                                        <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                    <div class="alert alert-danger text-center">
+                                                        {{ $item->appreqs_count > 0 ? 'Layanan tidak bisa dihapus, layanan ini telah tertaut dengan data permohonan' : 'Yakin ingin menghapus Layanan?' }}
+                                                        <p class="fw-bold">{{ $item->name_permit }}</p>
+                                                        @if ($item->appreqs_count == 0)
+                                                            <button wire:click.prevent="delete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                        @endif
                                                         <button class="btn btn-sm btn-warning">Batal</button>
                                                     </div>
                                                 </div>
@@ -118,11 +119,11 @@
                             </table>
                         </div> <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            {{ $users->links() }}
+                            {{ $permitworks->links() }}
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->
-                <div class="col-md-6" id="edit">
+                <div class="col-md-8" id="edit">
                     <div class="card mb-4">
                         <div class="card-header">
                             <h3 class="card-title">{{ $title }}</h3>
@@ -132,52 +133,29 @@
                         </div> <!-- /.card-header -->
                         <div class="card-body" x-data="{ pass: false, password: '' }">
                             <form wire:submit.prevent="save({{ $id }})">
-                                <div class="mb-2">
-                                    <label for="name">Nama</label>
-                                    <input wire:model.blur="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name">
-                                    @error('name')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2">
-                                    <label for="username">Username</label>
-                                    <input wire:model.blur="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username" x-model="password">
-                                    @error('username')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2">
-                                    <label for="nohp">No HP</label>
-                                    <input wire:model.blur="nohp" type="text" inputmode="numeric" class="form-control @error('nohp') is-invalid @enderror" id="nohp">
-                                    @error('nohp')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2">
-                                    <label for="email">Email</label>
-                                    <input wire:model.blur="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" inputmode="email">
-                                    @error('email')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="mb-2">
-                                    <label for="password">Password Default menggunakan Username</label>
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="exampleCheck1" x-model="pass">
-                                        <label class="form-check-label" for="exampleCheck1">Gunakan Password Berbeda</label>
+                                @if ($title == 'Edit Layanan')
+                                    <div class="mb-2 alert alert-danger">* PERINGATAN, melakukan perubahan Nama Layanan ini berarti merubah seluruh Permohonan (Layanan) yang tertaut
                                     </div>
-                                    <div x-show="pass">
-                                        <label for="password">Password</label>
-                                        <input wire:model.live="password" type="password" class="form-control" id="password">
-                                    </div>
+                                @endif
+                                <div class="mb-2">
+                                    <label for="name_permit">Nama Layanan</label>
+                                    <input wire:model.blur="name_permit" type="text" class="form-control @error('name_permit') is-invalid @enderror" id="name_permit">
+                                    @error('name_permit')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="mb-2">
+                                    <label for="desc_permit">Deskripsi Layanan</label>
+                                    <input wire:model="desc_permit" id="desc1" type="hidden" name="desc_permit" value="{{ $desc_permit ?? '' }}"
+                                        class="@error('desc_permit') is-invalid @enderror">
+                                    <trix-editor input="desc1" class="@error('desc_permit') is-invalid @enderror"></trix-editor>
+                                    @error('desc_permit')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="mb-2 d-grid">
                                     <button class="btn btn-success" type="submit">{{ $title }}</button>
@@ -192,7 +170,12 @@
 </main>
 @script
     <script>
-        $wire.on('user-deleted', (event) => {
+        $wire.on('trix-blur', (event) => {
+            var trix = document.getElementById("desc1");
+            $wire.desc_permit = trix.getAttribute('value');
+            // console.log(trix.getAttribute('value'));
+        });
+        $wire.on('permitwork-deleted', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {
@@ -205,7 +188,7 @@
                 myToast.hide();
             }, 2000);
         });
-        $wire.on('user-created', (event) => {
+        $wire.on('permitwork-created', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {
@@ -218,7 +201,7 @@
                 myToast.hide();
             }, 2000);
         });
-        $wire.on('user-updated', (event) => {
+        $wire.on('permitwork-updated', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {
@@ -231,7 +214,7 @@
                 myToast.hide();
             }, 2000);
         });
-        $wire.on('user-add-error', (event) => {
+        $wire.on('permitwork-error', (event) => {
             var element = document.getElementById('liveToast');
             const myToast = bootstrap.Toast.getOrCreateInstance(element);
             setTimeout(function() {

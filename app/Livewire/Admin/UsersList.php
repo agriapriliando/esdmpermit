@@ -62,6 +62,7 @@ class UsersList extends Component
                 'email' => 'required|email|unique:users,email,' . $dataUser->id,
             ]);
         }
+
         if ($this->password == null) {
             $data = $this->only('name', 'username', 'nohp', 'email');
             $data['password'] = bcrypt($this->username);
@@ -95,10 +96,6 @@ class UsersList extends Component
     public function edit(User $user)
     {
         $this->title = 'Edit Akun';
-
-        $this->company_id = Company::where('user_id', $user->id)->get()->pluck('id')->toArray();
-        // dd($this->company_id);
-
         $this->id = $user->id;
         $this->name = $user->name;
         $this->username = $user->username;
@@ -123,7 +120,6 @@ class UsersList extends Component
                 })
                 ->orderBy('name')
                 ->paginate($this->pagelength),
-            'companies' => Company::all()
         ]);
     }
 }
