@@ -58,14 +58,14 @@
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example">
-                                        <option value="">All</option>
+                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
+                                        <option value="10">10</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example">
+                                    <select wire:model.live="jenis_role" class="form-select" aria-label="Default select example" id="jenis_role">
                                         <option value="">Semua Role</option>
                                         <option value="admin">Admin</option>
                                         <option value="pemohon">Pemohon</option>
@@ -134,7 +134,7 @@
                             <form wire:submit.prevent="save({{ $id }})">
                                 <div class="mb-2">
                                     <label for="name">Nama</label>
-                                    <input wire:model.blur="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name">
+                                    <input wire:model.blur="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name" autocomplete="off">
                                     @error('name')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -143,7 +143,8 @@
                                 </div>
                                 <div class="mb-2">
                                     <label for="username">Username</label>
-                                    <input wire:model.blur="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username" x-model="password">
+                                    <input wire:model.blur="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username" x-model="password"
+                                        autocomplete="off">
                                     @error('username')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -161,7 +162,7 @@
                                 </div>
                                 <div class="mb-2">
                                     <label for="email">Email</label>
-                                    <input wire:model.blur="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" inputmode="email">
+                                    <input wire:model.blur="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" inputmode="email" autocomplete="off">
                                     @error('email')
                                         <div class="invalid-feedback">
                                             {{ $message }}

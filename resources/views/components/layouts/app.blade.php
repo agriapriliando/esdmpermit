@@ -92,14 +92,12 @@
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
-        @if (!request()->routeIs('login'))
-            <!--begin::Header-->
-            @livewire('navbar')
-            <!--end::Header-->
-            <!--begin::Sidebar-->
-            @livewire('sidebar')
-            <!--end::Sidebar-->
-        @endif
+        <!--begin::Header-->
+        @livewire('part.navbar')
+        <!--end::Header-->
+        <!--begin::Sidebar-->
+        @livewire('part.sidebar')
+        <!--end::Sidebar-->
         <!--begin::App Main-->
         {{ $slot }}
         <!--end::App Main-->

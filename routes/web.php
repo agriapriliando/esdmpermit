@@ -13,8 +13,13 @@ use Illuminate\Support\Facades\Route;
 //     return view('login');
 // });
 
-Route::get('/', Login::class)->name('login');
+Route::get('/test/page', function () {
+    dd(phpinfo());
+});
+
+Route::get('login', Login::class)->name('login');
 Route::get('reset', Resetpass::class)->name('resetpass');
+Route::get('/', UsersList::class)->name('users.list');
 Route::get('users', UsersList::class)->name('users.list');
 Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
 Route::get('topics', TopicList::class)->name('topics.list');

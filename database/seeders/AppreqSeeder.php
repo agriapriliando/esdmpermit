@@ -22,6 +22,8 @@ class AppreqSeeder extends Seeder
                 'stat_id' => 1, // Diajukan
                 'permitwork_id' => 1, // jenis izin yang diminta
                 'ver_code' => Str::uuid(),
+                'date_submitted' => Carbon::now(),
+                'notes' => 'Syarat Dokumen Izin AAAA sedang dalam proses, dan akan selesai dalam waktu 1 bulan Mohon agar dipertimbangkan. Terima kasih.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -31,6 +33,8 @@ class AppreqSeeder extends Seeder
                 'stat_id' => 1, // Diajukan
                 'permitwork_id' => 2, // jenis izin yang diminta
                 'ver_code' => Str::uuid(),
+                'date_submitted' => Carbon::now(),
+                'notes' => 'Syarat Dokumen Izin AAAA Mohon agar dipertimbangkan. Terima kasih.',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

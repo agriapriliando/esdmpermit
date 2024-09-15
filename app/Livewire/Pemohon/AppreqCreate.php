@@ -18,14 +18,14 @@ class AppreqCreate extends Component
     #[Validate(
         [
             'permitwork_id' => 'required',
-            'file_upload' => 'required|image|max:1048',
-            'file_upload.*' => 'required|image|max:1048'
+            'file_upload' => 'required',
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png|max:10000'
         ],
         message: [
             'permitwork_id.required' => 'Silahkan Memilih Layanan',
-            'file_upload.required' => 'Silahkan Pilih Berkas',
-            'file_upload.image' => 'Harus Gambar',
-            'max' => 'Berkas Tidak Boleh Melebihi 1048 kilobytes',
+            'file_upload.required' => 'Silahkan Memilih Berkas',
+            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,png',
+            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
         ]
     )]
     public $permitwork_id = '';
@@ -93,9 +93,10 @@ class AppreqCreate extends Component
                 }
                 $this->file_upload = null;
                 $this->dispatch('appreq-created', message: 'Permohonan Layanan Berhasil Diajukan');
+                session()->flash('message', 'Pengajuan Permohonan Layanan Berhasil');
             });
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (\Exception $e) {
+            session()->flash('error', $e->getMessage());
         }
         // dd($fileNames);
     }

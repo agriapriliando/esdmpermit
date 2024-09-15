@@ -58,14 +58,14 @@
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example">
+                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
                                         <option value="">All</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="tertaut_count" class="form-select" aria-label="Default select example">
+                                    <select wire:model.live="tertaut_count" class="form-select" aria-label="Default select example" id="tertaut_count">
                                         <option value="">All</option>
                                         <option value="A">Topik Tertaut</option>
                                         <option value="B">Topik : 0</option>
@@ -138,7 +138,7 @@
                                     </div>
                                 @endif
                                 <div class="mb-2">
-                                    <label for="name_topic">Nama Topic</label>
+                                    <label for="name_topic">Nama Topik</label>
                                     <input wire:model="name_topic" type="text" class="form-control @error('name_topic') is-invalid @enderror" id="name_topic">
                                     @error('name_topic')
                                         <div class="invalid-feedback">
@@ -147,10 +147,9 @@
                                     @enderror
                                 </div>
                                 <div class="mb-2">
-                                    <label for="desc_topic">Deskripsi Layanan</label>
-                                    <input wire:model="desc_topic" id="desc1" type="hidden" name="desc_topic" value="{{ $desc_topic ?? '' }}"
-                                        class="@error('desc_topic') is-invalid @enderror">
-                                    <trix-editor input="desc1" class="@error('desc_topic') is-invalid @enderror"></trix-editor>
+                                    <label>Deskripsi Topik</label>
+                                    <input class="d-none" wire:model="desc_topic" id="desc_topic" type="hidden" name="desc_topic" value="{{ $desc_topic ?? '' }}" autocomplete="off">
+                                    <trix-editor input="desc_topic" class="@error('desc_topic') is-invalid @enderror"></trix-editor>
                                     @error('desc_topic')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -158,7 +157,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-2 d-grid">
-                                    <button class="btn btn-success" type="submit">{{ $title }}</button>
+                                    <button class="btn btn-success" type="submit" wire:loading.attr="disabled">{{ $title }}</button>
                                 </div>
                             </form>
                         </div> <!-- /.card-body -->
@@ -171,9 +170,9 @@
 @script
     <script>
         $wire.on('trix-blur', (event) => {
-            var trix = document.getElementById("desc1");
+            var trix = document.getElementById("desc_topic");
             $wire.desc_topic = trix.getAttribute('value');
-            // console.log(trix.getAttribute('value'));
+            console.log(trix.getAttribute('value'));
         });
         $wire.on('topic-deleted', (event) => {
             var element = document.getElementById('liveToast');
@@ -186,7 +185,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
         $wire.on('topic-created', (event) => {
             var element = document.getElementById('liveToast');
@@ -199,7 +198,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
         $wire.on('topic-updated', (event) => {
             var element = document.getElementById('liveToast');
@@ -212,7 +211,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
         $wire.on('topic-error', (event) => {
             var element = document.getElementById('liveToast');
@@ -225,7 +224,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
     </script>
 @endscript

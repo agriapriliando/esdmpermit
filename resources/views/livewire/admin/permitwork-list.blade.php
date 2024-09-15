@@ -58,14 +58,14 @@
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example">
+                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
                                         <option value="">All</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="tertaut_count" class="form-select" aria-label="Default select example">
+                                    <select wire:model.live="tertaut_count" class="form-select" aria-label="Default select example" id="tertaut_count">
                                         <option value="">All</option>
                                         <option value="A">Permohonan Tertaut</option>
                                         <option value="B">Permohonan : 0</option>
@@ -147,10 +147,10 @@
                                     @enderror
                                 </div>
                                 <div class="mb-2">
-                                    <label for="desc_permit">Deskripsi Layanan</label>
-                                    <input wire:model="desc_permit" id="desc1" type="hidden" name="desc_permit" value="{{ $desc_permit ?? '' }}"
+                                    <label>Deskripsi Layanan</label>
+                                    <input wire:model="desc_permit" id="desc_permit" type="hidden" name="desc_permit" value="{{ $desc_permit ?? '' }}"
                                         class="@error('desc_permit') is-invalid @enderror">
-                                    <trix-editor input="desc1" class="@error('desc_permit') is-invalid @enderror"></trix-editor>
+                                    <trix-editor input="desc_permit" class="@error('desc_permit') is-invalid @enderror"></trix-editor>
                                     @error('desc_permit')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -171,9 +171,8 @@
 @script
     <script>
         $wire.on('trix-blur', (event) => {
-            var trix = document.getElementById("desc1");
+            var trix = document.getElementById("desc_permit");
             $wire.desc_permit = trix.getAttribute('value');
-            // console.log(trix.getAttribute('value'));
         });
         $wire.on('permitwork-deleted', (event) => {
             var element = document.getElementById('liveToast');
@@ -186,7 +185,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
         $wire.on('permitwork-created', (event) => {
             var element = document.getElementById('liveToast');
@@ -199,7 +198,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
         $wire.on('permitwork-updated', (event) => {
             var element = document.getElementById('liveToast');
@@ -212,7 +211,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
         $wire.on('permitwork-error', (event) => {
             var element = document.getElementById('liveToast');
@@ -225,7 +224,7 @@
             }, 10);
             setTimeout(function() {
                 myToast.hide();
-            }, 2000);
+            }, 5000);
         });
     </script>
 @endscript

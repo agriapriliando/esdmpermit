@@ -35,9 +35,9 @@ class TopicList extends Component
 
     public function save($id = null)
     {
-        $this->validate();
         $data = $this->only('name_topic', 'desc_topic');
         // dd($data);
+        $this->validate();
         if ($this->title == 'Tambah Topik Korespondensi') {
             try {
                 Topic::create($data);
