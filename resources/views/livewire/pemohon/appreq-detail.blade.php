@@ -14,23 +14,23 @@
                                     <table>
                                         <tr>
                                             <td class="fw-bold">1. Layanan</td>
-                                            <td>: Layanan</td>
+                                            <td>: {{ $appreqdata->permitwork->name_permit }}</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">2. Pemohon</td>
-                                            <td>: Nama Pemohon</td>
+                                            <td>: {{ $appreqdata->user->name }}</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">3. Nama Perusahaan</td>
-                                            <td>: PT ....</td>
+                                            <td>: {{ $appreqdata->company->name_company }}</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">4. Ver Code</td>
-                                            <td>: 2334324</td>
+                                            <td>: {{ $appreqdata->ver_code }}</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">Catatan Pemohon</td>
-                                            <td>: Catatan</td>
+                                            <td>: -</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -38,7 +38,7 @@
                                     <table>
                                         <tr>
                                             <td class="fw-bold">Tanggal Submit</td>
-                                            <td>: Tgl</td>
+                                            <td>: {{ Carbon\Carbon::parse($appreqdata->date_submitted)->translatedFormat('d/m/Y H:i') }} Wib</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">Tanggal Proses</td>
