@@ -89,7 +89,7 @@
                                         <tr class="align-middle" x-data="{ open: false }">
                                             <td>{{ ($appreqs->currentpage() - 1) * $appreqs->perpage() + $loop->index + 1 }}</td>
                                             <td>{{ $item->permitwork->name_permit }}
-                                                <a href="#" class="btn btn-sm btn-success ms-1"><i class="bi bi-eye"></i></a>
+                                                <a wire:navigate href="{{ url('permohonan/' . $item->id) }}" class="btn btn-sm btn-success ms-1"><i class="bi bi-eye"></i></a>
                                                 <div class="text-decoration-underline">Status : {{ $item->stat->name_stat }}</div>
                                             </td>
                                             <td class="d-flex flex-column">
