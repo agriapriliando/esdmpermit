@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('ver_code')->unique();
             $table->timestamp('date_submitted')->nullable();
             $table->timestamp('date_processed')->nullable();
+            $table->timestamp('date_finished')->nullable();
             $table->timestamp('date_rejected')->nullable();
             $table->text('reason_rejected')->nullable();
             $table->text('notes')->nullable();

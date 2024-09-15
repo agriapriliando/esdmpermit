@@ -15,6 +15,11 @@
                         <p>Permohonan</p>
                     </a>
                 </li>
+                <li class="nav-item"> <a wire:navigate href="{{ url('permohonan/list') }}" class="nav-link {{ request()->routeIs('appreq.list') ? 'active' : '' }}"> <i
+                            class="nav-icon bi bi-filetype-docx"></i>
+                        <p>Daftar</p>
+                    </a>
+                </li>
                 <li class="nav-item"> <a href="#" class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}"> <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>
                             Permohonan

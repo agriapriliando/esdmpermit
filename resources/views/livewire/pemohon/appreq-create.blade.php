@@ -70,7 +70,7 @@
                                             </p>
                                         @endif
                                     </div>
-                                    <div class="mb-2">
+                                    <div class="mb-2 {{ $permitwork_desc ? '' : 'd-none' }}">
                                         {{-- <label for="file_upload">Upload Berkas</label> --}}
                                         <div class="form-group mb-2" x-data="{ files: null }">
                                             <div class="custom-file bg-warning p-3 pt-4 rounded" @click="$refs.upload.click()" style="min-height: 70px; z-index:11;"
@@ -105,8 +105,18 @@
                                             <trix-editor input="notes"></trix-editor>
                                         </div>
                                     @endif
-                                    <div class="mb-2 d-grid">
-                                        <button class="btn btn-success" type="submit" wire:loading.attr="disabled" wire:target="file_upload">Ajukan Permohonan Layanan</button>
+                                    <div class="mb-2 d-grid" x-data="{ open: false }">
+                                        <button @click="open = true" type="button" class="btn btn-sm btn-success" wire:loading.attr="disabled" wire:target="file_upload">
+                                            <i class="bi bi-plus"></i> Ajukan Permohonan
+                                        </button>
+                                        <div x-show="open" @click.outside="open = false" class="overlay"></div>
+                                        <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out" class="modal-hapus">
+                                            <div class="alert alert-danger text-center">
+                                                Apakah Anda Yakin
+                                                <button class="btn btn-sm btn-success" type="submit" wire:loading.attr="disabled" wire:target="file_upload">Ajukan Permohonan Layanan</button>
+                                                <button class="btn btn-sm btn-warning">Batal</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
