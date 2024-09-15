@@ -19,5 +19,6 @@ class Appreq extends Model
         'date_processed',
         'date_rejected',
         'reason_rejected',
+        'notes',
     ];
 }

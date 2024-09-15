@@ -38,6 +38,7 @@ class AppreqCreate extends Component
     public Permitwork $permitwork;
 
     public $file_upload = [];
+    public $notes;
 
     public function mount(Permitwork $permitwork)
     {
@@ -47,6 +48,7 @@ class AppreqCreate extends Component
 
     public function save()
     {
+        // dd($this->notes);
         // validasi form
         $this->validate();
         // generate verifikasi code permohonan
@@ -77,7 +79,9 @@ class AppreqCreate extends Component
                 'permitwork_id' => $this->permitwork_id,
                 'ver_code' => $ver_code,
                 'date_submitted' => Carbon::now(),
+                'notes' => $this->notes,
             ];
+            // dd($dataAppreq);
             DB::transaction(function () use ($dataAppreq, $fileNameArray, $fileNameOriArray) {
                 $appreqinput = Appreq::create($dataAppreq);
                 $i = 0;

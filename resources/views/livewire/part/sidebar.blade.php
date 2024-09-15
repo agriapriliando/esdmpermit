@@ -10,7 +10,8 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item"> <a wire:navigate href="{{ url('permohonan') }}" class="nav-link"> <i class="nav-icon bi bi-filetype-docx"></i>
+                <li class="nav-item"> <a wire:navigate href="{{ url('permohonan') }}" class="nav-link {{ request()->routeIs('appreq.create') ? 'active' : '' }}"> <i
+                            class="nav-icon bi bi-filetype-docx"></i>
                         <p>Permohonan</p>
                     </a>
                 </li>

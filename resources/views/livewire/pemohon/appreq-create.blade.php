@@ -71,12 +71,16 @@
                                         @endif
                                     </div>
                                     <div class="mb-2">
-                                        <label for="file_upload">Upload Berkas</label>
-                                        <div class="form-group mb-2">
-                                            <div class="custom-file">
-                                                <input wire:model.live="file_upload" type="file" class="custom-file-input" id="file_upload" multiple>
-                                                <label class="custom-file-label" for="file_upload">Pilih Berkas</label>
+                                        {{-- <label for="file_upload">Upload Berkas</label> --}}
+                                        <div class="form-group mb-2" x-data="{ files: null }">
+                                            <div class="custom-file bg-warning p-3 pt-4 rounded" @click="$refs.upload.click()" style="min-height: 70px; z-index:11;"
+                                                x-html="files ?
+                                                files.map(file => '- '+file.name).join('</br> ')
+                                                : 'Klik Untuk Pilih Berkas...'">
                                             </div>
+                                            {{-- <label class="custom-file-label m-3" for="file_upload">Pilih Berkas</label><br> --}}
+                                            <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload" type="file"
+                                                class="custom-file-input d-none" id="file_upload" multiple="true">
                                         </div>
                                         @error('file_upload')
                                             <div class="alert alert-danger">
@@ -94,6 +98,13 @@
                                             <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                         </div>
                                     </div>
+                                    @if ($file_upload)
+                                        <div class="mb-2">
+                                            <label for="notes">Catatan - Opsional</label>
+                                            <input wire:model="notes" id="notes" type="hidden" name="notes">
+                                            <trix-editor input="notes"></trix-editor>
+                                        </div>
+                                    @endif
                                     <div class="mb-2 d-grid">
                                         <button class="btn btn-success" type="submit" wire:loading.attr="disabled" wire:target="file_upload">Ajukan Permohonan Layanan</button>
                                     </div>
@@ -112,6 +123,11 @@
         {{-- select2 --}}
         <script src="{{ asset('') }}assets/js/jquery-3.3.1.min.js"></script>
         <script src="{{ asset('') }}assets/select2/select2.min.js"></script>
+        <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+        <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     @endassets
 </main>
 @script
@@ -121,11 +137,15 @@
                 theme: "bootstrap4",
             }).on('change', function(event) {
                 // var data = $('#penyewa').select2("val");
-                console.log(event.target.value);
+                // console.log(event.target.value);
                 $wire.$set('permitwork_id', event.target.value);
                 // @this.set('permitwork_id', event.target.value);
             });
 
+        });
+        $wire.on('trix-blur', (event) => {
+            var trix = document.getElementById("notes");
+            $wire.notes = trix.getAttribute('value');
         });
         $wire.on('appreq-created', (event) => {
             var element = document.getElementById('liveToast');
@@ -134,7 +154,7 @@
                 myToast.show();
                 document.getElementById('pesan').innerHTML = event.message;
                 element.className += " text-bg-success";
-                console.log(event.message);
+                // console.log(event.message);
             }, 10);
             setTimeout(function() {
                 myToast.hide();
