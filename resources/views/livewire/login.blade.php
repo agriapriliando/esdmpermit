@@ -13,7 +13,7 @@
                 </div>
                 <div class="mb-2">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control shadow-none" name="password" id="username">
+                    <input type="password" class="form-control shadow-none" name="password" id="password">
                 </div>
                 <div class="mb-2">
                     <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="mb-2 d-grid">
-                    <a wire:navigate href="{{ url('users') }}" class="btn btn-success btn-block">Login</a>
+                    <a wire:navigate href="{{ url('permohonan') }}" class="btn btn-success btn-block">Login</a>
                     {{-- <button class="btn btn-success btn-block" type="submit">Login</button> --}}
                 </div>
             </form>

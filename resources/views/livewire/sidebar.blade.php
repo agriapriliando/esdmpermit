@@ -10,6 +10,10 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
+                <li class="nav-item"> <a wire:navigate href="{{ url('permohonan') }}" class="nav-link"> <i class="nav-icon bi bi-filetype-docx"></i>
+                        <p>Permohonan</p>
+                    </a>
+                </li>
                 <li class="nav-item"> <a href="#" class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}"> <i class="nav-icon bi bi-box-seam-fill"></i>
                         <p>
                             Permohonan
@@ -64,4 +68,54 @@
             </ul> <!--end::Sidebar Menu-->
         </nav>
     </div> <!--end::Sidebar Wrapper-->
+    @push('scripts')
+        <script>
+            // document.addEventListener("DOMContentLoaded", function() {
+            //     const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
+            //     const Default = {
+            //         scrollbarTheme: "os-theme-light",
+            //         scrollbarAutoHide: "leave",
+            //         scrollbarClickScroll: true,
+            //     };
+            //     const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+            //     if (
+            //         sidebarWrapper &&
+            //         typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined"
+            //     ) {
+            //         OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            //             scrollbars: {
+            //                 theme: Default.scrollbarTheme,
+            //                 autoHide: Default.scrollbarAutoHide,
+            //                 clickScroll: Default.scrollbarClickScroll,
+            //             },
+            //         });
+            //     }
+            // });
+        </script>
+    @endpush
 </aside> <!--end::Sidebar--> <!--begin::App Main-->
+@script
+    <script>
+        $wire.on('sidebar', (event) => {
+            const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
+            const Default = {
+                scrollbarTheme: "os-theme-light",
+                scrollbarAutoHide: "leave",
+                scrollbarClickScroll: true,
+            };
+            const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+            if (
+                sidebarWrapper &&
+                typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined"
+            ) {
+                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                    scrollbars: {
+                        theme: Default.scrollbarTheme,
+                        autoHide: Default.scrollbarAutoHide,
+                        clickScroll: Default.scrollbarClickScroll,
+                    },
+                });
+            }
+        });
+    </script>
+@endscript

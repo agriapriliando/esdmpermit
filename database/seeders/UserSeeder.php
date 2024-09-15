@@ -36,5 +36,6 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
         ]);
+        \App\Models\User::factory(20)->create();
     }
 }

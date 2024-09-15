@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
             $table->foreignId('stat_id')->constrained();
             $table->foreignId('permitwork_id')->constrained();
-            $table->string('ver_code');
+            $table->string('ver_code')->unique();
             $table->timestamp('date_submitted')->nullable();
             $table->timestamp('date_processed')->nullable();
             $table->timestamp('date_rejected')->nullable();
