@@ -111,14 +111,20 @@
                                                     <hr>
                                                 </div>
                                                 <div>
-                                                    <p>Pengirim : Adul - <small><i class="bi bi-clock-history"></i> 28/09/2024 17:14 Wib</small><br>
-                                                        Pesan : Berkas belum lengkap, silahkan tambahkan KTP Penanggung Jawab
-                                                    </p>
-                                                    <hr>
-                                                    <p class="text-end">Pengirim : Adul - <small><i class="bi bi-clock-history"></i> 28/09/2024 17:14 Wib</small><br>
-                                                        Pesan : Berkas belum lengkap, silahkan tambahkan KTP Penanggung Jawab
-                                                    </p>
-                                                    <hr>
+                                                    @foreach ($correspondences as $c)
+                                                        <p class="px-3 pb-2 rounded {{ $c->user->role == 'pemohon' ? 'text-end bg-body-secondary' : '' }}">
+                                                            <i class="bi bi-clock-history me-1" style="font-size: 12px">
+                                                                {{ Carbon\Carbon::parse($c->created_at)->translatedFormat('d/m/Y H:i') }} Wib</i>
+                                                            @if ($c->user->role == 'pemohon')
+                                                                <i class="bi bi-eye" style="font-size: 12px"> {{ $c->viewed ? 'Sudah Dibaca' : 'Belum Dibaca' }}</i>
+                                                            @endif
+                                                            <br>
+                                                            Pengirim : {{ $c->user->name }}
+                                                            <br>
+                                                            Pesan : {!! $c->desc !!}
+                                                        </p>
+                                                        <hr>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
