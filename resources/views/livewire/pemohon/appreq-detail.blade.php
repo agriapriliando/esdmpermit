@@ -6,14 +6,15 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h2>Detail Permohonan : 12322432</h2>
+                            <h2>Detail Permohonan<div class="float-end badge badge-success text-bg-success">Kode : {{ $appreqdata->ver_code }}</div>
+                            </h2>
                         </div> <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-8">
                                     <table>
                                         <tr>
-                                            <td class="fw-bold">1. Layanan</td>
+                                            <td class="fw-bold" style="min-width: 150px">1. Layanan</td>
                                             <td>: {{ $appreqdata->permitwork->name_permit }}</td>
                                         </tr>
                                         <tr>
@@ -25,16 +26,12 @@
                                             <td>: {{ $appreqdata->company->name_company }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">4. Ver Code</td>
-                                            <td>: {{ $appreqdata->ver_code }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-bold">Catatan Pemohon</td>
-                                            <td>: -</td>
+                                            <td class="fw-bold">Catatan Pemohon :</td>
+                                            <td> {{ $appreqdata->notes }}</td>
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <table>
                                         <tr>
                                             <td class="fw-bold">Tanggal Submit</td>
@@ -42,23 +39,33 @@
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">Tanggal Proses</td>
-                                            <td>: Tgl</td>
+                                            @if ($appreqdata->date_processed != null)
+                                                <td>: {{ Carbon\Carbon::parse($appreqdata->date_processed)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">Tanggal Selesai</td>
-                                            <td>: Tgl</td>
+                                            @if ($appreqdata->date_finished != null)
+                                                <td>: {{ Carbon\Carbon::parse($appreqdata->date_finished)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                            @endif
                                         </tr>
-                                        <tr>
-                                            <td class="fw-bold">Tanggal Ditolak</td>
-                                            <td>: Tgl (Alasan ditolak : )</td>
-                                        </tr>
+                                        @if ($appreqdata->date_rejected != null)
+                                            <tr>
+                                                <td class="fw-bold">Tanggal Ditolak</td>
+                                                <td>: {{ Carbon\Carbon::parse($appreqdata->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">Alasan Ditolak</td>
+                                                <td>: {{ $appreqdata->reason_rejected }}</td>
+                                            </tr>
+                                        @endif
                                     </table>
                                 </div>
                                 <hr class="mt-4">
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-md-6">
-                                            <div class="p-3 rounded shadow" x-data="{ open: true }">
+                                            <div class="p-3 rounded shadow" x-data="{ open: false }">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <h3>Korespondensi</h3>
                                                     <button @click="open = !open" class="btn btn-sm btn-success"><i class="bi bi-reply"></i> Balas</button>
@@ -137,11 +144,14 @@
                                                 </div>
                                             </div>
                                             <ol class="list-group list-group-numbered">
-                                                <li class="list-group-item">Dokumen Scan KTP Direktur - <small>15/09/2024 18:20 Wib (Ajuan)</small></li>
-                                                <li class="list-group-item">Dokumen Scan KTP Direktur - <small>15/09/2024 18:20 Wib (Ajuan)</small></li>
-                                                <li class="list-group-item">Dokumen Scan KTP Direktur - <small>15/09/2024 18:20 Wib (Ajuan)</small></li>
-                                                <li class="list-group-item">Dokumen Scan KTP Direktur - <small>15/09/2024 18:20 Wib (Ajuan)</small></li>
-                                                <li class="list-group-item">Dokumen Scan KTP Direktur - <small>15/09/2024 18:20 Wib (Ajuan)</small></li>
+                                                @foreach ($docs as $d)
+                                                    <li class="list-group-item">{{ $d->name_doc }}
+                                                        <br><i class="bi bi-clock-history me-1" style="font-size: 12px">
+                                                            {{ Carbon\Carbon::parse($d->created_at)->translatedFormat('d/m/Y H:i') }} Wib
+                                                        </i>
+                                                        <a href="{{ url('storage/' . $d->file_name) }}" target="_blank"><i class="bi bi-download"></i></a>
+                                                    </li>
+                                                @endforeach
                                             </ol>
                                         </div>
                                     </div>
