@@ -77,59 +77,64 @@
                                                             display: none;
                                                         }
                                                     </style>
-                                                    <form action="">
-                                                        <div class="mb-2">
-                                                            <input wire:model="notes" id="notes" type="hidden" name="notes">
-                                                            <trix-editor input="notes"></trix-editor>
-                                                        </div>
-                                                        <div class="mb-2">
-                                                            {{-- <label for="file_upload">Upload Berkas</label> --}}
-                                                            <div class="form-group mb-2" x-data="{ files: null, uploading: false }">
-                                                                <div class="custom-file p-2 ps-3 bg-warning rounded" @click="$refs.upload.click()"
-                                                                    x-html="files ?
+                                                    <form wire:submit.prevent = "save">
+                                                        <div x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true" x-on:livewire-upload-finish="uploading = false"
+                                                            x-on:livewire-upload-error="uploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress">
+                                                            <div class="mb-2">
+                                                                <input wire:model="desc" id="desc" type="hidden" name="desc">
+                                                                <trix-editor input="desc"></trix-editor>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                {{-- <label for="file_upload">Upload Berkas</label> --}}
+                                                                <div class="form-group mb-2" x-data="{ files: null }">
+                                                                    <div class="custom-file p-2 ps-3 bg-warning rounded" @click="$refs.upload.click()"
+                                                                        x-html="files ?
                                                                     files.map(file => '- '+file.name).join('</br> ')
                                                                     : 'Klik Untuk Upload Berkas...'">
-                                                                    Klik Untuk Upload Berkas...
+                                                                        Klik Untuk Upload Berkas...
+                                                                    </div>
+                                                                    {{-- <label class="custom-file-label m-3" for="file_upload">Pilih Berkas</label><br> --}}
+                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload"
+                                                                        type="file" class="custom-file-input d-none" id="file_upload" multiple="true">
                                                                 </div>
-                                                                {{-- <label class="custom-file-label m-3" for="file_upload">Pilih Berkas</label><br> --}}
-                                                                <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload"
-                                                                    type="file" class="custom-file-input d-none" id="file_upload" multiple="true">
+                                                                @error('file_upload')
+                                                                    <div class="alert alert-danger">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                                @error('file_upload.*')
+                                                                    <div class="alert alert-danger">
+                                                                        {{ $message }}
+                                                                    </div>
+                                                                @enderror
                                                             </div>
-                                                            @error('file_upload')
-                                                                <div class="alert alert-danger">
-                                                                    {{ $message }}
+                                                            <div class="mb-2" x-show="uploading">
+                                                                <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+                                                                    <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                                                 </div>
-                                                            @enderror
-                                                            @error('file_upload.*')
-                                                                <div class="alert alert-danger">
-                                                                    {{ $message }}
-                                                                </div>
-                                                            @enderror
-                                                        </div>
-                                                        <div class="mb-2" x-show="uploading">
-                                                            <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
-                                                                <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                                             </div>
+                                                            <button type="submit" class="btn btn-success" wire:loading.attr="disabled" wire:target="file_upload">
+                                                                <i class="bi bi-send"></i> Kirim
+                                                            </button>
                                                         </div>
-                                                        <button type="button" class="btn btn-success" wire:loading.attr="disabled" wire:target="file_upload">
-                                                            <i class="bi bi-send"></i> Kirim
-                                                        </button>
                                                     </form>
                                                     <hr>
                                                 </div>
                                                 <div>
                                                     @foreach ($correspondences as $c)
-                                                        <p class="px-3 pb-2 rounded {{ $c->user->role == 'pemohon' ? 'text-end bg-body-secondary' : '' }}">
-                                                            <i class="bi bi-clock-history me-1" style="font-size: 12px">
-                                                                {{ Carbon\Carbon::parse($c->created_at)->translatedFormat('d/m/Y H:i') }} Wib</i>
-                                                            @if ($c->user->role == 'pemohon')
-                                                                <i class="bi bi-eye" style="font-size: 12px"> {{ $c->viewed ? 'Sudah Dibaca' : 'Belum Dibaca' }}</i>
-                                                            @endif
-                                                            <br>
-                                                            Pengirim : {{ $c->user->name }}
-                                                            <br>
-                                                            Pesan : {!! $c->desc !!}
-                                                        </p>
+                                                        <div wire:key="{{ $c->id }}" class="px-3 pb-2 rounded {{ $c->user->role == 'pemohon' ? 'text-end bg-body-secondary' : '' }}">
+                                                            <p>
+                                                                <i class="bi bi-clock-history me-1" style="font-size: 12px">
+                                                                    {{ Carbon\Carbon::parse($c->created_at)->translatedFormat('d/m/Y H:i') }} Wib</i>
+                                                                @if ($c->user->role == 'pemohon')
+                                                                    <i class="bi bi-eye" style="font-size: 12px"> {{ $c->viewed ? 'Sudah Dibaca' : 'Belum Dibaca' }}</i>
+                                                                @endif
+                                                                <br>
+                                                                Pengirim : {{ $c->user->name }}
+                                                                <br>
+                                                                Pesan : {!! $c->desc !!}
+                                                            </p>
+                                                        </div>
                                                         <hr>
                                                     @endforeach
                                                 </div>
@@ -146,13 +151,15 @@
                                             </div>
                                             <ol class="list-group list-group-numbered">
                                                 @foreach ($docs as $d)
-                                                    <li class="list-group-item">{{ $d->name_doc }}
-                                                        <div class="float-end badge text-bg-success">{{ $d->type_doc }}</div>
-                                                        <br><i class="bi bi-clock-history me-1" style="font-size: 12px">
-                                                            {{ Carbon\Carbon::parse($d->created_at)->translatedFormat('d/m/Y H:i') }} Wib
-                                                        </i>
-                                                        <a href="{{ url('storage/' . $d->file_name) }}" target="_blank"><i class="bi bi-download"></i></a>
-                                                    </li>
+                                                    <div wire:key="d-{{ $c->id }}">
+                                                        <li class="list-group-item">{{ $d->name_doc }}
+                                                            <div class="float-end badge text-bg-success">{{ $d->type_doc }}</div>
+                                                            <br><i class="bi bi-clock-history me-1" style="font-size: 12px">
+                                                                {{ Carbon\Carbon::parse($d->created_at)->translatedFormat('d/m/Y H:i') }} Wib
+                                                            </i>
+                                                            <a href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i class="bi bi-download"></i></a>
+                                                        </li>
+                                                    </div>
                                                 @endforeach
                                             </ol>
                                         </div>
@@ -166,3 +173,11 @@
         </div> <!--end::Container-->
     </div> <!--end::App Content-->
 </main>
+@script
+    <script>
+        $wire.on('trix-blur', (event) => {
+            var trix = document.getElementById("desc");
+            $wire.desc = trix.getAttribute('value');
+        });
+    </script>
+@endscript
