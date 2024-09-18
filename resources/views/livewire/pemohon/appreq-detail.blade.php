@@ -84,7 +84,7 @@
                                                         </div>
                                                         <div class="mb-2">
                                                             {{-- <label for="file_upload">Upload Berkas</label> --}}
-                                                            <div class="form-group mb-2" x-data="{ files: null }">
+                                                            <div class="form-group mb-2" x-data="{ files: null, uploading: false }">
                                                                 <div class="custom-file p-2 ps-3 bg-warning rounded" @click="$refs.upload.click()"
                                                                     x-html="files ?
                                                                     files.map(file => '- '+file.name).join('</br> ')
@@ -139,13 +139,15 @@
                                             <div class="d-flex justify-content-between mb-2">
                                                 <h4>Daftar Berkas File</h4>
                                                 <div class="d-flex">
-                                                    <input style="width: 180px" type="text" class="form-control form-control-sm" placeholder="Cari berkas">
-                                                    <button class="btn btn-sm btn-warning"><i class="bi bi-x"></i></button>
+                                                    <input wire:model.live.debounce="search_docs" style="width: 180px" type="text" class="form-control form-control-sm"
+                                                        placeholder="Cari Nama Berkas">
+                                                    <button wire:click="resetSearchDocs" class="btn btn-sm btn-warning"><i class="bi bi-x"></i></button>
                                                 </div>
                                             </div>
                                             <ol class="list-group list-group-numbered">
                                                 @foreach ($docs as $d)
                                                     <li class="list-group-item">{{ $d->name_doc }}
+                                                        <div class="float-end badge text-bg-success">{{ $d->type_doc }}</div>
                                                         <br><i class="bi bi-clock-history me-1" style="font-size: 12px">
                                                             {{ Carbon\Carbon::parse($d->created_at)->translatedFormat('d/m/Y H:i') }} Wib
                                                         </i>

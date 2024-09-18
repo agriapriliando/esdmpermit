@@ -14,17 +14,27 @@ class AppreqDetail extends Component
 
     public $appreqdata;
     public $correspondences;
-    public $docs;
+    public $search_docs;
 
     public function mount($id)
     {
         $this->appreqdata = Appreq::find($id)->with('user', 'permitwork', 'company')->first();
         $this->correspondences = Correspondence::where('appreq_id', $this->appreqdata->id)->orderBy('created_at', 'DESC')->get();
-        $this->docs = Doc::where('appreq_id', $this->appreqdata->id)->orderBy('created_at', 'DESC')->get();
+    }
+
+    public function resetSearchDocs()
+    {
+        $this->reset('search_docs');
     }
 
     public function render()
     {
-        return view('livewire.pemohon.appreq-detail');
+        return view('livewire.pemohon.appreq-detail', [
+            'docs' => Doc::where('appreq_id', $this->appreqdata['id'])
+                ->when($this->search_docs, function ($query) {
+                    $query->where('name_doc', 'like', "%" . $this->search_docs . "%");
+                })
+                ->orderBy('created_at', 'DESC')->get(),
+        ]);
     }
 }
