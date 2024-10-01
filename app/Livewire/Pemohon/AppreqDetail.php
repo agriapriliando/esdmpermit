@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 
 class AppreqDetail extends Component
 {
@@ -16,13 +17,11 @@ class AppreqDetail extends Component
 
     #[Validate(
         [
-            'desc' => 'required',
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png|max:10000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png|max:6000'
         ],
         message: [
-            'desc.required' => 'Isi Korespondensi Tidak Boleh Kosong',
             'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,png',
-            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
+            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 6MB',
         ]
     )]
     public Appreq $appreq;
@@ -35,10 +34,15 @@ class AppreqDetail extends Component
 
     public $file_upload = [];
 
-    public function mount($id)
+    public function mount(Appreq $appreq)
     {
-        $this->appreqid = $id;
-        $this->appreqdata = Appreq::find($id)->with('user', 'permitwork', 'company')->first();
+        $this->appreqid = $appreq->id;
+        $this->appreqdata = $appreq;
+    }
+
+    public function resetFileupload()
+    {
+        $this->file_upload = '';
     }
 
     public function resetSearchDocs()
@@ -70,9 +74,25 @@ class AppreqDetail extends Component
         }
     }
 
+    public function deletePesan($cor_id)
+    {
+        $cor = Correspondence::find($cor_id);
+        $cor->delete();
+        session()->flash('deletec', "Pesan Dihapus");
+    }
+
+    public function deleteDoc($doc_id)
+    {
+        $doc = Doc::find($doc_id);
+        Storage::delete('public/file_doc/' . $doc->file_name);
+        $doc->delete();
+        session()->flash('delete', $doc->name_doc . " Berhasil Dihapus");
+    }
+
     public function save()
     {
         // dd($this->file_upload);
+        $this->validate();
         $data = [
             'user_id' => 2,
             'topic_id' => 1,
@@ -85,17 +105,20 @@ class AppreqDetail extends Component
         if ($this->file_upload != null) {
             $this->uploadFile($this->file_upload);
         }
+        $this->reset('file_upload', 'desc');
     }
 
     public function render()
     {
+        // dd(Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first());
         return view('livewire.pemohon.appreq-detail', [
             'docs' => Doc::where('appreq_id', $this->appreqid)
                 ->when($this->search_docs, function ($query) {
                     $query->where('name_doc', 'like', "%" . $this->search_docs . "%");
                 })
                 ->orderBy('created_at', 'DESC')->get(),
-            'correspondences' => Correspondence::where('appreq_id', $this->appreqid)->orderBy('created_at', 'DESC')->get()
+            'correspondences' => Correspondence::where('appreq_id', $this->appreqid)->orderBy('created_at', 'DESC')->get(),
+            'appreq' => Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first()
         ]);
     }
 }

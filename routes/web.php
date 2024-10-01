@@ -27,5 +27,5 @@ Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
 Route::get('topics', TopicList::class)->name('topics.list');
 Route::get('permohonan', AppreqCreate::class)->name('appreq.create');
 Route::get('permohonan/list', AppreqList::class)->name('appreq.list');
-Route::get('permohonan/{id}', AppreqDetail::class)->name('appreq.detail');
+Route::get('permohonan/{appreq}', AppreqDetail::class)->name('appreq.detail');
 // Route::get('dashboard', Dashboard::class)->name('dashboard');
