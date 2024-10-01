@@ -1,9 +1,4 @@
 <main class="app-main">
-    <style>
-        .filehover {
-            cursor: pointer;
-        }
-    </style>
     <!--end::App Content Header--> <!--begin::App Content-->
     <div class="app-content mt-3"> <!--begin::Container-->
         <div class="container-fluid"> <!--begin::Row-->
@@ -93,7 +88,6 @@
                                                         <div x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true" x-on:livewire-upload-finish="uploading = false"
                                                             x-on:livewire-upload-error="uploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress">
                                                             <div class="mb-2">
-                                                                {{-- <label for="file_upload">Upload Berkas</label> --}}
                                                                 <div class="form-group mb-2 filehover" x-data="{ files: null }">
                                                                     <div id="file_uploadd" class="custom-file p-2 ps-3 bg-warning rounded" @click="$refs.upload.click()"
                                                                         x-html="files ?
@@ -101,7 +95,6 @@
                                                                     : 'Klik Untuk Upload Berkas...'">
                                                                         Klik Untuk Upload Berkas...
                                                                     </div>
-                                                                    {{-- <label class="custom-file-label m-3" for="file_upload">Pilih Berkas</label><br> --}}
                                                                     <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload"
                                                                         type="file" class="custom-file-input d-none" id="file_upload" multiple="true">
                                                                 </div>

@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="mb-2 {{ $permitwork_desc ? '' : 'd-none' }}">
                                         {{-- <label for="file_upload">Upload Berkas</label> --}}
-                                        <div class="form-group mb-2" x-data="{ files: null }">
+                                        <div class="form-group mb-2 filehover" x-data="{ files: null }">
                                             <div class="custom-file bg-warning p-3 pt-4 rounded" @click="$refs.upload.click()" style="min-height: 70px; z-index:11;"
                                                 x-html="files ?
                                                 files.map(file => '- '+file.name).join('</br> ')

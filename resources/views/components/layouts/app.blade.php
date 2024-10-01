@@ -87,6 +87,10 @@
     .trix-button--icon-quote {
         display: none;
     }
+
+    .filehover {
+        cursor: pointer;
+    }
 </style>
 
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
