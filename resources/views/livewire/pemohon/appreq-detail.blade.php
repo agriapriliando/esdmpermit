@@ -81,10 +81,6 @@
                                                         <div x-data="{ uploading: false, progress: 0 }" x-on:livewire-upload-start="uploading = true" x-on:livewire-upload-finish="uploading = false"
                                                             x-on:livewire-upload-error="uploading = false" x-on:livewire-upload-progress="progress = $event.detail.progress">
                                                             <div class="mb-2">
-                                                                <input wire:model="desc" id="desc" type="hidden" name="desc">
-                                                                <trix-editor input="desc"></trix-editor>
-                                                            </div>
-                                                            <div class="mb-2">
                                                                 {{-- <label for="file_upload">Upload Berkas</label> --}}
                                                                 <div class="form-group mb-2" x-data="{ files: null }">
                                                                     <div class="custom-file p-2 ps-3 bg-warning rounded" @click="$refs.upload.click()"
@@ -112,6 +108,10 @@
                                                                 <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
                                                                     <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                                                 </div>
+                                                            </div>
+                                                            <div class="mb-2">
+                                                                <input wire:model="desc" id="desc" type="hidden" name="desc">
+                                                                <trix-editor input="desc"></trix-editor>
                                                             </div>
                                                             <button type="submit" class="btn btn-success" wire:loading.attr="disabled" wire:target="file_upload">
                                                                 <i class="bi bi-send"></i> Kirim
