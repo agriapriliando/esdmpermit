@@ -79,7 +79,9 @@ class AppreqDetail extends Component
             'appreq_id' => $this->appreqid,
             'desc' => $this->desc
         ];
-        Correspondence::create($data);
+        if ($this->desc != null) {
+            Correspondence::create($data);
+        }
         if ($this->file_upload != null) {
             $this->uploadFile($this->file_upload);
         }
@@ -88,7 +90,7 @@ class AppreqDetail extends Component
     public function render()
     {
         return view('livewire.pemohon.appreq-detail', [
-            'docs' => Doc::where('appreq_id', $this->appreqdata['id'])
+            'docs' => Doc::where('appreq_id', $this->appreqid)
                 ->when($this->search_docs, function ($query) {
                     $query->where('name_doc', 'like', "%" . $this->search_docs . "%");
                 })

@@ -151,7 +151,7 @@
                                             </div>
                                             <ol class="list-group list-group-numbered">
                                                 @foreach ($docs as $d)
-                                                    <div wire:key="d-{{ $c->id }}">
+                                                    <div wire:key="d-{{ $d->id }}">
                                                         <li class="list-group-item">{{ $d->name_doc }}
                                                             <div class="float-end badge text-bg-success">{{ $d->type_doc }}</div>
                                                             <br><i class="bi bi-clock-history me-1" style="font-size: 12px">
