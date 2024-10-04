@@ -22,6 +22,7 @@ class DocSeeder extends Seeder
                 'type_doc' => 'Ajuan', // ajunan atau revisi
                 'desc_doc' => 'Detail Surat', // nullable
                 'file_name' => '73248972378946.docx',
+                'sender' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -32,6 +33,7 @@ class DocSeeder extends Seeder
                 'type_doc' => 'Ajuan', // ajunan atau revisi
                 'desc_doc' => 'KTP Pemohon', // nullable
                 'file_name' => '232489723781212.jpg',
+                'sender' => 0,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -40,8 +42,20 @@ class DocSeeder extends Seeder
                 'appreq_id' => 1,
                 'name_doc' => 'NPWP Perusahaan Pemohon',
                 'type_doc' => 'Ajuan', // ajunan atau revisi
-                'desc_doc' => 'NPWP Perusahaan  Pemohon', // nullable
+                'desc_doc' => 'NPWP Perusahaan Pemohon', // nullable
                 'file_name' => '232489723781212.jpg',
+                'sender' => 0,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'user_id' => 1,
+                'appreq_id' => 1,
+                'name_doc' => 'Contoh Surat Pengantar',
+                'type_doc' => 'By Operator', // ajunan atau revisi
+                'desc_doc' => 'Contoh Surat Pengantar', // nullable
+                'file_name' => '232489723781212.jpg',
+                'sender' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

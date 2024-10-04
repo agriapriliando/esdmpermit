@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Livewire\Pemohon;
+namespace App\Livewire\Admin;
 
 use App\Models\Appreq;
 use App\Models\Correspondence;
 use App\Models\Doc;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 
-class AppreqDetail extends Component
+class AdminAppreqdetail extends Component
 {
     use WithFileUploads;
 
@@ -68,7 +68,7 @@ class AppreqDetail extends Component
                 'user_id' => 2,
                 'appreq_id' => $this->appreqid,
                 'name_doc' => $oriName,
-                'type_doc' => 'Revisi',
+                'type_doc' => 'Admin',
                 'file_name' => $fileName . $ext,
             ]);
         }
@@ -94,7 +94,7 @@ class AppreqDetail extends Component
         // dd($this->file_upload);
         $this->validate();
         $data = [
-            'user_id' => 2,
+            'user_id' => 1,
             'topic_id' => 1,
             'appreq_id' => $this->appreqid,
             'desc' => $this->desc
@@ -103,7 +103,7 @@ class AppreqDetail extends Component
             Correspondence::create($data);
         }
         if ($this->file_upload != null) {
-            $this->uploadFile($this->file_upload);
+            $this->uploadFile();
         }
         $this->reset('file_upload', 'desc');
     }
@@ -111,7 +111,7 @@ class AppreqDetail extends Component
     public function render()
     {
         // dd(Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first());
-        return view('livewire.pemohon.appreq-detail', [
+        return view('livewire.admin.admin-appreqdetail', [
             'docs' => Doc::where('appreq_id', $this->appreqid)
                 ->when($this->search_docs, function ($query) {
                     $query->where('name_doc', 'like', "%" . $this->search_docs . "%");

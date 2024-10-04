@@ -20,30 +20,16 @@
                         <p>Daftar</p>
                     </a>
                 </li>
-                <li class="nav-item"> <a href="#" class="nav-link {{ request()->routeIs('dashboard.*') ? 'active' : '' }}"> <i class="nav-icon bi bi-box-seam-fill"></i>
-                        <p>
-                            Permohonan
-                            <i class="nav-arrow bi bi-chevron-right"></i>
-                        </p>
+                <li class="nav-item"> <a wire:navigate href="{{ url('admin/appreqlist') }}" class="nav-link {{ request()->routeIs('admin.appreq') ? 'active' : '' }}"> <i
+                            class="nav-icon bi bi-filetype-docx"></i>
+                        <p>Permohonan (Admin)</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="../widgets/small-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Tambah</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../widgets/small-box.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
-                                <p>Daftar Permohonan</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                <li class="nav-header">Korespondensi</li>
+                {{-- <li class="nav-header">Korespondensi</li>
                 <li class="nav-item"> <a href="../generate/theme.html" class="nav-link"> <i class="nav-icon bi bi-palette"></i>
                         <p>Korespondensi <span class="nav-badge badge text-bg-secondary me-3">6</span></p>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-header">Data Master</li>
                 <li class="nav-item {{ request()->routeIs('topics.*') || request()->routeIs('users.*') || request()->routeIs('permitworks.*') ? 'menu-open' : '' }}"> <a href="#"
                         class="nav-link"> <i class="nav-icon bi bi-tree-fill"></i>
@@ -72,7 +58,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item"> <a target="_blank" href="https://www.ditaria.com/" class="nav-link">
+                <li class="nav-item d-none"> <a target="_blank" href="https://www.ditaria.com/" class="nav-link">
                         <p>Dev by ditaria.com</p>
                     </a>
                 </li>

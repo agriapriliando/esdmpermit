@@ -1,5 +1,7 @@
 <?php
 
+use App\Livewire\Admin\AdminAppreqdetail;
+use App\Livewire\Admin\AdminAppreqlist;
 use App\Livewire\Admin\PermitworkList;
 use App\Livewire\Admin\TopicList;
 use App\Livewire\Admin\UsersList;
@@ -28,4 +30,6 @@ Route::get('topics', TopicList::class)->name('topics.list');
 Route::get('permohonan', AppreqCreate::class)->name('appreq.create');
 Route::get('permohonan/list', AppreqList::class)->name('appreq.list');
 Route::get('permohonan/{appreq}', AppreqDetail::class)->name('appreq.detail');
+Route::get('admin/appreqlist', AdminAppreqlist::class)->name('admin.appreq');
+Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
 // Route::get('dashboard', Dashboard::class)->name('dashboard');
