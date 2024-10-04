@@ -77,11 +77,12 @@
                     <li class="user-header text-bg-primary"> <img src="{{ asset('') }}assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image">
                         <p>
                             {{ Auth::user()->name }}
-                            <small>Member since Nov. 2023</small>
+                            <small>{{ Auth::user()->email }}</small>
                         </p>
                     </li> <!--end::User Image--> <!--begin::Menu Body-->
                     <!--begin::Menu Footer-->
-                    <li class="user-footer"> <a href="#" class="btn btn-default btn-flat">Profile</a> <a href="{{ route('logout') }}" class="btn btn-default btn-flat float-end">Sign out</a>
+                    <li class="user-footer"> <a wire:navigate href="{{ route('profile') }}" class="btn btn-default btn-flat">Profile</a> <a href="{{ route('logout') }}"
+                            class="btn btn-default btn-flat float-end">Sign out</a>
                     </li>
                     <!--end::Menu Footer-->
                 </ul>

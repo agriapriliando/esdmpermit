@@ -10,6 +10,7 @@ use App\Livewire\Login;
 use App\Livewire\Pemohon\AppreqCreate;
 use App\Livewire\Pemohon\AppreqDetail;
 use App\Livewire\Pemohon\AppreqList;
+use App\Livewire\Pemohon\Profile;
 use App\Livewire\Resetpass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::get('logout', function () {
     session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
+Route::get('profile', Profile::class)->name('profile');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::get('users', UsersList::class)->name('users.list');
 Route::get('permitworks', PermitworkList::class)->name('permitworks.list');

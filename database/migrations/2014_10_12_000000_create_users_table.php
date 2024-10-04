@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role', 100)->default('admin');
+            $table->string('role', 100)->default('newuser'); // admin, pemohon, newuser()
             $table->rememberToken();
             $table->timestamps();
         });
