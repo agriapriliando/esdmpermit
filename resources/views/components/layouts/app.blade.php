@@ -23,8 +23,6 @@
 
     {{-- trix editor --}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head> <!--end::Head--> <!--begin::Body-->
 <style>
     textarea:focus,
