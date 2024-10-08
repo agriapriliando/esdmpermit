@@ -30,15 +30,21 @@ Route::get('logout', function () {
     session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
-Route::get('profile', Profile::class)->name('profile');
 Route::get('reset', Resetpass::class)->name('resetpass');
-Route::get('users', UsersList::class)->name('users.list');
-Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
-Route::get('topics', TopicList::class)->name('topics.list');
-Route::get('permohonan', AppreqCreate::class)->name('appreq.create');
-Route::get('/', AppreqList::class)->name('appreq.list');
-Route::get('permohonan/list', AppreqList::class)->name('appreq.list');
-Route::get('permohonan/{appreq}', AppreqDetail::class)->name('appreq.detail');
-Route::get('admin/appreqlist', AdminAppreqlist::class)->name('admin.appreq');
-Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', Profile::class)->name('profile');
+    Route::get('profile', Profile::class)->name('profile');
+    Route::middleware('cekrole:admin')->group(function () {
+        Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');
+        Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
+        Route::get('users', UsersList::class)->name('users.list');
+        Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
+        Route::get('topics', TopicList::class)->name('topics.list');
+    });
+    Route::middleware('cekrole:pemohon')->group(function () {
+        Route::get('permohonan', AppreqCreate::class)->name('appreq.create');
+        Route::get('permohonan/list', AppreqList::class)->name('appreq.list');
+        Route::get('permohonan/{appreq}', AppreqDetail::class)->name('appreq.detail');
+    });
+});
 // Route::get('dashboard', Dashboard::class)->name('dashboard');

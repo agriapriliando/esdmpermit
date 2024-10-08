@@ -45,8 +45,8 @@ class AppreqSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'user_id' => 2, //user pemohon
-                'company_id' => 1, // company pemohon
+                'user_id' => 3, //user pemohon
+                'company_id' => 2, // company pemohon
                 'stat_id' => 2, // Diajukan
                 'permitwork_id' => 3, // jenis izin yang diminta
                 'ver_code' => Carbon::now()->format('mYj') . rand(111, 999),
@@ -60,8 +60,8 @@ class AppreqSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'user_id' => 2, //user pemohon
-                'company_id' => 1, // company pemohon
+                'user_id' => 3, //user pemohon
+                'company_id' => 2, // company pemohon
                 'stat_id' => 4, // Diajukan
                 'permitwork_id' => 4, // jenis izin yang diminta
                 'ver_code' => Carbon::now()->format('mYj') . rand(111, 999),

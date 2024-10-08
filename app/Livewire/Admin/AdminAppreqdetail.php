@@ -5,7 +5,9 @@ namespace App\Livewire\Admin;
 use App\Models\Appreq;
 use App\Models\Correspondence;
 use App\Models\Doc;
+use App\Models\Stat;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -17,27 +19,51 @@ class AdminAppreqdetail extends Component
 
     #[Validate(
         [
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png|max:6000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg|max:6000'
         ],
         message: [
-            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,png',
-            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 6MB',
+            'max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 6MB',
+            'extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg',
         ]
     )]
     public Appreq $appreq;
 
     public $appreqid;
-    public $appreqdata;
     public $search_docs;
 
     public $desc;
 
     public $file_upload = [];
 
+    public $stat_id;
+
     public function mount(Appreq $appreq)
     {
         $this->appreqid = $appreq->id;
-        $this->appreqdata = $appreq;
+        $this->stat_id = $appreq->stat_id;
+        // update otomatis setelah detail pengajuan dibuka
+        if ($appreq->stat_id == 1) {
+            // status ke id 2
+            $appreq->update([
+                'stat_id' => 2,
+                'date_processed' => Carbon::now()
+            ]);
+        }
+        // cek pesan, otomatis viewed saat detail pengajuan dibuka
+        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+            ->where('user_id', '!=', Auth::id())
+            ->update([
+                'viewed' => 1
+            ]);
+    }
+
+    public function deleteAppreq()
+    {
+        dd("AAA");
+        $this->appreq->correspondences()->delete();
+        $this->appreq->docs()->delete();
+        // $this->appreq->delete();
+        session()->flash('delete', "Detail Pengajuan Berhasil Dihapus");
     }
 
     public function resetFileupload()
@@ -48,6 +74,20 @@ class AdminAppreqdetail extends Component
     public function resetSearchDocs()
     {
         $this->reset('search_docs');
+    }
+
+    public function updatedFileUpload()
+    {
+        $this->validate();
+    }
+
+    public function savestat()
+    {
+        // dd($this->appreq->stat_id);
+        $this->appreq->update([
+            'stat_id' => $this->stat_id
+        ]);
+        session()->flash('savestat', "Status Pengajuan Berhasil Diubah");
     }
 
     public function uploadFile()
@@ -68,7 +108,7 @@ class AdminAppreqdetail extends Component
                 'user_id' => 2,
                 'appreq_id' => $this->appreqid,
                 'name_doc' => $oriName,
-                'type_doc' => 'Admin',
+                'type_doc' => 'By Operator',
                 'file_name' => $fileName . $ext,
             ]);
         }
@@ -118,7 +158,8 @@ class AdminAppreqdetail extends Component
                 })
                 ->orderBy('created_at', 'DESC')->get(),
             'correspondences' => Correspondence::where('appreq_id', $this->appreqid)->orderBy('created_at', 'DESC')->get(),
-            'appreq' => Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first()
+            'appreq' => Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first(),
+            'stats' => Stat::where('id', '!=', 1)->get()
         ]);
     }
 }

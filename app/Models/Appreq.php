@@ -57,8 +57,6 @@ class Appreq extends Model
             $query->where('name', 'like', $term);
         })->orWhereHas('company', function ($query) use ($term) {
             $query->where('name_company', 'like', $term);
-        })->orWhereHas('stat', function ($query) use ($term) {
-            $query->where('name_stat', 'like', $term);
         })->orWhereHas('permitwork', function ($query) use ($term) {
             $query->where('name_permit', 'like', $term);
         });

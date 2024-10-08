@@ -11,20 +11,29 @@ class AdminAppreqlist extends Component
 {
     public $search = '';
     public $pagelength = 10;
-    public $stat_id;
+    public $company_id;
+    public $name_stat;
+    public $stat;
+
+    public function mount($name_stat)
+    {
+        $this->name_stat = $name_stat;
+        $this->stat = Stat::where('name_stat', $name_stat)->first();
+    }
 
     public function resetSearch()
     {
-        $this->reset();
+        $this->reset('search');
     }
 
     public function render()
     {
         return view('livewire.admin.admin-appreqlist', [
             'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs')->search($this->search)
-                ->when($this->stat_id, function ($query) {
-                    $query->where('stat_id', $this->stat_id);
+                ->when($this->company_id, function ($query) {
+                    $query->where('company_id', $this->company_id);
                 })
+                ->where('stat_id', $this->stat->id)
                 ->orderBy('created_at', 'desc')
                 ->paginate($this->pagelength),
             'stats' => Stat::all(),

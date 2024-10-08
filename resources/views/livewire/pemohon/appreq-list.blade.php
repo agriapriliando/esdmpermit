@@ -1,42 +1,28 @@
 <main class="app-main">
-    <div class="app-content-header"> <!--begin::Container-->
+    <!--end::App Content Header--> <!--begin::App Content-->
+    <div class="app-content mt-3"> <!--begin::Container-->
         <div class="container-fluid"> <!--begin::Row-->
             <div class="row">
-                <div class="col-sm-12">
-                    <div x-data
-                        @notify.window="
+                <div x-data
+                    @notify.window="
                     setTimeout(function() {
                         bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast')).show();
                         document.getElementById('pesan').innerHTML = $event.detail.message;
                         console.log($event.detail.message);
                     }, 1000);
                     "
-                        class="toast-container position-fixed top-0 start-50 translate-middle-x">
-                        <div id="liveToast" class="toast mt-3" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="toast-header">
-                                <strong class="me-auto" id="pesan"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                            </div>
+                    class="toast-container position-fixed top-0 start-50 translate-middle-x">
+                    <div id="liveToast" class="toast mt-3" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto" id="pesan"></strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
                     </div>
-                    <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Daftar Permohonan
-                        </li>
-                    </ol>
                 </div>
-            </div> <!--end::Row-->
-        </div> <!--end::Container-->
-    </div>
-    <!--end::App Content Header--> <!--begin::App Content-->
-    <div class="app-content"> <!--begin::Container-->
-        <div class="container-fluid"> <!--begin::Row-->
-            <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Permohonan Layanan</h3>
+                            <h3 class="card-title">Daftar Pengajuan</h3>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -58,17 +44,17 @@
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
+                                    <select wire:model.live="pagelength" class="form-select" id="pagelength">
                                         <option value="">All</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
                                     </select>
                                 </div>
                                 <div class="me-2 mb-2">
-                                    <select wire:model.live="stat_id" class="form-select" aria-label="Default select example" id="tertaut_count">
+                                    <select wire:model.live="stat_id" class="form-select" id="tertaut_count">
                                         <option value="">All Status</option>
                                         @foreach ($stats as $stat)
-                                            <option value="{{ $stat->id }}">{{ $stat->name_stat }}</option>
+                                            <option value="{{ $stat->id }}">{{ $stat->desc_stat }}</option>
                                         @endforeach
                                     </select>
                                 </div>

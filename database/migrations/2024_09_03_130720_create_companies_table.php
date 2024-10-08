@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->string('name_company');
             $table->string('type_company');
-            $table->string('npwp_company');
+            $table->string('npwp_company')->unique();
             $table->string('act_company');
             $table->string('city_company');
             $table->string('kecamatan_company');

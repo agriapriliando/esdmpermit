@@ -52,7 +52,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 99999;
-        width: 250px;
+        width: 350px;
         opacity: 100;
         border-radius: 10px;
         transition: top 0.2s, opacity 0.5s;
