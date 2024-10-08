@@ -11,11 +11,15 @@
                     </a>
                 </li>
                 @if (session('admin'))
-                    <li class="nav-item"> <a wire:navigate href="{{ url('admin/appreqlist') }}" class="nav-link {{ request()->routeIs('admin.appreq') ? 'active' : '' }}"> <i
-                                class="nav-icon bi bi-filetype-docx"></i>
-                            <p>Permohonan (Admin)</p>
-                        </a>
-                    </li>
+                    <li class="nav-header">Daftar Pengajuan</li>
+                    @foreach ($stats as $stat)
+                        <li class="nav-item">
+                            <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->routeIs('admin.appreq', $stat->name_stat) ? 'active' : '' }}">
+                                <i class="nav-icon bi bi-filetype-docx"></i>
+                                <p>{{ $stat->desc_stat }}</p>
+                            </a>
+                        </li>
+                    @endforeach
                     <li class="nav-header">Data Master</li>
                     <li class="nav-item {{ request()->routeIs('topics.*') || request()->routeIs('users.*') || request()->routeIs('permitworks.*') ? 'menu-open' : '' }}"> <a href="#"
                             class="nav-link"> <i class="nav-icon bi bi-tree-fill"></i>

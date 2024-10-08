@@ -2,13 +2,15 @@
 
 namespace App\Livewire\Part;
 
+use App\Models\Stat;
 use Livewire\Component;
 
 class Sidebar extends Component
 {
     public function render()
     {
-        $this->dispatch('sidebar');
-        return view('livewire.part.sidebar');
+        return view('livewire.part.sidebar', [
+            'stats' => Stat::all()
+        ]);
     }
 }

@@ -26,16 +26,36 @@ class UserSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Dudu Pemohon',
-                'username' => 'dudu',
+                'name' => 'Pemohon 1',
+                'username' => 'pemohon1',
                 'nohp' => '6285249441182',
-                'email' => 'dudu@gmail.com',
+                'email' => 'pemohon1@gmail.com',
+                'password' => bcrypt('123'),
+                'role' => 'pemohon',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Pemohon 2',
+                'username' => 'pemohon2',
+                'nohp' => '6285249441182',
+                'email' => 'pemohon2@gmail.com',
+                'password' => bcrypt('123'),
+                'role' => 'pemohon',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Pemohon 3',
+                'username' => 'pemohon3',
+                'nohp' => '6285249441182',
+                'email' => 'pemohon3@gmail.com',
                 'password' => bcrypt('123'),
                 'role' => 'pemohon',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
         ]);
-        \App\Models\User::factory(20)->create();
+        // \App\Models\User::factory(20)->create();
     }
 }

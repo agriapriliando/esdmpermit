@@ -21,7 +21,11 @@ class Login extends Component
 
         if (Auth::attempt(['username' => $this->username, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
-            return redirect()->route('appreq.list');
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('admin.appreq', 'diajukan');
+            } else {
+                return redirect()->route('appreq.list');
+            }
         } else {
             session()->flash('error', 'Username atau Password salah');
             return redirect()->route('login');
