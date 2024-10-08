@@ -46,7 +46,8 @@
                     <button class="btn btn-success btn-block" type="submit">Login</button>
                 </div>
             </form>
-            <p class="mb-1 text-center"> <a style="color: #4d4d4d !important;" wire:navigate href="{{ URL::route('resetpass') }}">I forgot my password</a> </p>
+            <p class="my-2 text-center"> <a href="#" style="color: #4d4d4d !important;">Belum terdaftar? Ajukan Akun</a> </p>
+            <p class="mb-1 text-center d-none"> <a style="color: #4d4d4d !important;" wire:navigate href="{{ URL::route('resetpass') }}">I forgot my password</a> </p>
         </div> <!-- /.login-card-body -->
     </div>
 </div>

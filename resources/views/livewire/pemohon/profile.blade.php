@@ -1,28 +1,6 @@
 <main class="app-main">
-    <div class="app-content-header"> <!--begin::Container-->
-        <div class="container-fluid"> <!--begin::Row-->
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="toast-container position-fixed top-0 start-50 translate-middle-x">
-                        <div id="liveToast" class="toast mt-3" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="toast-header">
-                                <strong class="me-auto" id="pesan"></strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                            </div>
-                        </div>
-                    </div>
-                    <ol class="breadcrumb float-sm-end">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">
-                            Profile Saya
-                        </li>
-                    </ol>
-                </div>
-            </div> <!--end::Row-->
-        </div> <!--end::Container-->
-    </div>
     <!--end::App Content Header--> <!--begin::App Content-->
-    <div class="app-content"> <!--begin::Container-->
+    <div class="app-content mt-3"> <!--begin::Container-->
         <div class="container-fluid"> <!--begin::Row-->
             <div class="row">
                 <div class="col-md-8" id="edit">
