@@ -21,10 +21,7 @@ class CekRole
 
         $user = Auth::user();
         if ($user->role == $roles) {
-            session()->put('admin', true);
-            return $next($request);
-        } elseif ($user->role == $roles) {
-            session()->put('pemohon', true);
+            session()->put($roles, true);
             return $next($request);
         }
         return redirect('login');

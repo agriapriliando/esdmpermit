@@ -18,7 +18,7 @@ class Login extends Component
     public function login()
     {
         $this->validate();
-
+        session()->invalidate();
         if (Auth::attempt(['username' => $this->username, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
             if (Auth::user()->role == 'admin') {
