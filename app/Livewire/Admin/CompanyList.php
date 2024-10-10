@@ -175,16 +175,6 @@ class CompanyList extends Component
         }
     }
 
-    public function getDistrictbyName($name)
-    {
-        // $this->districts = $this->getDistricts($this->city_company);
-        foreach ($this->districts as $district) {
-            if ($district['name'] == $name) {
-                return $district['id'];
-            }
-        }
-    }
-
     public function edit(Company $company)
     {
         $this->title = 'Edit Perusahaan';
@@ -221,8 +211,8 @@ class CompanyList extends Component
     public function render()
     {
         return view('livewire.admin.company-list', [
-            // 'companies' => Company::search($this->search)
-            'companies' => Company::orderBy('name_company')
+            'companies' => Company::withCount('appreqs')->search($this->search)
+                ->orderBy('name_company')
                 ->paginate($this->pagelength),
             'cities' => $this->cities, // Pastikan cities tersedia di Blade
             'districts' => $this->districts, // Pastikan districts tersedia di Blade

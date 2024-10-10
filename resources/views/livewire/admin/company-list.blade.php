@@ -81,7 +81,7 @@
                                                 <a wire:click="edit({{ $item->id }})" href="#edit" class="btn btn-sm btn-warning me-2">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <button @click="open = true" class="btn btn-sm btn-danger">
+                                                <button @click="open = true" class="btn btn-sm btn-danger" {{ $item->appreqs_count > 0 ? 'disabled' : '' }}>
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                                 <div x-show="open" @click.outside="open = false" class="overlay"></div>
