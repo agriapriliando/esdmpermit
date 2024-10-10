@@ -29,7 +29,8 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item"> <a href="../UI/general.html" class="nav-link"> <i class="nav-icon bi bi-circle"></i>
+                            <li class="nav-item"> <a wire:navigate href="{{ route('company.list') }}" class="nav-link {{ request()->routeIs('company.list.*') ? 'active' : '' }}"> <i
+                                        class="nav-icon bi bi-circle"></i>
                                     <p>Daftar Perusahaan</p>
                                 </a>
                             </li>
