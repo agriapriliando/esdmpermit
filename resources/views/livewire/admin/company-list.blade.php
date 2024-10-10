@@ -114,7 +114,7 @@
                         </div> <!-- /.card-header -->
                         <div class="card-body">
                             <form wire:submit.prevent="save({{ $id }})">
-                                <div class="mb-2">
+                                <div class="mb-2 d-none">
                                     @if ($errors->any())
                                         <div class="alert alert-danger">
                                             <ul>
@@ -127,7 +127,7 @@
                                 </div>
                                 <div class="mb-2">
                                     <label for="name_company">Nama Perusahaan</label>
-                                    <input wire:model.blur="name_company" type="text" class="form-control @error('name_company') is-invalid @enderror" id="name_company" autocomplete="off">
+                                    <input wire:model.live="name_company" type="text" class="form-control @error('name_company') is-invalid @enderror" id="name_company" autocomplete="off">
                                     @error('name_company')
                                         <div class="invalid-feedback">
                                             {{ $message }}

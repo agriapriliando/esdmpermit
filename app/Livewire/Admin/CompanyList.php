@@ -8,6 +8,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Validation\Rules\Unique;
 
 class CompanyList extends Component
 {
@@ -117,18 +118,29 @@ class CompanyList extends Component
             // dd($this->user_id);
             $this->validate();
         } else {
-            dd("CCC");
-            $this->validate([
-                'name_company' => 'required|unique:companies,name_company,' . $dataCompany->id,
-                'type_company' => 'required',
-                'npwp_company' => 'required',
-                'user_id' => 'required', // Validasi user_id
-            ]);
+            $this->validate(
+                [
+                    'name_company' => 'required|unique:companies,name_company,' . $id,
+                    'type_company' => 'required',
+                    'npwp_company' => 'required',
+                    'user_id' => 'required', // Validasi user_id
+                ],
+                [
+                    'unique' => 'Perusahaan Sudah Terdaftar'
+                ]
+            );
         }
 
         $data = $this->only('name_company', 'type_company', 'npwp_company', 'act_company', 'city_company', 'kecamatan_company', 'address_company', 'user_id');
-        $data['city_company'] = $this->selectedCityName;
-        $data['kecamatan_company'] = $this->selectedKecamatanName;
+        if ($this->title == 'Tambah Perusahaan') {
+            $data['city_company'] = $this->selectedCityName;
+            $data['kecamatan_company'] = $this->selectedKecamatanName;
+        } else {
+            $this->updatedCityCompany($this->city_company);
+            $data['city_company'] = $this->selectedCityName;
+            $this->updatedKecamatanCompany($this->kecamatan_company);
+            $data['kecamatan_company'] = $this->selectedKecamatanName;
+        }
 
         if ($this->title == 'Tambah Perusahaan') {
             try {
