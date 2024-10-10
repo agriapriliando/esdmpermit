@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="mb-2">
                                     <label for="user_id">Pemilik Perusahaan</label>
-                                    <select wire:model="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                                    <select wire:model.live="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
                                         <option value="">Pilih Pemilik</option>
                                         @if ($users && $users->count() > 0)
                                             @foreach ($users as $user)
@@ -193,7 +193,7 @@
                                         <option value="">Pilih Kecamatan</option>
                                         @if (!empty($districts))
                                             @foreach ($districts as $district)
-                                                <option value="{{ $district['id'] }}">{{ $district['name'] }}</option>
+                                                <option value="{{ $district['id'] }}" {{ $district['id'] == $kecamatan_company ? 'selected' : '' }}>{{ $district['name'] }}</option>
                                             @endforeach
                                             {{-- @else
                                         <option value="">Pilih kota terlebih dahulu</option> --}}

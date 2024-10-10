@@ -83,6 +83,7 @@ class CompanyList extends Component
     }
     public function updatedKecamatanCompany()
     {
+        // cari nama kecamatan
         foreach ($this->districts as $district) {
             if ($district['id'] == $this->kecamatan_company) {
                 $this->selectedKecamatanName = $district['name'];
@@ -96,11 +97,6 @@ class CompanyList extends Component
             $response = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/districts/{$cityId}.json");
             $this->districts = $response->json();
         }
-        // else {
-        //     // Jika kota tidak dipilih, reset daftar kecamatan
-        //     $this->districts = [];
-        //     //dd($this->districts);
-        // }
     }
 
     public function resetSearch()
@@ -111,7 +107,7 @@ class CompanyList extends Component
     public function resetForm()
     {
         $this->title = 'Tambah Perusahaan';
-        $this->reset('name_company', 'type_company', 'npwp_company', 'city_company', 'kecamatan_company', 'address_company', 'act_company');
+        $this->reset('name_company', 'user_id', 'type_company', 'npwp_company', 'city_company', 'kecamatan_company', 'address_company', 'act_company');
     }
 
     public function save($id = null)
@@ -158,6 +154,25 @@ class CompanyList extends Component
         }
     }
 
+    public function getCitybyName($name)
+    {
+        foreach ($this->cities as $city) {
+            if ($city['name'] == $name) {
+                return $city['id'];
+            }
+        }
+    }
+
+    public function getDistrictbyName($name)
+    {
+        // $this->districts = $this->getDistricts($this->city_company);
+        foreach ($this->districts as $district) {
+            if ($district['name'] == $name) {
+                return $district['id'];
+            }
+        }
+    }
+
     public function edit(Company $company)
     {
         $this->title = 'Edit Perusahaan';
@@ -166,8 +181,19 @@ class CompanyList extends Component
         $this->type_company = $company->type_company;
         $this->npwp_company = $company->npwp_company;
         $this->act_company = $company->act_company;
-        $this->city_company = $company->city_company;
-        $this->kecamatan_company = $company->kecamatan_company;
+        $idcity = $this->getCitybyName($company->city_company);
+        $this->city_company = $idcity;
+        // dd($this->city_company);
+        // dd($this->getDistricts("6209"));
+        // cari kecamatan by idcity
+        $response = Http::get("https://www.emsifa.com/api-wilayah-indonesia/api/districts/{$idcity}.json");
+        $this->districts = $response->json();
+        foreach ($response->json() as $district) {
+            if ($district['name'] == $company->kecamatan_company) {
+                $idkecamatan = $district['id'];
+            }
+        }
+        $this->kecamatan_company = $idkecamatan;
         $this->address_company = $company->address_company;
         $this->user_id = $company->user_id;
     }
