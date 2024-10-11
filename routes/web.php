@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('cekrole:pemohon')->group(function () {
         Route::get('pengajuan', AppreqCreate::class)->name('appreq.create');
         Route::get('pengajuan/list', AppreqList::class)->name('appreq.list');
-        Route::get('pengajuan/{appreq}', AppreqDetail::class)->name('appreq.detail');
+        Route::get('pengajuan/{ver_code}', AppreqDetail::class)->name('appreq.detail');
     });
 });
 // Route::get('dashboard', Dashboard::class)->name('dashboard');

@@ -16,23 +16,58 @@
     <div class="app-content mt-3"> <!--begin::Container-->
         <div class="container-fluid"> <!--begin::Row-->
             <div class="row">
+                <div x-data
+                    @notify.window="
+                    setTimeout(function() {
+                        bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast')).show();
+                        document.getElementById('pesan').innerHTML = $event.detail.message;
+                        console.log($event.detail.message);
+                    }, 1000);
+                    "
+                    class="toast-container position-fixed top-0 start-50 translate-middle-x">
+                    <div id="liveToast" class="toast mt-3" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="toast-header">
+                            <strong class="me-auto" id="pesan"></strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h2>Detail Pengajuan<div class="float-end badge badge-success text-bg-success">Kode : {{ $appreq->ver_code }}</div>
+                            <h2 class="text-bg-success rounded px-3 py-1 d-inline">
+                                Kode Pengajuan : {{ $appreq->ver_code }}
                             </h2>
-                            <div>
-                                <div style="width: 300px">
-                                    <select wire:model.live="stat_id" class="form-select" id="status" x-on:change="$wire.savestat()">
-                                        @foreach ($stats as $s)
-                                            <option value="{{ $s->id }}" {{ $s->id === $stat_id ? 'selected' : '' }}> Status : {{ $s->desc_stat }}</option>
-                                        @endforeach
-                                    </select>
+                            <div x-data="{ panduan: false }" class="mt-3">
+                                <button class="float-end btn btn-info" @click="panduan = true"><i class="bi bi-question-circle"></i> Panduan</button>
+                                <div x-show="panduan" @click.outside="panduan = false" class="overlay"></div>
+                                <div x-show="panduan" @click.outside="panduan = false" x-transition:enter-start="modal-panduan-in" x-transition:leave-end="modal-panduan-out" class="modal-panduan">
+                                    <div class="alert alert-danger text-center">
+                                        <span class="font-weight-bold">Panduan :</span> <br>
+                                        * Fitur Korespondensi akan terbuka saat Status Pengajuan : Perbaikan <br>
+                                        * Pesan yang telah dibaca tidak bisa dihapus <br>
+                                        * Berkas File yang diunggah wajib diberi nama/judul<br>
+                                        * Berkas File Ajuan tidak bisa dihapus<br>
+                                        <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
+                                    </div>
                                 </div>
-                                @session('savestat')
-                                    <div id="savestat" class="bg-success text-bg-success p-2 rounded mt-2" x-transition x-init="setTimeout(() => document.getElementById('savestat').remove(), 2000)">
-                                        {{ session('savestat') }}</div>
-                                @endsession
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="float-end btn btn-warning me-2 mb-2" type="button"
+                                    x-on:click="$wire.$refresh()" wire:loading.attr="disabled">
+                                    <i class="bi bi-arrow-repeat"></i> Refresh
+                                </button>
+                                <div class="mt-4">
+                                    <div style="width: 300px">
+                                        <select wire:model.live="stat_id" class="form-select" id="status" x-on:change="$wire.savestat()">
+                                            @foreach ($stats as $s)
+                                                <option value="{{ $s->id }}" {{ $s->id === $stat_id ? 'selected' : '' }}> Status : {{ $s->desc_stat }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @session('savestat')
+                                        <div id="savestat" class="bg-success text-bg-success p-2 rounded mt-2" x-transition x-init="setTimeout(() => document.getElementById('savestat').remove(), 2000)">
+                                            {{ session('savestat') }}</div>
+                                    @endsession
+                                </div>
                             </div>
                             @if ($appreq->stat_id == 4)
                                 <div>
@@ -52,7 +87,7 @@
                                             <td>: {{ $appreq->permitwork->name_permit }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">2. Pemohon</td>
+                                            <td class="fw-bold">2. Nama Pemohon</td>
                                             <td>: {{ $appreq->user->name }}</td>
                                         </tr>
                                         <tr>
@@ -60,8 +95,12 @@
                                             <td>: {{ $appreq->company->name_company }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Catatan Pemohon :</td>
-                                            <td> {!! $appreq->notes !!}</td>
+                                            <td class="fw-bold">4. Catatan Pemohon</td>
+                                            @if ($appreq->notes == null)
+                                                <td>: Tidak Ada Catatan</td>
+                                            @else
+                                                <td>: {!! $appreq->notes !!}</td>
+                                            @endif
                                         </tr>
                                     </table>
                                 </div>
@@ -104,10 +143,10 @@
                                                     <h3>Korespondensi</h3>
                                                     <button
                                                         x-on:click="
-                                                    open = !open;
-                                                    document.getElementById('file_uploadd').innerHTML = 'Klik Untuk Upload Berkas...';
-                                                    $wire.file_upload = '';
-                                                    "
+                                                open = !open;
+                                                document.getElementById('file_uploadd').innerHTML = 'Klik Untuk Upload Berkas...';
+                                                $wire.file_upload = '';
+                                                "
                                                         class="btn btn-sm btn-success"><i class="bi bi-reply"></i>
                                                         Balas</button>
                                                 </div>
@@ -130,8 +169,9 @@
                                                                         Pilih berkas
                                                                     </div>
                                                                     <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg | Size 1 File Max 6MB</small>
-                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload"
-                                                                        type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror" id="file_upload" multiple="true">
+                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload"
+                                                                        wire:model.live="file_upload" type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror"
+                                                                        id="file_upload" multiple="true">
                                                                 </div>
                                                                 @error('file_upload')
                                                                     <div id="file-upload" x-init="setTimeout(() => document.getElementById('file-upload').remove(), 4000)" class="alert alert-danger">
@@ -146,7 +186,8 @@
                                                             </div>
                                                             <div wire:loading wire:target="file_upload" class="bg-warning px-2 rounded">Tunggu, sedang memeriksa file...</div>
                                                             <div class="mb-2" x-show="uploading">
-                                                                <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+                                                                <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0"
+                                                                    aria-valuemax="100">
                                                                     <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                                                 </div>
                                                             </div>
