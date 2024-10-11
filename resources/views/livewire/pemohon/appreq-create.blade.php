@@ -39,8 +39,10 @@
                 <div class="col-md-8" id="edit">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Formulir Pengajuan Layanan</h3>
+                            <h3 class="card-title">Formulir Pengajuan Layanan
+                            </h3>
                             <div class="card-tools">
+                                <a wire:navigate href="{{ route('appreq.list') }}" class="btn btn-success"><i class="bi bi-book"></i> Daftar Ajuan</a>
                             </div>
                         </div> <!-- /.card-header -->
                         @session('message')
