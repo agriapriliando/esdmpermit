@@ -42,7 +42,7 @@
                             <h3 class="card-title">Formulir Pengajuan Layanan
                             </h3>
                             <div class="card-tools">
-                                <a wire:navigate href="{{ route('appreq.list') }}" class="btn btn-success"><i class="bi bi-book"></i> Daftar Ajuan</a>
+                                <a wire:navigate href="{{ route('appreq.list', 'list') }}" class="btn btn-success"><i class="bi bi-book"></i> Daftar Ajuan</a>
                             </div>
                         </div> <!-- /.card-header -->
                         @session('message')

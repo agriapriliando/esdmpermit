@@ -15,10 +15,16 @@ class AppreqList extends Component
     public $search = '';
     public $pagelength = 10;
     public $stat_id;
+    public $jenis;
 
     public function resetSearch()
     {
         $this->reset();
+    }
+
+    public function mount($jenis)
+    {
+        $this->jenis = $jenis;
     }
 
     public function delete($ver_code)
@@ -39,16 +45,27 @@ class AppreqList extends Component
     }
     public function render()
     {
-        return view('livewire.pemohon.appreq-list', [
-            'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs')->search($this->search)
-                ->when($this->stat_id, function ($query) {
-                    $query->where('stat_id', $this->stat_id);
-                })
-                ->where('stat_id', '!=', 4)
-                ->where('user_id', Auth::id())
-                ->orderBy('created_at', 'desc')
-                ->paginate($this->pagelength),
-            'stats' => Stat::all()
-        ]);
+        if ($this->jenis == 'list') {
+            return view('livewire.pemohon.appreq-list', [
+                'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs')->search($this->search)
+                    ->when($this->stat_id, function ($query) {
+                        $query->where('stat_id', $this->stat_id);
+                    })
+                    ->where('stat_id', '!=', 4)
+                    ->where('user_id', Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->paginate($this->pagelength),
+                'stats' => Stat::where('id', '!=', 4)->get()
+            ]);
+        } else {
+            return view('livewire.pemohon.appreq-list', [
+                'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs')->search($this->search)
+                    ->where('stat_id', '=', 4)
+                    ->where('user_id', Auth::id())
+                    ->orderBy('created_at', 'desc')
+                    ->paginate($this->pagelength),
+                'stats' => Stat::all()
+            ]);
+        }
     }
 }

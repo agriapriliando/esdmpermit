@@ -22,7 +22,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Pengajuan</h3>
+                            <h3 class="card-title">Daftar Pengajuan {{ request()->is('pengajuan/selesai') ? 'Selesai' : '' }}</h3>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -57,7 +57,7 @@
                                         <option value="50">50</option>
                                     </select>
                                 </div>
-                                <div class="me-2 mb-2">
+                                <div class="me-2 mb-2 {{ request()->is('pengajuan/selesai') ? 'd-none' : '' }}">
                                     <select wire:model.live="stat_id" class="form-select" id="tertaut_count">
                                         <option value="">All Status</option>
                                         @foreach ($stats as $stat)

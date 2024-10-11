@@ -45,9 +45,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('topics', TopicList::class)->name('topics.list');
     });
     Route::middleware('cekrole:pemohon')->group(function () {
-        Route::get('pengajuan', AppreqCreate::class)->name('appreq.create');
-        Route::get('pengajuan/list', AppreqList::class)->name('appreq.list');
-        Route::get('pengajuan/{ver_code}', AppreqDetail::class)->name('appreq.detail');
+        Route::get('create/', AppreqCreate::class)->name('appreq.create');
+        Route::get('pengajuan/{jenis}', AppreqList::class)->name('appreq.list');
+        Route::get('pengajuan/detail/{ver_code}', AppreqDetail::class)->name('appreq.detail');
     });
 });
 // Route::get('dashboard', Dashboard::class)->name('dashboard');

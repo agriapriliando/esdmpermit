@@ -14,7 +14,7 @@
                     <li class="nav-header">Daftar Pengajuan</li>
                     @foreach ($stats as $stat)
                         <li class="nav-item">
-                            <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->routeIs('admin.appreq', $stat->name_stat) ? 'active' : '' }}">
+                            <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-filetype-docx"></i>
                                 <p>{{ $stat->desc_stat }}</p>
                             </a>
@@ -48,17 +48,17 @@
                     </li>
                 @endif
                 @if (session('pemohon'))
-                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan') }}" class="nav-link {{ request()->routeIs('appreq.create') ? 'active' : '' }}"> <i
+                    <li class="nav-item"> <a wire:navigate href="{{ route('appreq.create') }}" class="nav-link {{ request()->routeIs('appreq.create') ? 'active' : '' }}"> <i
                                 class="nav-icon bi bi-filetype-docx"></i>
                             <p>Pengajuan</p>
                         </a>
                     </li>
-                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan/list') }}" class="nav-link {{ request()->routeIs('appreq.list') ? 'active' : '' }}"> <i
+                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan/list') }}" class="nav-link {{ request()->is('pengajuan/list') ? 'active' : '' }}"> <i
                                 class="nav-icon bi bi-filetype-docx"></i>
                             <p>Daftar Ajuan</p>
                         </a>
                     </li>
-                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan/list') }}" class="nav-link {{ request()->routeIs('appreq.list') ? 'active' : '' }}"> <i
+                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan/selesai') }}" class="nav-link {{ request()->is('pengajuan/selesai') ? 'active' : '' }}"> <i
                                 class="nav-icon bi bi-filetype-docx"></i>
                             <p>Ajuan Selesai</p>
                         </a>

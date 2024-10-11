@@ -272,7 +272,7 @@
                                                                 </a>
                                                             @endif
                                                             <div class="float-end">
-                                                                @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi')
+                                                                @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 4)
                                                                     <div class="position-relative" x-data="{ doc: false }">
                                                                         <a class="float-end btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">
                                                                             <i class="bi bi-trash"></i>

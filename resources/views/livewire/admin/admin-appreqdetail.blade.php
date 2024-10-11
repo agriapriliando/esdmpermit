@@ -141,14 +141,16 @@
                                             <div class="p-3 rounded shadow" x-data="{ open: false }">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <h3>Korespondensi</h3>
-                                                    <button
-                                                        x-on:click="
+                                                    @if ($appreq->stat_id != 4)
+                                                        <button
+                                                            x-on:click="
                                                 open = !open;
                                                 document.getElementById('file_uploadd').innerHTML = 'Klik Untuk Upload Berkas...';
                                                 $wire.file_upload = '';
                                                 "
-                                                        class="btn btn-sm btn-success"><i class="bi bi-reply"></i>
-                                                        Balas</button>
+                                                            class="btn btn-sm btn-success"><i class="bi bi-reply"></i>
+                                                            Balas</button>
+                                                    @endif
                                                 </div>
                                                 <div x-show="open" class="mb-3" x-transition>
                                                     <style>
@@ -279,7 +281,7 @@
                                                                 </a>
                                                             @endif
                                                             <div class="float-end">
-                                                                @if (Auth::user()->role == 'admin' && $d->type_doc == 'By Operator')
+                                                                @if (Auth::user()->role == 'admin' && $d->type_doc == 'By Operator' && $appreq->stat_id != 4)
                                                                     <div class="position-relative" x-data="{ doc: false }">
                                                                         <a class="float-end btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">
                                                                             <i class="bi bi-trash"></i>
