@@ -72,9 +72,8 @@
                             @if ($appreq->stat_id == 4)
                                 <div>
                                     <div class="px-1 mt-2 bg-success text-bg-success rounded mb-2">
-                                        <h4>Pengajuan ini telah selesai, dokumen bisa dicetak</h4>
+                                        <h4>Pengajuan ini telah Selesai</h4>
                                     </div>
-                                    <a href="#" class="btn btn-success">Lihat Dokumen</a>
                                 </div>
                             @endif
                         </div> <!-- /.card-header -->
@@ -171,9 +170,8 @@
                                                                         Pilih berkas
                                                                     </div>
                                                                     <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg | Size 1 File Max 6MB</small>
-                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload"
-                                                                        wire:model.live="file_upload" type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror"
-                                                                        id="file_upload" multiple="true">
+                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload"
+                                                                        type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror" id="file_upload" multiple="true">
                                                                 </div>
                                                                 @error('file_upload')
                                                                     <div id="file-upload" x-init="setTimeout(() => document.getElementById('file-upload').remove(), 4000)" class="alert alert-danger">

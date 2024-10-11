@@ -62,10 +62,10 @@
                                 <div class="col-12">
                                     @if ($appreq->stat_id == 4)
                                         <div>
-                                            <div class="px-1 mt-2 bg-success text-bg-success rounded">
-                                                <h4>Pengajuan ini telah selesai, dokumen bisa dicetak</h4>
+                                            <div class="px-3 py-1 mb-1 bg-success text-bg-success rounded">
+                                                Pengajuan ini telah selesai, Dokumen telah terbit
                                             </div>
-                                            <a href="#" class="btn btn-success">Lihat Dokumen</a>
+                                            <a href="#" class="btn btn-success"><i class="bi bi-book"></i> Lihat Dokumen</a>
                                         </div>
                                     @else
                                         <h5 class="bg-warning px-2 rounded d-inline">Status : {{ $appreq->stat->desc_stat }}</h5>
