@@ -4,6 +4,7 @@ namespace App\Livewire\Admin;
 
 use App\Models\Company;
 use App\Models\User;
+use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -37,6 +38,16 @@ class UsersList extends Component
     public User $user;
 
     public $company_id;
+
+    public $name_company;
+    public $type_company;
+    public $npwp_company;
+    public $act_company;
+    public $city_company;
+    public $kecamatan_company;
+    public $address_company;
+
+
 
     public function resetSearch()
     {
@@ -72,10 +83,13 @@ class UsersList extends Component
             $data['password'] = bcrypt($this->password);
             $data['role'] = 'admin';
         }
+        $data_company = [
+            'name_company'
+        ];
 
         if ($this->title == 'Tambah Akun') {
             try {
-                User::create($data);
+                $datauser = User::create($data);
                 $this->reset();
                 $this->dispatch('user-created', message: 'Akun ' . $data['name'] . ' Berhasil Ditambahkan');
             } catch (\Exception $e) {
@@ -113,6 +127,9 @@ class UsersList extends Component
 
     public function render()
     {
+        // dd("AAAA");
+        $data_region = Http::get('http://wilayah.test/wilayah.json');
+        dd($data_region[0]);
         return view('livewire.admin.users-list', [
             'users' => User::search($this->search)
                 ->when($this->jenis_role, function ($query) {
