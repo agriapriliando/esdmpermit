@@ -11,7 +11,6 @@ class Correspondence extends Model
 
     protected $fillable = [
         'user_id',
-        'topic_id',
         'appreq_id',
         'desc',
         'viewed'

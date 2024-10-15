@@ -43,6 +43,13 @@ class StatSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
+            [
+                'no_urut' => 5,
+                'name_stat' => 'batal',
+                'desc_stat' => 'Dibatalkan',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
     }
 }

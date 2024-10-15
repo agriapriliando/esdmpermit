@@ -296,21 +296,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if ($appreq->stat_id == 2)
-                                    <div class="my-2 d-grid" x-data="{ open: false }">
-                                        <button @click="open = true" type="button" class="btn btn-danger">
-                                            <i class="bi bi-trash"></i> Menghapus Pengajuan
-                                        </button>
-                                        <div x-show="open" @click.outside="open = false" class="overlay"></div>
-                                        <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out" class="modal-hapus">
-                                            <div class="alert alert-danger text-center">
-                                                Seluruh Percakapan dan Dokumen Akan Terhapus Secara Permanen, Apakah Anda Yakin Menghapus Pengajuan Ini? <br>
-                                                <button class="btn btn-sm btn-danger" wire:click="deleteAppreq"><i class="bi bi-trash"></i> Hapus Pengajuan</button>
-                                                <button class="btn btn-sm btn-warning" @click="open = false">Batal</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
                         </div> <!-- /.card-body -->
                     </div> <!-- /.card -->

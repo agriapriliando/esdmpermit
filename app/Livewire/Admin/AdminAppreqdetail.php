@@ -134,8 +134,7 @@ class AdminAppreqdetail extends Component
         // dd($this->file_upload);
         $this->validate();
         $data = [
-            'user_id' => 1,
-            'topic_id' => 1,
+            'user_id' => Auth::id(),
             'appreq_id' => $this->appreqid,
             'desc' => $this->desc
         ];
