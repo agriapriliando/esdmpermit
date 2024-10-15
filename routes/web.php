@@ -24,6 +24,64 @@ Route::get('/test/page', function () {
     dd(phpinfo());
 });
 
+Route::get('/wilayah', function () {
+    if (($open = fopen("data_wilayah.csv", "r")) !== false) {
+        while (($data = fgetcsv($open, 100000, ",")) !== false) {
+            $array[] = $data;
+        }
+        fclose($open);
+    }
+    $i = 0;
+    $data = [];
+    for ($i; $i < count($array); $i++) {
+        if (strlen($array[$i][0]) == 2) {
+            $data[$i] = [
+                'id' => $array[$i][0],
+                'name_region' => $array[$i][1],
+                'parent_region' => 0,
+                'type_region' => 'Provinsi',
+                'level_region' => 1,
+            ];
+        } elseif (strlen($array[$i][0]) == 5) {
+            if (substr($array[$i][1], 0, 4) == "KOTA") {
+                $data[$i] = [
+                    'id' => $array[$i][0],
+                    'name_region' => $array[$i][1],
+                    'parent_region' => substr($array[$i][0], 0, 2),
+                    'type_region' => 'Kota',
+                    'level_region' => 2,
+                ];
+            } else {
+                $data[$i] = [
+                    'id' => $array[$i][0],
+                    'name_region' => $array[$i][1],
+                    'parent_region' => substr($array[$i][0], 0, 2),
+                    'type_region' => 'Kabupaten',
+                    'level_region' => 2,
+                ];
+            }
+        } elseif (strlen($array[$i][0]) == 8) {
+            $data[$i] = [
+                'id' => $array[$i][0],
+                'name_region' => $array[$i][1],
+                'parent_region' => substr($array[$i][0], 0, 5),
+                'type_region' => 'Kecamatan',
+                'level_region' => 3,
+            ];
+        } elseif (strlen($array[$i][0]) == 13) {
+            $data[$i] = [
+                'id' => $array[$i][0],
+                'name_region' => $array[$i][1],
+                'parent_region' => substr($array[$i][0], 0, 8),
+                'type_region' => 'Kelurahan',
+                'level_region' => 4,
+            ];
+        }
+    }
+    $data = json_encode($data);
+    return $data;
+});
+
 Route::get('login', Login::class)->name('login');
 Route::get('logout', function () {
     Auth::logout();

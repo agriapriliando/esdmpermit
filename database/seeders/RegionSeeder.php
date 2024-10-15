@@ -14,7 +14,8 @@ class RegionSeeder extends Seeder
      */
     public function run(): void
     {
-        $data_region = Http::get('http://wilayah.test/wilayah.json');
+        // $data_region = Http::get('http://wilayah.test/wilayah.json');
+        $data_region = Http::retry(3, 3000)->get(url('/wilayah'));
         $chunk_data = array_chunk($data_region->json(), 1000);
         if (isset($chunk_data) && !empty($chunk_data)) {
             foreach ($chunk_data as $chunk_data_val) {
