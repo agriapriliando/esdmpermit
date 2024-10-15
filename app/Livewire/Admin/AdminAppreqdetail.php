@@ -149,6 +149,11 @@ class AdminAppreqdetail extends Component
 
     public function render()
     {
+        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+            ->where('user_id', '!=', Auth::id())
+            ->update([
+                'viewed' => 1
+            ]);
         // dd(Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first());
         return view('livewire.admin.admin-appreqdetail', [
             'docs' => Doc::where('appreq_id', $this->appreqid)
