@@ -116,7 +116,12 @@ class AppreqDetail extends Component
 
     public function render()
     {
-        // dd(Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first());
+        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+            ->where('user_id', '!=', Auth::id())
+            ->update([
+                'viewed' => 1
+            ]);
+
         return view('livewire.pemohon.appreq-detail', [
             'docs' => Doc::where('appreq_id', $this->appreqid)
                 ->when($this->search_docs, function ($query) {
