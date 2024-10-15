@@ -9,7 +9,7 @@ use Livewire\Component;
 class PermitworkList extends Component
 {
     public $search = '';
-    public $pagelength = 10;
+    public $pagelength = 20;
     public $title = 'Tambah Layanan';
     public $id;
 

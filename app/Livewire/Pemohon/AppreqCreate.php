@@ -3,9 +3,11 @@
 namespace App\Livewire\Pemohon;
 
 use App\Models\Appreq;
+use App\Models\Company;
 use App\Models\Doc;
 use App\Models\Permitwork;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -19,12 +21,12 @@ class AppreqCreate extends Component
         [
             'permitwork_id' => 'required',
             'file_upload' => 'required',
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png|max:10000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg|max:11000'
         ],
         message: [
             'permitwork_id.required' => 'Silahkan Memilih Layanan',
             'file_upload.required' => 'Silahkan Memilih Berkas',
-            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,png',
+            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg',
             'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
         ]
     )]
@@ -73,8 +75,8 @@ class AppreqCreate extends Component
         // proses penyimpanan ke database
         try {
             $dataAppreq = [
-                'user_id' => 1,
-                'company_id' => 1,
+                'user_id' => Auth::id(),
+                'company_id' => Company::where('user_id', Auth::id())->first()->id,
                 'stat_id' => 1,
                 'permitwork_id' => $this->permitwork_id,
                 'ver_code' => $ver_code,
@@ -87,7 +89,7 @@ class AppreqCreate extends Component
                 $i = 0;
                 foreach ($fileNameArray as $name) {
                     Doc::create([
-                        'user_id' => 1,
+                        'user_id' => Auth::id(),
                         'appreq_id' => $appreqinput->id,
                         'name_doc' => $fileNameOriArray[$i],
                         'type_doc' => 'Ajuan',
@@ -102,7 +104,6 @@ class AppreqCreate extends Component
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }
-        // dd($fileNames);
     }
 
     public function render()
@@ -114,6 +115,7 @@ class AppreqCreate extends Component
         }
         return view('livewire.pemohon.appreq-create', [
             'permitworks' => Permitwork::all(),
+            'company' => Company::where('user_id', Auth::id())->first(),
         ]);
     }
 }

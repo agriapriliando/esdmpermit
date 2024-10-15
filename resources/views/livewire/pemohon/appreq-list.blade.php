@@ -9,7 +9,7 @@
                         bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast')).show();
                         document.getElementById('pesan').innerHTML = $event.detail.message;
                         console.log($event.detail.message);
-                    }, 1000);
+                    }, 2000);
                     "
                     class="toast-container position-fixed top-0 start-50 translate-middle-x">
                     <div id="liveToast" class="toast mt-3" role="alert" aria-live="assertive" aria-atomic="true">
@@ -22,7 +22,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Pengajuan</h3>
+                            <h3 class="card-title">Daftar Pengajuan {{ request()->is('pengajuan/selesai') ? 'Selesai' : '' }}</h3>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -35,12 +35,19 @@
                             </div>
                         </div> <!-- /.card-header -->
                         <div class="card-body table-responsive">
+                            <div class="mb-2">
+                                Panduan : <br>
+                                * Klik Detail untuk melihat detail pengajuan<br>
+                                * Pengajuan yang telah diproses tidak dapat dihapus/ dibatalkan<br>
+                            </div>
+                            @session('delete')
+                                <div id="alertm" class="alert alert-success alert-dismissible fade show" x-init="setTimeout(() => document.getElementById('alertm').remove(), 3000)" role="alert">
+                                    <strong>Pengajuan Berhasil Dihapus / Dibatalkan
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endsession
                             <div class="d-flex flex-column flex-lg-row float-end">
-                                <a wire:navigate href="{{ url('permohonan') }}" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</a>
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Layanan Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
-                                    wire:loading.attr="disabled">
-                                    <i class="bi bi-arrow-repeat"></i> Refresh
-                                </button>
+                                <a wire:navigate href="{{ url('pengajuan') }}" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah Pengajuan</a>
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
@@ -50,7 +57,7 @@
                                         <option value="50">50</option>
                                     </select>
                                 </div>
-                                <div class="me-2 mb-2">
+                                <div class="me-2 mb-2 {{ request()->is('pengajuan/selesai') ? 'd-none' : '' }}">
                                     <select wire:model.live="stat_id" class="form-select" id="tertaut_count">
                                         <option value="">All Status</option>
                                         @foreach ($stats as $stat)
@@ -64,8 +71,7 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Nama Layanan</th>
-                                        <th>Status</th>
-                                        <th>VerCode</th>
+                                        <th>Kode Pengajuan</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -74,22 +80,29 @@
                                     @foreach ($appreqs as $item)
                                         <tr class="align-middle" x-data="{ open: false }">
                                             <td>{{ ($appreqs->currentpage() - 1) * $appreqs->perpage() + $loop->index + 1 }}</td>
-                                            <td>{{ $item->permitwork->name_permit }}
-                                                <a wire:navigate href="{{ url('permohonan/' . $item->id) }}" class="btn btn-sm btn-success ms-1"><i class="bi bi-eye"></i></a>
-                                                <div class="text-decoration-underline">Status : {{ $item->stat->name_stat }}</div>
-                                            </td>
                                             <td class="d-flex flex-column">
-                                                @if ($item->date_rejected == '')
-                                                    <div class="badge text-bg-success mb-1">Diajukan : {{ Carbon\Carbon::parse($item->date_submitted)->translatedFormat('d/m/Y H:i') }} Wib</div>
-                                                    <div class="badge text-bg-success mb-1 {{ $item->date_processed }}">Proses :
-                                                        {{ $item->date_processed != null ? Carbon\Carbon::parse($item->date_processed)->translatedFormat('d/m/Y H:i') . ' Wib' : 'Belum Diproses' }}
-                                                    </div>
-                                                    <div class="badge text-bg-success mb-1">Selesai :
-                                                        {{ $item->date_finished != null ? Carbon\Carbon::parse($item->date_finished)->translatedFormat('d/m/Y H:i') . ' Wib' : '---' }}</div>
-                                                @else
-                                                    <div class="badge text-bg-success mb-1">Diajukan : {{ Carbon\Carbon::parse($item->date_submitted)->translatedFormat('d/m/Y H:i') }} Wib</div>
-                                                    <div class="badge text-bg-danger"> Ditolak : {{ Carbon\Carbon::parse($item->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib</div>
-                                                @endif
+                                                {{ $item->permitwork->name_permit }}
+                                                <div x-data="{ open: false }">
+                                                    <a wire:navigate href="{{ route('appreq.detail', $item->ver_code) }}" class="btn btn-sm btn-success ms-1">
+                                                        <i class="bi bi-eye"></i> Detail
+                                                    </a>
+                                                    <span class="btn btn-sm btn-success ms-1">{{ $item->stat->desc_stat . ' ' . Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}</span>
+                                                    @if ($item->stat_id == 1)
+                                                        <button @click="open = true" class="btn btn-sm btn-danger">
+                                                            <i class="bi bi-trash"></i> Hapus Pengajuan
+                                                        </button>
+                                                        <div x-show="open" @click.outside="open = false" class="overlay"></div>
+                                                        <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
+                                                            class="modal-hapus">
+                                                            <div class="alert alert-danger text-center">Yakin ingin menghapus/ membatalkan pengajuan ini?
+                                                                <p class="fw-bold">{{ $item->name }}</p>
+                                                                <button @click="$dispatch('notify', { message: 'Pengajuan Berhasil Dihapus..' })" wire:click.prevent="delete({{ $item->ver_code }})"
+                                                                    class="btn btn-sm btn-danger">Hapus!!</button>
+                                                                <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </td>
                                             <td>{{ $item->ver_code }}</td>
                                         </tr>

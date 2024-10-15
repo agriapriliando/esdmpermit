@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('username')->unique();
-            $table->string('nohp');
+            $table->string('nohp', 30);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role', 100)->default('newuser'); // admin, pemohon, newuser()
+            $table->string('role', 20)->default('pemohon'); // superadmin, admin, pemohon, nonaktif
             $table->rememberToken();
             $table->timestamps();
         });

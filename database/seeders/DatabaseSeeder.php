@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Company;
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,20 +16,30 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Company::truncate();
         $this->call([
             UserSeeder::class,
+            CommoditySeeder::class,
+            RegionSeeder::class,
             CompanySeeder::class,
             PermitworkSeeder::class,
             StatSeeder::class,
-            TopicSeeder::class,
-            AppreqSeeder::class,
-            CorrespondenceSeeder::class,
-            DocSeeder::class,
+            // AppreqSeeder::class,
+            // CorrespondenceSeeder::class,
+            // DocSeeder::class,
+        ]);
+
+        DB::table('users')->insert([
+            [
+                'name' => 'Admin',
+                'username' => 'admin',
+                'nohp' => '-',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('123'),
+                'role' => 'admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
         ]);
     }
 }

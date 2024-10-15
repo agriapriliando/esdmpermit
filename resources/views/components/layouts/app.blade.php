@@ -69,6 +69,29 @@
         /* transition: top 5s; */
     }
 
+    .modal-panduan {
+        position: fixed;
+        top: 35%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 99999;
+        min-width: 380px;
+        opacity: 100;
+        border-radius: 10px;
+        transition: top 0.2s, opacity 0.5s;
+    }
+
+    .modal-panduan-in {
+        top: 0;
+        opacity: 0;
+    }
+
+    .modal-panduan-out {
+        top: 10%;
+        opacity: 0;
+        /* transition: top 5s; */
+    }
+
     .overlay {
         position: fixed;
         inset: 0;

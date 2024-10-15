@@ -6,6 +6,7 @@ use App\Models\Appreq;
 use App\Models\Correspondence;
 use App\Models\Doc;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -24,7 +25,7 @@ class AppreqDetail extends Component
             'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 6MB',
         ]
     )]
-    public Appreq $appreq;
+    public $appreq;
 
     public $appreqid;
     public $appreqdata;
@@ -34,10 +35,16 @@ class AppreqDetail extends Component
 
     public $file_upload = [];
 
-    public function mount(Appreq $appreq)
+    public function mount($ver_code)
     {
-        $this->appreqid = $appreq->id;
-        $this->appreqdata = $appreq;
+        $this->appreq = Appreq::where('ver_code', $ver_code)->first();
+        $this->appreqid = $this->appreq->id;
+        // cek pesan, otomatis viewed saat detail pengajuan dibuka
+        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+            ->where('user_id', '!=', Auth::id())
+            ->update([
+                'viewed' => 1
+            ]);
     }
 
     public function resetFileupload()
@@ -118,7 +125,7 @@ class AppreqDetail extends Component
                 })
                 ->orderBy('created_at', 'DESC')->get(),
             'correspondences' => Correspondence::where('appreq_id', $this->appreqid)->orderBy('created_at', 'DESC')->get(),
-            'appreq' => Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first()
+            'appreq' => Appreq::where('ver_code', $this->appreq->ver_code)->with('user', 'permitwork', 'company')->first()
         ]);
     }
 }

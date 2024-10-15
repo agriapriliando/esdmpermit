@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('correspondences', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('topic_id')->constrained();
             $table->foreignId('appreq_id')->constrained();
             $table->text('desc')->nullable();
             $table->boolean('viewed')->default(0);
