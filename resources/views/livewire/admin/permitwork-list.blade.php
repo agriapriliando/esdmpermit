@@ -119,7 +119,6 @@
                             </table>
                         </div> <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            {{ $permitworks->links() }}
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->

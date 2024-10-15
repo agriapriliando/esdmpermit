@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('commodity_id')->constrained();
-            $table->foreignId('region_id')->constrained();
+            $table->string('region_id', 30)->references('id')->on('regions');
             $table->string('name_company');
             $table->string('province_company');
             $table->string('kab_kota_company');
             $table->string('kecamatan_company')->nullable();
-            $table->string('kel_desa_company')->nullable(); // kelurahan atau desa
-            $table->text('address_sk_company');
+            $table->text('kel_desa_company')->nullable(); // kelurahan atau desa
+            $table->text('address_sk_company')->nullable();
             $table->text('notes_company')->nullable();
             $table->timestamps();
         });

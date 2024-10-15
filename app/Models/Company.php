@@ -16,6 +16,11 @@ class Company extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function commodity()
+    {
+        return $this->belongsTo(Commodity::class);
+    }
+
     public function appreqs()
     {
         return $this->hasMany(Appreq::class);

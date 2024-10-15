@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('regions', function (Blueprint $table) {
-            $table->id();
-            $table->string('id_region');
+            $table->string('id', 30)->primary();
             $table->string('name_region');
             $table->string('parent_region', 30); // refer ke id_region
             $table->string('type_region', 50); // Prov, Kab, Kota

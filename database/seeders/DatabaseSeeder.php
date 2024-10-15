@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,14 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+        // Company::truncate();
         $this->call([
-            // UserSeeder::class,
-            // CommoditySeeder::class,
-            // RegionSeeder::class,
-            // CompanySeeder::class,
-            // PermitworkSeeder::class,
-            // StatSeeder::class,
+            UserSeeder::class,
+            CommoditySeeder::class,
+            RegionSeeder::class,
+            CompanySeeder::class,
+            PermitworkSeeder::class,
+            StatSeeder::class,
             // AppreqSeeder::class,
             // CorrespondenceSeeder::class,
             // DocSeeder::class,
@@ -30,12 +31,12 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                'name' => 'Admin Utama',
-                'username' => 'adminutama',
+                'name' => 'Admin',
+                'username' => 'admin',
                 'nohp' => '-',
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('123'),
-                'role' => 'adminutama',
+                'role' => 'admin',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

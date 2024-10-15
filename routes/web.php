@@ -5,6 +5,7 @@ use App\Livewire\Admin\AdminAppreqlist;
 use App\Livewire\Admin\CompanyList;
 use App\Livewire\Admin\PermitworkList;
 use App\Livewire\Admin\UserCreate;
+use App\Livewire\Admin\UserEdit;
 use App\Livewire\Admin\UsersList;
 use App\Livewire\Login;
 use App\Livewire\Pemohon\AppreqCreate;
@@ -35,10 +36,11 @@ Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', Profile::class)->name('profile');
     Route::get('profile', Profile::class)->name('profile');
-    Route::middleware('cekrole:adminutama')->group(function () {
+    Route::middleware('cekrole:admin')->group(function () {
         Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');
         Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
         Route::get('users', UsersList::class)->name('users.list');
+        Route::get('users/edit/{id_user}', UserEdit::class)->name('user.edit');
         Route::get('users/create', UserCreate::class)->name('users.create');
         Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
     });
