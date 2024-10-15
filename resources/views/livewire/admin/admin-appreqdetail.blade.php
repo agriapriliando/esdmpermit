@@ -303,7 +303,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @if ($appreq->stat_id == 2)
+                                @if ($appreq->stat_id == 5)
                                     <div class="my-2 d-grid mt-5" x-data="{ open: false }">
                                         <button @click="open = true" type="button" class="btn btn-danger">
                                             <i class="bi bi-trash"></i> Menghapus Pengajuan
