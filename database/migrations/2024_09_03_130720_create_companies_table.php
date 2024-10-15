@@ -14,13 +14,15 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->foreignId('commodity_id')->constrained();
+            $table->foreignId('region_id')->constrained();
             $table->string('name_company');
-            $table->string('type_company');
-            $table->string('npwp_company')->unique();
-            $table->string('act_company');
-            $table->string('city_company');
-            $table->string('kecamatan_company');
-            $table->string('address_company');
+            $table->string('province_company', 20);
+            $table->string('kab_kota_company', 20);
+            $table->string('kecamatan_company', 20)->nullable();
+            $table->string('kel_desa_company', 20)->nullable(); // kelurahan atau desa
+            $table->text('address_sk_company');
+            $table->text('notes_company')->nullable();
             $table->timestamps();
         });
     }

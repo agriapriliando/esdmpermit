@@ -59,11 +59,11 @@ class AdminAppreqdetail extends Component
 
     public function deleteAppreq()
     {
-        dd("AAA");
-        $this->appreq->correspondences()->delete();
-        $this->appreq->docs()->delete();
-        // $this->appreq->delete();
+        Correspondence::where('appreq_id', $this->appreqid)->delete();
+        Doc::where('appreq_id', $this->appreqid)->delete();
+        $this->appreq->delete();
         session()->flash('delete', "Detail Pengajuan Berhasil Dihapus");
+        return redirect('/admin/perbaikan');
     }
 
     public function resetFileupload()

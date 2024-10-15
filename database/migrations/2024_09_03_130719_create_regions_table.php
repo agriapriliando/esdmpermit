@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('id_region');
             $table->string('name_region');
-            $table->string('parent_region');
-            $table->string('type_region'); // Prov, Kab, Kota
-            $table->string('level_region'); // Prov, Kab/Kota, Kec, Kel/Desa
+            $table->string('parent_region', 30); // refer ke id_region
+            $table->string('type_region', 50); // Prov, Kab, Kota
+            $table->integer('level_region'); // Prov, Kab/Kota, Kec, Kel/Desa
         });
     }
 

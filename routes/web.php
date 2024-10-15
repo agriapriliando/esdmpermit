@@ -5,6 +5,7 @@ use App\Livewire\Admin\AdminAppreqlist;
 use App\Livewire\Admin\CompanyList;
 use App\Livewire\Admin\PermitworkList;
 use App\Livewire\Admin\TopicList;
+use App\Livewire\Admin\UserCreate;
 use App\Livewire\Admin\UsersList;
 use App\Livewire\Dashboard;
 use App\Livewire\Login;
@@ -41,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');
         Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
         Route::get('users', UsersList::class)->name('users.list');
+        Route::get('users/create', UserCreate::class)->name('users.create');
         Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
         Route::get('topics', TopicList::class)->name('topics.list');
     });
