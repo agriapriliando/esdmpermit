@@ -15,7 +15,7 @@ class AppreqList extends Component
     public $search = '';
     public $pagelength = 10;
     public $stat_id;
-    public $jenis;
+    public $jenis = "list";
 
     public function resetSearch()
     {

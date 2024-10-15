@@ -45,9 +45,10 @@
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
                                     <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
-                                        <option value="10">10</option>
+                                        <option value="5">5</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
+                                        <option value="">All</option>
                                     </select>
                                 </div>
                                 <div class="me-2 mb-2">
@@ -106,7 +107,7 @@
                             </table>
                         </div> <!-- /.card-body -->
                         <div class="card-footer clearfix">
-                            {{ $users->links() }}
+                            {{ $users->onEachSide(1)->links() }}
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->

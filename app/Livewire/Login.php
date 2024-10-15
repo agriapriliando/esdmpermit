@@ -21,7 +21,7 @@ class Login extends Component
         session()->invalidate();
         if (Auth::attempt(['username' => $this->username, 'password' => $this->password], $this->remember)) {
             session()->regenerate();
-            if (Auth::user()->role == 'admin') {
+            if (Auth::user()->role == 'adminutama') {
                 return redirect()->route('admin.appreq', 'diajukan');
             } else {
                 return redirect()->route('appreq.list');

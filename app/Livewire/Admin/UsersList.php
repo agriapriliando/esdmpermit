@@ -15,7 +15,7 @@ class UsersList extends Component
     use WithPagination;
 
     public $search = '';
-    public $pagelength = 10;
+    public $pagelength = 5;
     public $jenis_role;
 
     public function resetSearch()

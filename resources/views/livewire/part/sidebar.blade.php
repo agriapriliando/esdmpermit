@@ -10,7 +10,7 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                @if (session('admin'))
+                @if (session('adminutama'))
                     <li class="nav-header">Daftar Pengajuan</li>
                     @foreach ($stats as $stat)
                         <li class="nav-item">
