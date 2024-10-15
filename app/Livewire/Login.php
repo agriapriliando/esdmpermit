@@ -24,7 +24,7 @@ class Login extends Component
             if (Auth::user()->role == 'admin') {
                 return redirect()->route('admin.appreq', 'diajukan');
             } else {
-                return redirect()->route('appreq.list');
+                return redirect()->route('appreq.create');
             }
         } else {
             session()->flash('error', 'Username atau Password salah');
