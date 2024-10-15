@@ -15,34 +15,34 @@ class StatSeeder extends Seeder
     public function run(): void
     {
         DB::table('stats')->insert([
-            // [
-            //     'no_urut' => 1,
-            //     'name_stat' => 'diajukan',
-            //     'desc_stat' => 'Diajukan',
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // ],
-            // [
-            //     'no_urut' => 2,
-            //     'name_stat' => 'diproses',
-            //     'desc_stat' => 'Diproses',
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // ],
-            // [
-            //     'no_urut' => 3,
-            //     'name_stat' => 'perbaikan',
-            //     'desc_stat' => 'Perbaikan',
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // ],
-            // [
-            //     'no_urut' => 4,
-            //     'name_stat' => 'selesai',
-            //     'desc_stat' => 'Selesai, Izin Telah Terbit',
-            //     'created_at' => Carbon::now(),
-            //     'updated_at' => Carbon::now(),
-            // ],
+            [
+                'no_urut' => 1,
+                'name_stat' => 'diajukan',
+                'desc_stat' => 'Diajukan',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'no_urut' => 2,
+                'name_stat' => 'diproses',
+                'desc_stat' => 'Diproses',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'no_urut' => 3,
+                'name_stat' => 'perbaikan',
+                'desc_stat' => 'Perbaikan',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'no_urut' => 4,
+                'name_stat' => 'selesai',
+                'desc_stat' => 'Selesai, Izin Telah Terbit',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
             [
                 'no_urut' => 5,
                 'name_stat' => 'batal',
