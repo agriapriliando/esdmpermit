@@ -18,7 +18,6 @@ class CorrespondenceSeeder extends Seeder
             [
                 'user_id' => 1,
                 'topic_id' => 1,
-                'appreq_id' => 1,
                 'desc' => 'Tulisan pada dokumen perjanjian kurang jelas / buram, silahkan upload ulang ',
                 'viewed' => 0,
                 'created_at' => Carbon::now()->subDays(3),
@@ -27,7 +26,6 @@ class CorrespondenceSeeder extends Seeder
             [
                 'user_id' => 2,
                 'topic_id' => 1,
-                'appreq_id' => 1,
                 'desc' => 'Berikut ini kami sampaikan dokumen perjanjian perbaikan',
                 'viewed' => 0,
                 'created_at' => Carbon::now()->subDays(2),
@@ -36,7 +34,6 @@ class CorrespondenceSeeder extends Seeder
             [
                 'user_id' => 1,
                 'topic_id' => 1,
-                'appreq_id' => 1,
                 'desc' => 'Berkas Lengkap, Surat Izin Diterbitkan',
                 'viewed' => 0,
                 'created_at' => Carbon::now()->subDay(),

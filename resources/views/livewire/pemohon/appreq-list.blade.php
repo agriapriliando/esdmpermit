@@ -47,7 +47,7 @@
                                 </div>
                             @endsession
                             <div class="d-flex flex-column flex-lg-row float-end">
-                                <a wire:navigate href="{{ url('pengajuan') }}" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah Pengajuan</a>
+                                <a wire:navigate href="{{ url('create') }}" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah Pengajuan</a>
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
