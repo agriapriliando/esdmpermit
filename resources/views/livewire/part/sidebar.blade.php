@@ -29,11 +29,6 @@
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item"> <a wire:navigate href="{{ route('company.list') }}" class="nav-link {{ request()->routeIs('company.list.*') ? 'active' : '' }}"> <i
-                                        class="nav-icon bi bi-circle"></i>
-                                    <p>Daftar Perusahaan</p>
-                                </a>
-                            </li>
                             <li class="nav-item"> <a wire:navigate href="{{ url('permitworks') }}" class="nav-link {{ request()->routeIs('permitworks.*') ? 'active' : '' }}"> <i
                                         class="nav-icon bi bi-circle"></i>
                                     <p>Daftar Layanan<br>Permohonan</p>

@@ -31,7 +31,6 @@ Route::get('logout', function () {
     session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
-Route::get('admin/company', CompanyList::class)->name('company.list');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', Profile::class)->name('profile');
