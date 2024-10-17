@@ -51,7 +51,7 @@ class AppreqList extends Component
                     ->when($this->stat_id, function ($query) {
                         $query->where('stat_id', $this->stat_id);
                     })
-                    ->where('stat_id', '!=', 4)
+                    ->where('stat_id', '!=', 6)
                     ->where('user_id', Auth::id())
                     ->orderBy('created_at', 'desc')
                     ->paginate($this->pagelength),
@@ -60,7 +60,7 @@ class AppreqList extends Component
         } else {
             return view('livewire.pemohon.appreq-list', [
                 'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs')->search($this->search)
-                    ->where('stat_id', '=', 4)
+                    ->where('stat_id', '=', 6)
                     ->where('user_id', Auth::id())
                     ->orderBy('created_at', 'desc')
                     ->paginate($this->pagelength),

@@ -5,6 +5,7 @@ namespace App\Livewire\Pemohon;
 use App\Models\Appreq;
 use App\Models\Correspondence;
 use App\Models\Doc;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
@@ -40,8 +41,16 @@ class AppreqDetail extends Component
         $this->appreq = Appreq::where('ver_code', $ver_code)->first();
         $this->appreqid = $this->appreq->id;
         // cek pesan, otomatis viewed saat detail pengajuan dibuka
-        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+        Correspondence::where('appreq_id', $this->appreqid)
+            ->where('viewed', 0)
             ->where('user_id', '!=', Auth::id())
+            ->where('sender', 0)
+            ->update([
+                'viewed' => 1
+            ]);
+        Doc::where('appreq_id', $this->appreqid)
+            ->where('viewed', 0)
+            ->where('sender', 0)
             ->update([
                 'viewed' => 1
             ]);
@@ -72,11 +81,12 @@ class AppreqDetail extends Component
             $file->storeAs('file_doc', $fileNames, 'public');
             // masukan semua nama file ke array
             Doc::create([
-                'user_id' => 2,
+                'user_id' => Auth::id(),
                 'appreq_id' => $this->appreqid,
                 'name_doc' => $oriName,
                 'type_doc' => 'Revisi',
                 'file_name' => $fileName . $ext,
+                'sender' => 1
             ]);
         }
     }
@@ -103,7 +113,8 @@ class AppreqDetail extends Component
         $data = [
             'user_id' => Auth::id(),
             'appreq_id' => $this->appreqid,
-            'desc' => $this->desc
+            'desc' => $this->desc,
+            'sender' => 1,
         ];
         if ($this->desc != null) {
             Correspondence::create($data);
@@ -122,6 +133,35 @@ class AppreqDetail extends Component
                 'viewed' => 1
             ]);
 
+        if ($this->appreq->user_disposisi != null) {
+            $user_disposisi = User::findOrFail($this->appreq->user_disposisi);
+        } else {
+            $user_disposisi = [
+                'name' => null
+            ];
+        }
+        if ($this->appreq->user_processed != null) {
+            $user_processed = User::findOrFail($this->appreq->user_processed);
+        } else {
+            $user_processed = [
+                'name' => null
+            ];
+        }
+        if ($this->appreq->user_finished != null) {
+            $user_finished = User::findOrFail($this->appreq->user_finished);
+        } else {
+            $user_finished = [
+                'name' => null
+            ];
+        }
+        if ($this->appreq->user_rejected != null) {
+            $user_rejected = User::findOrFail($this->appreq->user_rejected);
+        } else {
+            $user_rejected = [
+                'name' => null
+            ];
+        }
+
         return view('livewire.pemohon.appreq-detail', [
             'docs' => Doc::where('appreq_id', $this->appreqid)
                 ->when($this->search_docs, function ($query) {
@@ -129,7 +169,11 @@ class AppreqDetail extends Component
                 })
                 ->orderBy('created_at', 'DESC')->get(),
             'correspondences' => Correspondence::where('appreq_id', $this->appreqid)->orderBy('created_at', 'DESC')->get(),
-            'appreq' => Appreq::where('ver_code', $this->appreq->ver_code)->with('user', 'permitwork', 'company')->first()
+            'appreq' => Appreq::where('ver_code', $this->appreq->ver_code)->with('user', 'permitwork', 'company')->first(),
+            'user_disposisi' => $user_disposisi,
+            'user_processed' => $user_processed,
+            'user_finished' => $user_finished,
+            'user_rejected' => $user_rejected
         ]);
     }
 }

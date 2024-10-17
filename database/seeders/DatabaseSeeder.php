@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -36,6 +35,26 @@ class DatabaseSeeder extends Seeder
                 'email' => 'admin@gmail.com',
                 'password' => bcrypt('123'),
                 'role' => 'admin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Admin Utama',
+                'username' => 'superadmin',
+                'nohp' => '-',
+                'email' => 'superadmin@gmail.com',
+                'password' => bcrypt('123'),
+                'role' => 'superadmin',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Disposisi',
+                'username' => 'disposisi',
+                'nohp' => '-',
+                'email' => 'disposisi@gmail.com',
+                'password' => bcrypt('123'),
+                'role' => 'disposisi',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

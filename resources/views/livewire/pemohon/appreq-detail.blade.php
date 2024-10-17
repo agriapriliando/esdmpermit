@@ -60,18 +60,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-12">
-                                    @if ($appreq->stat_id == 4)
+                                    @if ($appreq->stat_id == 6)
                                         <div>
                                             <div class="px-3 py-1 mb-1 bg-success text-bg-success rounded">
                                                 Pengajuan ini telah selesai, Dokumen telah terbit
                                             </div>
-                                            <a href="#" class="btn btn-success"><i class="bi bi-book"></i> Lihat Dokumen</a>
                                         </div>
                                     @else
                                         <h5 class="bg-warning px-2 rounded d-inline">Status : {{ $appreq->stat->desc_stat }}</h5>
                                     @endif
                                 </div>
-                                <div class="col-md-8 mt-2">
+                                <div class="col-md-6 mt-2">
                                     <table>
                                         <tr>
                                             <td class="fw-bold" style="min-width: 150px">1. Layanan</td>
@@ -95,28 +94,46 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <table>
                                         <tr>
-                                            <td class="fw-bold">Tanggal Submit</td>
+                                            <td class="fw-bold">5. Tanggal Submit</td>
                                             <td>: {{ Carbon\Carbon::parse($appreq->date_submitted)->translatedFormat('d/m/Y H:i') }} Wib</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Tanggal Proses</td>
-                                            @if ($appreq->date_processed != null)
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_processed)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                            <td class="fw-bold">6. Tanggal Disposisi</td>
+                                            @if ($appreq->date_disposisi)
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_disposisi)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_disposisi['name'] }}</span>
+                                                </td>
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Tanggal Selesai</td>
+                                            <td class="fw-bold">7. Tanggal Proses</td>
+                                            @if ($appreq->date_processed != null)
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_processed)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_processed['name'] }}</span>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">8. Tanggal Selesai</td>
                                             @if ($appreq->date_finished != null)
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_finished['name'] }}</span>
+                                                </td>
                                             @endif
                                         </tr>
                                         @if ($appreq->date_rejected != null)
                                             <tr>
                                                 <td class="fw-bold">Tanggal Ditolak</td>
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_rejected['name'] }}</span>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td class="fw-bold">Alasan Ditolak</td>
@@ -132,7 +149,8 @@
                                             <div class="p-3 rounded shadow" x-data="{ open: false }">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <h3>Korespondensi</h3>
-                                                    @if ($appreq->stat_id == 3)
+                                                    {{-- status 4 perbaikan --}}
+                                                    @if ($appreq->stat_id == 4 || $appreq->stat_id == 2)
                                                         <button
                                                             x-on:click="
                                                     open = !open;
@@ -265,30 +283,40 @@
                                                                     {{ Carbon\Carbon::parse($d->created_at)->diffForHumans() }} Wib
                                                                 </i>
                                                             @endif
-                                                            <a href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i class="bi bi-download"></i></a>
-                                                            @if (substr($d->file_name, -3) == 'jpg' || substr($d->file_name, -4) == 'jpeg')
-                                                                <a href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox data-caption="{{ $d->name_doc }}">
-                                                                    <i class="bi bi-images"></i>
-                                                                </a>
-                                                            @endif
-                                                            <div class="float-end">
-                                                                @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 4)
-                                                                    <div class="position-relative" x-data="{ doc: false }">
-                                                                        <a class="float-end btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </a>
-                                                                        <div x-show="doc" @click.outside="doc = false" class="position-absolute top-0 end-0 bg-warning rounded px-2"
-                                                                            style="z-index: 99; cursor: pointer; width: 80px">
-                                                                            <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
-                                                                        </div>
+                                                            <div x-data="{ doc{{ $d->id }}: false, doc_render{{ $d->id }}: false }">
+                                                                <div class="badge text-bg-success me-2 py-2">
+                                                                    Berkas : {{ $d->type_doc }}
+                                                                </div>
+                                                                <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i
+                                                                        class="bi bi-download"></i> Unduh</a>
+                                                                @if (substr(strtolower($d->file_name), -4) == '.pdf')
+                                                                    <button class="btn btn-sm btn-success" @click="doc{{ $d->id }} = true, doc_render{{ $d->id }} = true"><i
+                                                                            class="bi bi-eye"></i> Lihat PDF</button>
+                                                                    <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" class="overlay"></div>
+                                                                    <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" x-transition class="modal-dokumen">
+                                                                        <button class="btn btn-warning btn-sm">TUTUP</button>
+                                                                        <object x-if="doc_render{{ $d->id }}" class="pdf" data="{{ url('storage/file_doc/' . $d->file_name) }}"
+                                                                            width="700" height="500">
+                                                                        </object>
                                                                     </div>
                                                                 @endif
                                                             </div>
-                                                            <div class="float-end badge text-bg-success me-2 py-2">
-                                                                <div>
-                                                                    {{ $d->type_doc }}
+                                                            @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
+                                                                <a href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox data-caption="{{ $d->name_doc }}">
+                                                                    <i class="bi bi-images">Lihat Gambar</i>
+                                                                </a>
+                                                            @endif
+                                                            @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 6)
+                                                                <div class="position-relative mt-1" x-data="{ docz: false }">
+                                                                    <button type="button" class="btn btn-danger btn-sm" @click="docz = true" x-init="setTimeout(() => docz = false, 1000)">
+                                                                        <i class="bi bi-trash"></i> Hapus
+                                                                    </button>
+                                                                    <div x-show="docz" @click.outside="docz = false" class="position-absolute top-0 bg-warning rounded px-2"
+                                                                        style="z-index: 99; cursor: pointer; width: 80px">
+                                                                        <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            @endif
                                                         </li>
                                                     </div>
                                                 @endforeach

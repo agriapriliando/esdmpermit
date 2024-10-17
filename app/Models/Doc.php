@@ -15,6 +15,7 @@ class Doc extends Model
         'name_doc',
         'type_doc',
         'desc_doc',
-        'file_name'
+        'file_name',
+        'sender',
     ];
 }

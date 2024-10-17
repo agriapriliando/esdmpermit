@@ -14,6 +14,7 @@ use App\Livewire\Pemohon\AppreqList;
 use App\Livewire\Pemohon\Profile;
 use App\Livewire\Resetpass;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -24,7 +25,7 @@ Route::get('/test/page', function () {
     dd(phpinfo());
 });
 
-Route::get('/wilayah', function () {
+Route::get('/datawilayah', function () {
     if (($open = fopen("data_wilayah.csv", "r")) !== false) {
         while (($data = fgetcsv($open, 100000, ",")) !== false) {
             $array[] = $data;
@@ -34,52 +35,59 @@ Route::get('/wilayah', function () {
     $i = 0;
     $data = [];
     for ($i; $i < count($array); $i++) {
-        if (strlen($array[$i][0]) == 2) {
-            $data[$i] = [
-                'id' => $array[$i][0],
-                'name_region' => $array[$i][1],
-                'parent_region' => 0,
-                'type_region' => 'Provinsi',
-                'level_region' => 1,
-            ];
-        } elseif (strlen($array[$i][0]) == 5) {
-            if (substr($array[$i][1], 0, 4) == "KOTA") {
+        if (substr($array[$i][0], 0, 2) == "62") {
+
+            if (strlen($array[$i][0]) == 2) {
                 $data[$i] = [
                     'id' => $array[$i][0],
                     'name_region' => $array[$i][1],
-                    'parent_region' => substr($array[$i][0], 0, 2),
-                    'type_region' => 'Kota',
-                    'level_region' => 2,
+                    'parent_region' => 0,
+                    'type_region' => 'Provinsi',
+                    'level_region' => 1,
                 ];
-            } else {
+            } elseif (strlen($array[$i][0]) == 5) {
+                if (substr($array[$i][1], 0, 4) == "KOTA") {
+                    $data[$i] = [
+                        'id' => $array[$i][0],
+                        'name_region' => $array[$i][1],
+                        'parent_region' => substr($array[$i][0], 0, 2),
+                        'type_region' => 'Kota',
+                        'level_region' => 2,
+                    ];
+                } else {
+                    $data[$i] = [
+                        'id' => $array[$i][0],
+                        'name_region' => $array[$i][1],
+                        'parent_region' => substr($array[$i][0], 0, 2),
+                        'type_region' => 'Kabupaten',
+                        'level_region' => 2,
+                    ];
+                }
+            } elseif (strlen($array[$i][0]) == 8) {
                 $data[$i] = [
                     'id' => $array[$i][0],
                     'name_region' => $array[$i][1],
-                    'parent_region' => substr($array[$i][0], 0, 2),
-                    'type_region' => 'Kabupaten',
-                    'level_region' => 2,
+                    'parent_region' => substr($array[$i][0], 0, 5),
+                    'type_region' => 'Kecamatan',
+                    'level_region' => 3,
+                ];
+            } elseif (strlen($array[$i][0]) == 13) {
+                $data[$i] = [
+                    'id' => $array[$i][0],
+                    'name_region' => $array[$i][1],
+                    'parent_region' => substr($array[$i][0], 0, 8),
+                    'type_region' => 'Kelurahan',
+                    'level_region' => 4,
                 ];
             }
-        } elseif (strlen($array[$i][0]) == 8) {
-            $data[$i] = [
-                'id' => $array[$i][0],
-                'name_region' => $array[$i][1],
-                'parent_region' => substr($array[$i][0], 0, 5),
-                'type_region' => 'Kecamatan',
-                'level_region' => 3,
-            ];
-        } elseif (strlen($array[$i][0]) == 13) {
-            $data[$i] = [
-                'id' => $array[$i][0],
-                'name_region' => $array[$i][1],
-                'parent_region' => substr($array[$i][0], 0, 8),
-                'type_region' => 'Kelurahan',
-                'level_region' => 4,
-            ];
         }
     }
+    // print_r($data[0]);
     $data = json_encode($data);
-    return $data;
+    $outputFile = "wilayah.json";
+    // memasukan style ke output
+    unlink($outputFile);
+    file_put_contents($outputFile, $data,  FILE_APPEND);
 });
 
 Route::get('login', Login::class)->name('login');
@@ -93,7 +101,7 @@ Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::get('/', Profile::class)->name('profile');
     Route::get('profile', Profile::class)->name('profile');
-    Route::middleware('cekrole:admin')->group(function () {
+    Route::middleware(['cekrole:admin|adminutama|disposisi'])->group(function () {
         Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');
         Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
         Route::get('users', UsersList::class)->name('users.list');

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('type_doc', ['Ajuan', 'Revisi', 'By Operator']);
             $table->text('desc_doc')->nullable();
             $table->boolean('sender')->default(0); // 0 untuk pemohon // 1 untuk operator
+            $table->boolean('viewed')->default(0);
             $table->string('file_name');
             $table->timestamps();
         });

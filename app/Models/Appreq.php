@@ -16,9 +16,15 @@ class Appreq extends Model
         'permitwork_id',
         'ver_code',
         'date_submitted',
+        'date_disposisi',
+        'user_disposisi',
         'date_processed',
+        'user_processed',
+        'date_finished',
+        'user_finished',
         'date_rejected',
         'reason_rejected',
+        'user_rejected',
         'notes',
     ];
 
@@ -45,6 +51,11 @@ class Appreq extends Model
     public function docs()
     {
         return $this->hasMany(Doc::class);
+    }
+
+    public function correspondences()
+    {
+        return $this->hasMany(Correspondence::class);
     }
 
     public function scopeSearch($query, $term)

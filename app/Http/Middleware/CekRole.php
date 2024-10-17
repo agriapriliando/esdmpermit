@@ -18,12 +18,17 @@ class CekRole
     {
         if (!Auth::check())
             return redirect('login');
-
+        $roles = explode('|', $roles);
+        // dd($roles);
         $user = Auth::user();
-        if ($user->role == $roles) {
-            session()->put($roles, true);
+        // if ($user->role == $roles) {
+        //     session()->put($roles, true);
+        //     return $next($request);
+        // }
+        if (in_array($user->role, $roles)) {
+            session()->put($user->role, true);
             return $next($request);
         }
-        return redirect('login');
+        return redirect('login')->with('error', 'Anda tidak punya akses');
     }
 }

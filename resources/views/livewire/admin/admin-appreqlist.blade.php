@@ -22,7 +22,8 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Pengajuan <span class="bg-primary text-white px-2 rounded">Status : {{ $stat->desc_stat }}</span></h3>
+                            <h3 class="card-title">Daftar Pengajuan</h3><br>
+                            <span class="bg-primary text-white px-2 rounded">Status : {{ $stat->desc_stat }}</span>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -35,6 +36,18 @@
                             </div>
                         </div> <!-- /.card-header -->
                         <div class="card-body table-responsive">
+                            <div class="mb-2" x-data="{ show: false }">
+                                <span @click="show = !show" class="btn btn-sm btn-warning"><i class="bi bi-question-circle"></i> Panduan</span>
+                                <div x-show="show" x-transition class="mt-1" @click.outside="show = false">
+                                    * Klik Detail untuk melihat detail pengajuan<br>
+                                    * Diajukan = Status saat pengajuan pertama kali diajukan oleh Pemohon<br>
+                                    * Disposisi = Status saat pengajuan diterima/dibuka oleh Admin Disposisi<br>
+                                    * Diproses = Status saat pengajuan diterima/dibuka oleh Admin Verifikator/Validator<br>
+                                    * Perbaikan = Status Perbaikan Pengajuan, Pemohon bisa memakai Fitur Korespondensi<br>
+                                    * Dibatalkan = Status Penangguhan atau Pembatalan atau Kesalahan<br>
+                                    * Selesai = Status Penangguhan atau Pembatalan atau Kesalahan<br>
+                                </div>
+                            </div>
                             <div class="d-flex flex-column flex-lg-row float-end">
                                 <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
                                     wire:loading.attr="disabled">
@@ -63,24 +76,52 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Layanan | Kode Verifikasi</th>
-                                        <th>Pemohon</th>
+                                        <th>Data Pemohon</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Modal -->
-
                                     @foreach ($appreqs as $item)
+                                        <?php
+                                        $correspondences = [];
+                                        foreach ($item->correspondences as $correspondence) {
+                                            // sender 0 pemohon
+                                            if ($correspondence->sender == 1 && $correspondence->viewed == 0) {
+                                                $correspondences[] = $correspondence->name_doc;
+                                            }
+                                        }
+                                        $docs = [];
+                                        foreach ($item->docs as $doc) {
+                                            if ($doc->sender == 1 && $doc->viewed == 0) {
+                                                $docs[] = $doc->name_doc;
+                                            }
+                                        }
+                                        ?>
+
                                         <tr class="align-middle" x-data="{ open: false }">
                                             <td>{{ ($appreqs->currentpage() - 1) * $appreqs->perpage() + $loop->index + 1 }}</td>
                                             <td>
-                                                {{ $item->permitwork->name_permit }} <span class="bg-warning px-2 rounded">{{ $item->ver_code }}</span>
-                                                <div>
-                                                    <a wire:navigate href="{{ url('admin/appreqdetail/' . $item->id) }}" class="btn btn-sm btn-success ms-1"><i class="bi bi-eye"></i> Detail</a>
+                                                {{ $item->permitwork->name_permit }} <br>
+                                                <span class="bg-warning px-2 rounded">{{ $item->ver_code }}</span>
+                                                <div class="mt-1">
+                                                    <a wire:navigate href="{{ url('admin/appreqdetail/' . $item->id) }}" class="btn btn-sm btn-success mb-1"><i class="bi bi-eye"></i> Detail</a>
+                                                    <span class="btn btn-sm btn-success mb-1">Status :
+                                                        {{ $item->stat->desc_stat . ' ' . Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}
+                                                    </span><br>
+                                                    @if (count($correspondences) > 0 || count($docs) > 0)
+                                                        <span class="btn btn-sm btn-danger mb-1">
+                                                            {{ count($correspondences) }} Pesan Belum Dibaca
+                                                        </span>
+                                                        <span class="btn btn-sm btn-danger mb-1">
+                                                            {{ count($docs) }} File Baru Ditambahkan
+                                                        </span>
+                                                    @endif
                                                 </div>
                                             </td>
                                             <td>
-                                                {{ $item->user->name }} <a href="#" class="btn btn-success btn-sm"><i class="bi bi-whatsapp"></i> {{ $item->user->nohp }}</a></br>
-                                                {{ $item->company->name_company }}
+                                                {{ $item->user->name }} <br>
+                                                {{ $item->company->name_company }} <br>
+                                                <a href="#" class="btn btn-success btn-sm"><i class="bi bi-whatsapp"></i> {{ $item->user->nohp }}</a></br>
                                             </td>
                                         </tr>
                                     @endforeach

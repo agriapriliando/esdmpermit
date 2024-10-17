@@ -6,6 +6,7 @@ use App\Models\Appreq;
 use App\Models\Correspondence;
 use App\Models\Doc;
 use App\Models\Stat;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -37,21 +38,41 @@ class AdminAppreqdetail extends Component
 
     public $stat_id;
 
+    public $openpdf = false;
+
     public function mount(Appreq $appreq)
     {
         $this->appreqid = $appreq->id;
         $this->stat_id = $appreq->stat_id;
         // update otomatis setelah detail pengajuan dibuka
-        if ($appreq->stat_id == 1) {
-            // status ke id 2
+        // jika dibuka oleh akun disposisi
+        if (Auth::user()->role == 'disposisi') {
+            // ubah status ke id 2
             $appreq->update([
                 'stat_id' => 2,
-                'date_processed' => Carbon::now()
+                'date_disposisi' => Carbon::now(),
+                'user_disposisi' => Auth::id()
+            ]);
+        }
+        if ($appreq->stat_id == 2 && Auth::user()->role != 'disposisi') {
+            // ubah status ke id 2
+            $appreq->update([
+                'stat_id' => 3,
+                'date_processed' => Carbon::now(),
+                'user_processed' => Auth::id()
             ]);
         }
         // cek pesan, otomatis viewed saat detail pengajuan dibuka
-        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+        Correspondence::where('appreq_id', $this->appreqid)
+            ->where('viewed', 0)
             ->where('user_id', '!=', Auth::id())
+            ->where('sender', 1)
+            ->update([
+                'viewed' => 1
+            ]);
+        Doc::where('appreq_id', $this->appreqid)
+            ->where('viewed', 0)
+            ->where('sender', 1)
             ->update([
                 'viewed' => 1
             ]);
@@ -87,6 +108,24 @@ class AdminAppreqdetail extends Component
         $this->appreq->update([
             'stat_id' => $this->stat_id
         ]);
+        if ($this->stat_id == 2) { //disposisi
+            $this->appreq->update([
+                'date_disposisi' => Carbon::now(),
+                'user_disposisi' => Auth::id()
+            ]);
+        }
+        if ($this->stat_id == 5) { //batal
+            $this->appreq->update([
+                'date_rejected' => Carbon::now(),
+                'user_rejected' => Auth::id()
+            ]);
+        }
+        if ($this->stat_id == 6) { //finished
+            $this->appreq->update([
+                'date_finished' => Carbon::now(),
+                'user_finished' => Auth::id()
+            ]);
+        }
         session()->flash('savestat', "Status Pengajuan Berhasil Diubah");
     }
 
@@ -105,11 +144,13 @@ class AdminAppreqdetail extends Component
             $file->storeAs('file_doc', $fileNames, 'public');
             // masukan semua nama file ke array
             Doc::create([
-                'user_id' => 2,
+                'user_id' => Auth::id(),
                 'appreq_id' => $this->appreqid,
                 'name_doc' => $oriName,
                 'type_doc' => 'By Operator',
                 'file_name' => $fileName . $ext,
+                'sender' => 0,
+                'viewed' => 0
             ]);
         }
     }
@@ -136,7 +177,8 @@ class AdminAppreqdetail extends Component
         $data = [
             'user_id' => Auth::id(),
             'appreq_id' => $this->appreqid,
-            'desc' => $this->desc
+            'desc' => $this->desc,
+            'sender' => 0
         ];
         if ($this->desc != null) {
             Correspondence::create($data);
@@ -149,12 +191,54 @@ class AdminAppreqdetail extends Component
 
     public function render()
     {
-        Correspondence::where('appreq_id', $this->appreqid)->where('viewed', 0)
+        // cek pesan, otomatis viewed saat detail pengajuan dibuka
+        Correspondence::where('appreq_id', $this->appreqid)
+            ->where('viewed', 0)
             ->where('user_id', '!=', Auth::id())
+            ->where('sender', 1)
             ->update([
                 'viewed' => 1
             ]);
-        // dd(Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first());
+        Doc::where('appreq_id', $this->appreqid)
+            ->where('viewed', 0)
+            ->where('sender', 1)
+            ->update([
+                'viewed' => 1
+            ]);
+        //list status
+        if (Auth::user()->role == 'disposisi') {
+            $stat = Stat::where('id', 2)->get();
+        } else {
+            $stat = Stat::where('id', '!=', 1)->where('id', '!=', 2)->get();
+        }
+        if ($this->appreq->user_disposisi != null) {
+            $user_disposisi = User::findOrFail($this->appreq->user_disposisi);
+        } else {
+            $user_disposisi = [
+                'name' => null
+            ];
+        }
+        if ($this->appreq->user_processed != null) {
+            $user_processed = User::findOrFail($this->appreq->user_processed);
+        } else {
+            $user_processed = [
+                'name' => null
+            ];
+        }
+        if ($this->appreq->user_finished != null) {
+            $user_finished = User::findOrFail($this->appreq->user_finished);
+        } else {
+            $user_finished = [
+                'name' => null
+            ];
+        }
+        if ($this->appreq->user_rejected != null) {
+            $user_rejected = User::findOrFail($this->appreq->user_rejected);
+        } else {
+            $user_rejected = [
+                'name' => null
+            ];
+        }
         return view('livewire.admin.admin-appreqdetail', [
             'docs' => Doc::where('appreq_id', $this->appreqid)
                 ->when($this->search_docs, function ($query) {
@@ -163,7 +247,11 @@ class AdminAppreqdetail extends Component
                 ->orderBy('created_at', 'DESC')->get(),
             'correspondences' => Correspondence::where('appreq_id', $this->appreqid)->orderBy('created_at', 'DESC')->get(),
             'appreq' => Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first(),
-            'stats' => Stat::where('id', '!=', 1)->get()
+            'stats' => $stat,
+            'user_disposisi' => $user_disposisi,
+            'user_processed' => $user_processed,
+            'user_finished' => $user_finished,
+            'user_rejected' => $user_rejected
         ]);
     }
 }

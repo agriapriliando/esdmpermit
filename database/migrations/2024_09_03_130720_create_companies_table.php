@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('kecamatan_company')->nullable();
             $table->text('kel_desa_company')->nullable(); // kelurahan atau desa
             $table->text('address_sk_company')->nullable();
+            $table->string('number_sk_company')->nullable();
             $table->text('notes_company')->nullable();
             $table->timestamps();
         });

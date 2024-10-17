@@ -9,7 +9,7 @@
                         bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast')).show();
                         document.getElementById('pesan').innerHTML = $event.detail.message;
                         console.log($event.detail.message);
-                    }, 2000);
+                    }, 1000);
                     "
                     class="toast-container position-fixed top-0 start-50 translate-middle-x">
                     <div id="liveToast" class="toast mt-3" role="alert" aria-live="assertive" aria-atomic="true">
@@ -48,6 +48,10 @@
                             @endsession
                             <div class="d-flex flex-column flex-lg-row float-end">
                                 <a wire:navigate href="{{ url('create') }}" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah Pengajuan</a>
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
+                                    wire:loading.attr="disabled">
+                                    <i class="bi bi-arrow-repeat"></i> Refresh
+                                </button>
                             </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
@@ -76,19 +80,43 @@
                                 </thead>
                                 <tbody>
                                     <!-- Modal -->
-
                                     @foreach ($appreqs as $item)
+                                        <?php
+                                        $correspondences = [];
+                                        foreach ($item->correspondences as $correspondence) {
+                                            // sender 1 dari operator
+                                            if ($correspondence->sender == 0 && $correspondence->viewed == 0) {
+                                                $correspondences[] = $correspondence->name_doc;
+                                            }
+                                        }
+                                        $docs = [];
+                                        foreach ($item->docs as $doc) {
+                                            if ($doc->sender == 0 && $doc->viewed == 0) {
+                                                $docs[] = $doc->name_doc;
+                                            }
+                                        }
+                                        ?>
                                         <tr class="align-middle" x-data="{ open: false }">
                                             <td>{{ ($appreqs->currentpage() - 1) * $appreqs->perpage() + $loop->index + 1 }}</td>
-                                            <td class="d-flex flex-column">
+                                            <td class="">
                                                 {{ $item->permitwork->name_permit }}
                                                 <div x-data="{ open: false }">
-                                                    <a wire:navigate href="{{ route('appreq.detail', $item->ver_code) }}" class="btn btn-sm btn-success ms-1">
+                                                    <a wire:navigate href="{{ route('appreq.detail', $item->ver_code) }}" class="btn btn-sm btn-success mb-1">
                                                         <i class="bi bi-eye"></i> Detail
                                                     </a>
-                                                    <span class="btn btn-sm btn-success ms-1">{{ $item->stat->desc_stat . ' ' . Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}</span>
+                                                    <span class="btn btn-sm btn-success mb-1">Status :
+                                                        {{ $item->stat->desc_stat . ' ' . Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}
+                                                    </span>
+                                                    @if (count($correspondences) > 0 || count($docs) > 0)
+                                                        <span class="btn btn-sm btn-danger mb-1">
+                                                            {{ count($correspondences) }} Pesan Belum Dibaca
+                                                        </span>
+                                                        <span class="btn btn-sm btn-danger mb-1">
+                                                            {{ count($docs) }} File Baru Ditambahkan
+                                                        </span>
+                                                    @endif
                                                     @if ($item->stat_id == 1)
-                                                        <button @click="open = true" class="btn btn-sm btn-danger">
+                                                        <button @click="open = true" class="btn btn-sm btn-danger mb-1">
                                                             <i class="bi bi-trash"></i> Hapus Pengajuan
                                                         </button>
                                                         <div x-show="open" @click.outside="open = false" class="overlay"></div>

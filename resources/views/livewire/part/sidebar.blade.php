@@ -10,15 +10,30 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                @if (session('admin'))
+                @if (session('disposisi'))
                     <li class="nav-header">Daftar Pengajuan</li>
                     @foreach ($stats as $stat)
-                        <li class="nav-item">
-                            <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
-                                <i class="nav-icon bi bi-filetype-docx"></i>
-                                <p>{{ $stat->desc_stat }}</p>
-                            </a>
-                        </li>
+                        @if ($stat->name_stat == 'disposisi' || $stat->name_stat == 'diajukan')
+                            <li class="nav-item">
+                                <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-filetype-docx"></i>
+                                    <p>{{ $stat->desc_stat }}</p>
+                                </a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endif
+                @if (session('admin') || session('superadmin'))
+                    <li class="nav-header">Daftar Pengajuan</li>
+                    @foreach ($stats as $stat)
+                        @if ($stat->name_stat == 'disposisi' || $stat->name_stat == 'diproses' || $stat->name_stat == 'perbaikan' || $stat->name_stat == 'selesai')
+                            <li class="nav-item">
+                                <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
+                                    <i class="nav-icon bi bi-filetype-docx"></i>
+                                    <p>{{ $stat->desc_stat }}</p>
+                                </a>
+                            </li>
+                        @endif
                     @endforeach
                     <li class="nav-header">Data Master</li>
                     <li class="nav-item {{ request()->routeIs('topics.*') || request()->routeIs('users.*') || request()->routeIs('permitworks.*') ? 'menu-open' : '' }}"> <a href="#"

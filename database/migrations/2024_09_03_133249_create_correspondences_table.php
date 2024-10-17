@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('appreq_id')->constrained();
             $table->text('desc')->nullable();
+            $table->boolean('sender')->default(0);
             $table->boolean('viewed')->default(0);
             $table->timestamps();
         });

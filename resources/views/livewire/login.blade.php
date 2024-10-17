@@ -7,7 +7,7 @@
         <div class="card-body login-card-body">
             <p class="login-box-msg">Admin Perijinan ESDM Kalteng</p>
             @session('error')
-                <div id="alert-error" class="alert alert-danger text-bg-danger" x-init="setTimeout(() => document.getElementById('alert-error').remove(), 3000)">
+                <div id="alert-error" class="alert alert-danger text-bg-danger" x-init="setTimeout(() => document.getElementById('alert-error').remove(), 5000)">
                     {{ session('error') }}
                 </div>
             @endsession

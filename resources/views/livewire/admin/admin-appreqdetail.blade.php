@@ -51,13 +51,14 @@
                                         <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                                     </div>
                                 </div>
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="float-end btn btn-warning me-2 mb-2" type="button"
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="float-end btn btn-warning me-1 mb-2" type="button"
                                     x-on:click="$wire.$refresh()" wire:loading.attr="disabled">
                                     <i class="bi bi-arrow-repeat"></i> Refresh
                                 </button>
+                                <button @click="history.back()" class="float-end btn btn-warning me-1 mb-2" type="button"><i class="bi bi-arrow-left"></i> Kembali</button>
                                 <div class="mt-4">
                                     <div style="width: 300px">
-                                        <select wire:model.live="stat_id" class="form-select" id="status" x-on:change="$wire.savestat()">
+                                        <select wire:model.live="stat_id" class="form-select bg-warning text-bg-warning p-2 rounded" id="status" x-on:change="$wire.savestat()">
                                             @foreach ($stats as $s)
                                                 <option value="{{ $s->id }}" {{ $s->id === $stat_id ? 'selected' : '' }}> Status : {{ $s->desc_stat }}</option>
                                             @endforeach
@@ -69,7 +70,8 @@
                                     @endsession
                                 </div>
                             </div>
-                            @if ($appreq->stat_id == 4)
+                            {{-- stat id 6 selesai --}}
+                            @if ($appreq->stat_id == 6)
                                 <div>
                                     <div class="px-1 mt-2 bg-success text-bg-success rounded mb-2">
                                         <h4>Pengajuan ini telah Selesai</h4>
@@ -79,7 +81,7 @@
                         </div> <!-- /.card-header -->
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-6">
                                     <table>
                                         <tr>
                                             <td class="fw-bold" style="min-width: 150px">1. Layanan</td>
@@ -103,22 +105,37 @@
                                         </tr>
                                     </table>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <table>
                                         <tr>
-                                            <td class="fw-bold">Tanggal Submit</td>
+                                            <td class="fw-bold">5. Tanggal Submit</td>
                                             <td>: {{ Carbon\Carbon::parse($appreq->date_submitted)->translatedFormat('d/m/Y H:i') }} Wib</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Tanggal Proses</td>
-                                            @if ($appreq->date_processed != null)
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_processed)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                            <td class="fw-bold">6. Tanggal Disposisi</td>
+                                            @if ($appreq->date_disposisi)
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_disposisi)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_disposisi['name'] }}</span>
+                                                </td>
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">Tanggal Selesai</td>
+                                            <td class="fw-bold">7. Tanggal Proses</td>
+                                            @if ($appreq->date_processed != null)
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_processed)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_processed['name'] }}</span>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">8. Tanggal Selesai</td>
                                             @if ($appreq->date_finished != null)
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib</td>
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_finished['name'] }}</span>
+                                                </td>
                                             @endif
                                         </tr>
                                         @if ($appreq->date_rejected != null)
@@ -140,7 +157,7 @@
                                             <div class="p-3 rounded shadow" x-data="{ open: false }">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <h3>Korespondensi</h3>
-                                                    @if ($appreq->stat_id != 4)
+                                                    @if ($appreq->stat_id == 2 || $appreq->stat_id == 4)
                                                         <button
                                                             x-on:click="
                                                 open = !open;
@@ -170,8 +187,9 @@
                                                                         Pilih berkas
                                                                     </div>
                                                                     <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg | Size 1 File Max 6MB</small>
-                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload"
-                                                                        type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror" id="file_upload" multiple="true">
+                                                                    <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload"
+                                                                        wire:model.live="file_upload" type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror"
+                                                                        id="file_upload" multiple="true">
                                                                 </div>
                                                                 @error('file_upload')
                                                                     <div id="file-upload" x-init="setTimeout(() => document.getElementById('file-upload').remove(), 4000)" class="alert alert-danger">
@@ -214,12 +232,12 @@
                                                         </div>
                                                     @endsession
                                                     @foreach ($correspondences as $c)
-                                                        <div wire:key="{{ $c->id }}" class="px-3 rounded {{ $c->user->role == 'admin' ? 'text-end bg-body-secondary' : '' }}">
+                                                        <div wire:key="{{ $c->id }}" class="px-3 rounded {{ $c->user->role != 'pemohon' ? 'text-end bg-body-secondary' : '' }}">
                                                             <div class="py-2 mb-2">
                                                                 <div class="d-flex flex-row-reverse">
                                                                     <i class="bi bi-clock-history mx-1" style="font-size: 12px">
                                                                         {{ Carbon\Carbon::parse($c->created_at)->translatedFormat('d/m/Y H:i') }} Wib</i>
-                                                                    @if ($c->user->role == 'admin')
+                                                                    @if ($c->user->role != 'pemohon')
                                                                         <i class="bi bi-eye mx-1" style="font-size: 12px"> {{ $c->viewed ? 'Sudah Dibaca' : 'Belum Dibaca' }}</i>
                                                                     @endif
                                                                     @if ($c->viewed == 0 && $c->user_id == 1)
@@ -233,7 +251,7 @@
                                                                     @endif
                                                                 </div>
                                                                 <div>
-                                                                    <span class="{{ $c->user->role == 'admin' ? 'bg-success' : 'bg-primary' }} text-white px-2 rounded">Pengirim :
+                                                                    <span class="{{ $c->user->role != 'pemohon' ? 'bg-success' : 'bg-primary' }} text-white px-2 rounded">Pengirim :
                                                                         {{ Auth::id() == $c->user->id ? 'Saya' : $c->user->name }}</span>
                                                                     <br>
                                                                     {!! $c->desc !!}
@@ -272,29 +290,42 @@
                                                                     {{ Carbon\Carbon::parse($d->created_at)->diffForHumans() }} Wib
                                                                 </i>
                                                             @endif
-                                                            <a href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i class="bi bi-download"></i></a>
-                                                            @if (substr($d->file_name, -3) == 'jpg' || substr($d->file_name, -4) == 'jpeg')
-                                                                <a href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox data-caption="{{ $d->name_doc }}">
-                                                                    <i class="bi bi-images"></i>
-                                                                </a>
-                                                            @endif
-                                                            <div class="float-end">
-                                                                @if (Auth::user()->role == 'admin' && $d->type_doc == 'By Operator' && $appreq->stat_id != 4)
-                                                                    <div class="position-relative" x-data="{ doc: false }">
-                                                                        <a class="float-end btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">
-                                                                            <i class="bi bi-trash"></i>
-                                                                        </a>
-                                                                        <div x-show="doc" @click.outside="doc = false" class="position-absolute top-0 end-0 bg-warning rounded px-2"
-                                                                            style="z-index: 99; cursor: pointer; width: 80px">
-                                                                            <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
-                                                                        </div>
+                                                            <div x-data="{ doc{{ $d->id }}: false, doc_render{{ $d->id }}: false }">
+                                                                <div class="badge text-bg-success me-2 py-2">
+                                                                    Berkas : {{ $d->type_doc }}
+                                                                </div>
+                                                                <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i
+                                                                        class="bi bi-download"></i></a>
+                                                                @if (substr(strtolower($d->file_name), -4) == '.pdf')
+                                                                    <button class="btn btn-sm btn-success" @click="doc{{ $d->id }} = true, doc_render{{ $d->id }} = true"><i
+                                                                            class="bi bi-eye"></i> Lihat PDF</button>
+                                                                    <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" class="overlay"></div>
+                                                                    <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" x-transition class="modal-dokumen">
+                                                                        <button class="btn btn-warning btn-sm">TUTUP</button>
+                                                                        <object x-if="doc_render{{ $d->id }}" class="sizemodal-dokumen"
+                                                                            data="{{ url('storage/file_doc/' . $d->file_name) }}">
+                                                                        </object>
                                                                     </div>
                                                                 @endif
+
                                                             </div>
-                                                            <div class="float-end badge text-bg-success me-2 py-2">
-                                                                <div>
-                                                                    {{ $d->type_doc }}
+                                                            @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
+                                                                <a href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox data-caption="{{ $d->name_doc }}">
+                                                                    <i class="bi bi-images">Lihat Gambar</i>
+                                                                </a>
+                                                            @endif
+                                                            @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By Operator' && $appreq->stat_id != 6)
+                                                                <div class="position-relative" x-data="{ doc: false }">
+                                                                    <a class="btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </a>
+                                                                    <div x-show="doc" @click.outside="doc = false" class="position-absolute top-0 bg-warning rounded px-2"
+                                                                        style="z-index: 99; cursor: pointer; width: 80px">
+                                                                        <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
+                                                                    </div>
                                                                 </div>
+                                                            @endif
+                                                            <div class="float-end">
                                                             </div>
                                                         </li>
                                                     </div>

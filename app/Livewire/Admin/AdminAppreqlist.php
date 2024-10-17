@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Appreq;
 use App\Models\Company;
 use App\Models\Stat;
+use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
 class AdminAppreqlist extends Component
@@ -28,8 +29,10 @@ class AdminAppreqlist extends Component
 
     public function render()
     {
+        $company_id = Appreq::with('company')->where('stat_id', $this->stat->id)->get()->pluck('company_id');
+        $company_list = Company::whereIn('id', $company_id)->get();
         return view('livewire.admin.admin-appreqlist', [
-            'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs')->search($this->search)
+            'appreqs' => Appreq::with('user', 'company', 'stat', 'permitwork', 'docs', 'correspondences')->search($this->search)
                 ->when($this->company_id, function ($query) {
                     $query->where('company_id', $this->company_id);
                 })
@@ -37,7 +40,7 @@ class AdminAppreqlist extends Component
                 ->orderBy('created_at', 'desc')
                 ->paginate($this->pagelength),
             'stats' => Stat::all(),
-            'companies' => Company::all(),
+            'companies' => $company_list,
         ]);
     }
 }

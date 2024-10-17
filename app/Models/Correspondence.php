@@ -13,7 +13,8 @@ class Correspondence extends Model
         'user_id',
         'appreq_id',
         'desc',
-        'viewed'
+        'viewed',
+        'sender',
     ];
 
     public function user()

@@ -23,6 +23,7 @@
 
     {{-- trix editor --}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head> <!--end::Head--> <!--begin::Body-->
 <style>
     textarea:focus,
@@ -111,6 +112,50 @@
 
     .filehover {
         cursor: pointer;
+    }
+
+    .modal-dokumen {
+        position: fixed;
+        top: 82%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 99999;
+        min-width: 700px;
+        height: 900px;
+        opacity: 100;
+        border-radius: 10px;
+        transition: top 0.2s, opacity 0.5s;
+    }
+
+
+    @media only screen and (max-width: 600px) {
+        .modal-dokumen {
+            top: 70%;
+        }
+
+        .sizemodal-dokumen {
+            width: 300px;
+            height: 500px
+        }
+    }
+
+    @media only screen and (min-width: 600px) {
+        .sizemodal-dokumen {
+            min-width: 700px;
+            min-height: 600px
+        }
+    }
+
+    @media only screen and (min-width: 1400px) {
+        .modal-dokumen {
+            top: 50%;
+        }
+
+        .sizemodal-dokumen {
+            min-width: 1000px;
+            min-height: 800px
+        }
+
     }
 </style>
 

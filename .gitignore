@@ -2,7 +2,7 @@
 /node_modules
 /public/build
 /public/hot
-/views/components/layouts
+/resources/views/components/layouts
 /public/storage
 /storage/*.key
 /vendor

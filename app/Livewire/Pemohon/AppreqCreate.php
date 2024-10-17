@@ -94,6 +94,7 @@ class AppreqCreate extends Component
                         'name_doc' => $fileNameOriArray[$i],
                         'type_doc' => 'Ajuan',
                         'file_name' => $name,
+                        'sender' => 1,
                     ]);
                     $i++;
                 }
