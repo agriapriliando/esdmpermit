@@ -24,7 +24,9 @@
                         <div class="card-body">
                             <p>
                                 <span class="fw-bold">Panduan :</span><br>
-                                * Seluruh Berkas/File unggah wajib diberi nama/judul menyesuaikan persyaratan yang tertera<br>
+                                * Sebelum diunggah, seluruh Berkas/File wajib diberi nama/judul sesuai isi dokumen.
+                                <span class="fst-italic">Contoh: Jika dokumen/file adalah Surat Permohonan, maka diberi nama Surat Permohonan</span>
+                                <br>
                                 * Berkas unggah berformat pdf,doc,docx,xls,xlsx,jpeg,jpg.<br>
                                 * Berkas unggah dapat berjumlah lebih dari satu.<br>
                                 * Berkas Satuan maksimal 10MB.<br>
@@ -100,12 +102,12 @@
                                                 class="custom-file-input d-none" id="file_upload" multiple="true">
                                         </div>
                                         @error('file_upload')
-                                            <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 3000)">
+                                            <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
                                                 {{ $message }}
                                             </div>
                                         @enderror
                                         @error('file_upload.*')
-                                            <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 3000)">
+                                            <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
                                                 {{ $message }}
                                             </div>
                                         @enderror

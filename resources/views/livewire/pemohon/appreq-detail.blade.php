@@ -51,10 +51,9 @@
                                         <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                                     </div>
                                 </div>
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="float-end btn btn-warning me-2 mb-2" type="button"
-                                    x-on:click="$wire.$refresh()" wire:loading.attr="disabled">
-                                    <i class="bi bi-arrow-repeat"></i> Refresh
-                                </button>
+                                <a @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" wire:loading.attr="disabled" class="float-end btn btn-warning me-2 mb-2" wire:navigate
+                                    href="{{ route('appreq.detail', $appreq->ver_code) }}">
+                                    <i class="bi bi-arrow-repeat"></i>Refresh</a>
                             </div>
                         </div> <!-- /.card-header -->
                         <div class="card-body">
@@ -195,13 +194,14 @@
                                                                     </div>
                                                                 @enderror
                                                             </div>
-                                                            <div wire:loading wire:target="file_upload" class="bg-warning px-2 rounded">Tunggu, sedang memeriksa file...</div>
                                                             <div class="mb-2" x-show="uploading">
                                                                 <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0"
                                                                     aria-valuemax="100">
                                                                     <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                                                 </div>
                                                             </div>
+                                                            <div class="badge bg-success mb-1" wire:loading wire:target="file_upload" class="bg-warning px-2 rounded">Tunggu, sedang memeriksa
+                                                                file...</div>
                                                             <div class="mb-2">
                                                                 <input wire:model="desc" id="desc" type="hidden" name="desc">
                                                                 <trix-editor input="desc"></trix-editor>
@@ -300,12 +300,13 @@
                                                                         </object>
                                                                     </div>
                                                                 @endif
+                                                                @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
+                                                                    <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox
+                                                                        data-caption="{{ $d->name_doc }}">
+                                                                        <i class="bi bi-images"></i> Lihat Gambar
+                                                                    </a>
+                                                                @endif
                                                             </div>
-                                                            @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
-                                                                <a href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox data-caption="{{ $d->name_doc }}">
-                                                                    <i class="bi bi-images">Lihat Gambar</i>
-                                                                </a>
-                                                            @endif
                                                             @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 6)
                                                                 <div class="position-relative mt-1" x-data="{ docz: false }">
                                                                     <button type="button" class="btn btn-danger btn-sm" @click="docz = true" x-init="setTimeout(() => docz = false, 1000)">

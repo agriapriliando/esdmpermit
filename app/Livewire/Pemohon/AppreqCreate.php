@@ -48,6 +48,11 @@ class AppreqCreate extends Component
         $this->permitwork_desc = $permitwork->desc_permit;
     }
 
+    public function updatedFileUpload()
+    {
+        $this->validate();
+    }
+
     public function save()
     {
         // dd($this->notes);

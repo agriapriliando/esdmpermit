@@ -51,10 +51,10 @@
                                         <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                                     </div>
                                 </div>
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })" class="float-end btn btn-warning me-1 mb-2" type="button"
-                                    x-on:click="$wire.$refresh()" wire:loading.attr="disabled">
+                                <a wire:navigate href="{{ route('admin.appreqdetail', $appreq->id) }}" @click="$dispatch('notify', { message: 'Refresh Daftar Pengajuan Berhasil' })"
+                                    class="float-end btn btn-warning me-1 mb-2" type="button" wire:loading.attr="disabled">
                                     <i class="bi bi-arrow-repeat"></i> Refresh
-                                </button>
+                                </a>
                                 <button @click="history.back()" class="float-end btn btn-warning me-1 mb-2" type="button"><i class="bi bi-arrow-left"></i> Kembali</button>
                                 <div class="mt-4">
                                     <div style="width: 300px">
@@ -307,13 +307,14 @@
                                                                         </object>
                                                                     </div>
                                                                 @endif
+                                                                @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
+                                                                    <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox
+                                                                        data-caption="{{ $d->name_doc }}">
+                                                                        <i class="bi bi-images">Lihat Gambar</i>
+                                                                    </a>
+                                                                @endif
 
                                                             </div>
-                                                            @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
-                                                                <a href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox data-caption="{{ $d->name_doc }}">
-                                                                    <i class="bi bi-images">Lihat Gambar</i>
-                                                                </a>
-                                                            @endif
                                                             @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By Operator' && $appreq->stat_id != 6)
                                                                 <div class="position-relative" x-data="{ doc: false }">
                                                                     <a class="btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">

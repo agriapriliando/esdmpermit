@@ -173,9 +173,9 @@
         <!--end::App Main-->
         <!--begin::Footer-->
         <footer class="app-footer"> <!--begin::To the end-->
-            <div class="float-end d-none d-sm-inline">Anything you want</div> <!--end::To the end--> <!--begin::Copyright--> <strong>
-                Copyright &copy; 2014-2024&nbsp;
-                <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
+            <div class="float-end d-none d-sm-inline">www.esdm.kalteng.go.id</div> <!--end::To the end--> <!--begin::Copyright--> <strong>
+                Copyright &copy; 2018-2024&nbsp;
+                <a href="https://esdm.kalteng.go.id" class="text-decoration-none">ESDM Provinsi Kalimantan Tengah</a>.
             </strong>
             All rights reserved.
             <!--end::Copyright-->
