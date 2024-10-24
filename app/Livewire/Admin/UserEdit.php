@@ -110,7 +110,7 @@ class UserEdit extends Component
         $data_company = [
             'commodity_id' => $this->commodity_id,
             'region_id' => $this->kecamatan_company == null ? $this->kab_kota_company : $this->kecamatan_company,
-            'name_company' => $this->name_company,
+            'name_company' => strtoupper($this->name_company),
             'province_company' => "KALIMANTAN TENGAH",
             'kab_kota_company' => Region::find(substr($this->region_id, 0, 5))->name_region,
             'kecamatan_company' => $this->kecamatan_company == null ? null : Region::where('id', $this->kecamatan_company)->first()->name_region,

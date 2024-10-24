@@ -106,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
         Route::get('users', UsersList::class)->name('users.list');
         Route::get('users/edit/{id_user}', UserEdit::class)->name('user.edit');
-        Route::get('users/create', UserCreate::class)->name('users.create');
+        Route::get('users/create', UserCreate::class)->name('user.create');
         Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
     });
     Route::middleware('cekrole:pemohon')->group(function () {
