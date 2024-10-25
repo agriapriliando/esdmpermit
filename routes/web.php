@@ -3,11 +3,11 @@
 use App\Livewire\Admin\AdminAppreqdetail;
 use App\Livewire\Admin\AdminAppreqlist;
 use App\Livewire\Admin\AdminProfile;
-use App\Livewire\Admin\CompanyList;
 use App\Livewire\Admin\PermitworkList;
 use App\Livewire\Admin\UserCreate;
 use App\Livewire\Admin\UserEdit;
 use App\Livewire\Admin\UsersList;
+use App\Livewire\Admin\UseradminEdit;
 use App\Livewire\Login;
 use App\Livewire\Pemohon\AppreqCreate;
 use App\Livewire\Pemohon\AppreqDetail;
@@ -15,7 +15,6 @@ use App\Livewire\Pemohon\AppreqList;
 use App\Livewire\Pemohon\Profile;
 use App\Livewire\Resetpass;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
@@ -102,6 +101,7 @@ Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['cekrole:admin|adminutama|disposisi'])->group(function () {
         Route::get('profile/admin', AdminProfile::class)->name('admin.profile');
+        Route::get('profile/admin/{id_user}', UseradminEdit::class)->name('admin.edit');
         Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');
         Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
         Route::get('users', UsersList::class)->name('users.list');
