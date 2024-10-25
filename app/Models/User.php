@@ -54,11 +54,18 @@ class User extends Authenticatable
             $query->where('name', 'like', $term)
                 ->orWhere('username', 'like', $term)
                 ->orWhere('nohp', 'like', $term);
+        })->orWhereHas('company', function ($query) use ($term) {
+            $query->where('name_company', 'like', $term);
         });
     }
 
     public function company(): HasOne
     {
         return $this->hasOne(Company::class);
+    }
+
+    public function appreqs()
+    {
+        return $this->hasMany(Appreq::class);
     }
 }

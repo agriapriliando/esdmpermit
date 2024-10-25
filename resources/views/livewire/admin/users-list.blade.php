@@ -48,13 +48,20 @@
                                     <i class="bi bi-arrow-repeat"></i> Refresh
                                 </button>
                             </div>
+                            <div class="mb-2" x-data="{ show: false }">
+                                <span @click="show = !show" class="btn btn-sm btn-warning"><i class="bi bi-question-circle"></i> Panduan</span>
+                                <div x-show="show" x-transition class="mt-1" @click.outside="show = false">
+                                    * Akun Pemohon yang telah mengajukan permohonan tidak dapat dihapus<br>
+                                    * Akun Pengelola hanya ditambahkan oleh Super Admin<br>
+                                </div>
+                            </div>
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
                                     <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
                                         <option value="5">5</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
-                                        <option value="">All</option>
+                                        <option value="{{ $count_pemohon }}">{{ $count_pemohon }}</option>
                                     </select>
                                 </div>
                             </div>
@@ -62,28 +69,25 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10px">#</th>
-                                        <th>Nama Pengguna | Username |</th>
-                                        <th>Kontak</th>
-                                        <th>Tanggal</th>
-                                        <th style="width: 40px">Label</th>
+                                        <th>Nama | Username | Nama Perusahaan | Kontak</th>
+                                        <th style="width: 40px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <!-- Modal -->
 
                                     @foreach ($users as $item)
-                                        <tr class="align-middle" x-data="{ open: false }">
+                                        <tr class="align-middle" x-data="{ open: false }" wire:key="{{ $item->id }}">
                                             <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}</td>
                                             <td>
-                                                {{ $item->name }}
-                                                <br> <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
-                                            </td>
-                                            <td><a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
-                                                <br> {{ $item->company->name_company }}
-                                            </td>
-                                            <td>
-                                                <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div><br>
-                                                <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                {{ $item->name }} <span class="badge text-bg-success">{{ $item->appreqs_count }}</span>
+                                                <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
+                                                {{ $item->company->name_company }}
+                                                <a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
+                                                <div class="mt-1">
+                                                    <div class="badge text-bg-success">Dibuat {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                    <div class="badge text-bg-success">Diperbaharui {{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                </div>
                                             </td>
                                             <td class="d-flex">
                                                 <a wire:navigate href="{{ route('user.edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
@@ -94,11 +98,18 @@
                                                 </button>
                                                 <div x-show="open" @click.outside="open = false" class="overlay"></div>
                                                 <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out" class="modal-hapus">
-                                                    <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
-                                                        <p class="fw-bold">{{ $item->username . ' - ' . $item->company->name_company }}</p>
-                                                        <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
-                                                        <button class="btn btn-sm btn-warning">Batal</button>
-                                                    </div>
+                                                    @if ($item->appreqs_count > 0)
+                                                        <div class="alert alert-danger text-center">Akun ini tidak bisa dihapus, akun ini telah tertaut dengan data permohonan layanan
+                                                            <p class="fw-bold">Cek Permohonan Layanan dengan Pemohon: {{ $item->name }}</p>
+                                                            <button class="btn btn-sm btn-warning">Tutup</button>
+                                                        </div>
+                                                    @else
+                                                        <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
+                                                            <p class="fw-bold">{{ $item->username . ' - ' . $item->company->name_company }}</p>
+                                                            <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                            <button class="btn btn-sm btn-warning">Batal</button>
+                                                        </div>
+                                                    @endif
                                                 </div>
                                             </td>
                                         </tr>
@@ -111,36 +122,39 @@
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->
-                @if (Auth::user()->role == 'superadmin')
-                    <div class="col-12">
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                @session('successadmin')
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                        <strong>{{ session('successadmin') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            @session('successadmin')
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>{{ session('successadmin') }}</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            @endsession
+                            <h3 class="card-title">Daftar Akun Pengelola</h3>
+                            <div class="card-tools">
+                                <div class="input-group" x-data="{ search: _admin '' }">
+                                    <input wire:model.live.debounce="search_admin" x-model="search_admin" type="text" name="search_admin" class="form-control form-control-sm float-right"
+                                        placeholder="Cari">
+                                    <div class="input-group-append">
+                                        <button wire:click="resetSearchAdmin" type="submit" class="btn btn-warning">
+                                            <i class="bi bi-x-square-fill"></i>
+                                        </button>
                                     </div>
-                                @endsession
-                                <h3 class="card-title">Daftar Akun Pengelola</h3>
-                            </div> <!-- /.card-header -->
-                            <div class="card-body table-responsive" x-data="{ addadmin: false }">
-                                <div class="d-flex flex-column flex-lg-row float-end">
+                                </div>
+                            </div>
+                        </div> <!-- /.card-header -->
+                        <div class="card-body table-responsive" x-data="{ addadmin: false }">
+                            <div class="d-flex flex-column flex-lg-row float-end">
+                                @if (Auth::user()->role == 'superadmin')
                                     <button @click="addadmin = true" type="button" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</button>
-                                    <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
-                                        wire:loading.attr="disabled">
-                                        <i class="bi bi-arrow-repeat"></i> Refresh
-                                    </button>
-                                </div>
-                                <div class="d-flex flex-column flex-lg-row">
-                                    <div class="me-2 mb-2">
-                                        <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
-                                            <option value="5">5</option>
-                                            <option value="20">20</option>
-                                            <option value="50">50</option>
-                                            <option value="">All</option>
-                                        </select>
-                                    </div>
-                                </div>
+                                @endif
+                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
+                                    wire:loading.attr="disabled">
+                                    <i class="bi bi-arrow-repeat"></i> Refresh
+                                </button>
+                            </div>
+                            @if (Auth::user()->role == 'superadmin')
                                 <form x-show="addadmin" x-transition @click.outside="addadmin = false" wire:submit.prevent="userCreate()">
                                     <hr>
                                     <div class="row mt-2">
@@ -214,61 +228,58 @@
                                     </div>
                                     <hr>
                                 </form>
-                                <table class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 10px">#</th>
-                                            <th>Nama Pengguna | Username |</th>
-                                            <th>Kontak</th>
-                                            <th>Tanggal</th>
-                                            <th style="width: 40px">Label</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody x-data="{ adminedit: false }">
-                                        <!-- Modal -->
+                            @endif
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10px">#</th>
+                                        <th>Nama | Username |</th>
+                                        <th style="width: 40px">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody x-data="{ adminedit: false }">
+                                    <!-- Modal -->
 
-                                        @foreach ($admins as $item)
-                                            <tr class="align-middle" x-data="{ open: false }">
-                                                <td>{{ ($admins->currentpage() - 1) * $admins->perpage() + $loop->index + 1 }}</td>
-                                                <td>
-                                                    {{ $item->name }}
-                                                    <br> <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
-                                                    <br> <span class="badge text-bg-warning">Role: {{ $item->role }}</span>
-                                                </td>
-                                                <td><a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
-                                                </td>
-                                                <td>
-                                                    <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div><br>
-                                                    <div class="badge text-bg-success">{{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
-                                                </td>
-                                                <td class="d-flex">
-                                                    <a wire:navigate href="{{ route('admin.edit', $item->id) }}" class="btn btn-sm btn-warning me-1">
-                                                        <i class="bi bi-pencil"></i>
-                                                    </a>
-                                                    <button @click="open = true" class="btn btn-sm btn-danger">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                    <div x-show="open" @click.outside="open = false" class="overlay"></div>
-                                                    <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
-                                                        class="modal-hapus">
-                                                        <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
-                                                            <p class="fw-bold">{{ $item->username . ' - ' . $item->role }}</p>
-                                                            <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
-                                                            <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
-                                                        </div>
+                                    @foreach ($admins as $item)
+                                        <tr class="align-middle" x-data="{ open: false }">
+                                            <td>{{ ($admins->currentpage() - 1) * $admins->perpage() + $loop->index + 1 }}</td>
+                                            <td>
+                                                {{ $item->name }}
+                                                <br> <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
+                                                <br> <span class="badge text-bg-warning">Role: {{ $item->role }}</span>
+                                                <a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
+                                                <div class="mt-1">
+                                                    <div class="badge text-bg-success">Dibuat {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                    <div class="badge text-bg-success">Diperbaharui {{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                </div>
+                                            </td>
+                                            <td class="d-flex">
+                                                <a wire:navigate href="{{ route('admin.edit', $item->id) }}" class="btn btn-sm btn-warning me-1">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <button @click="open = true" class="btn btn-sm btn-danger" {{ $item->id == Auth::id() ? 'disabled' : '' }}>
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                                <div x-show="open" @click.outside="open = false" class="overlay"></div>
+                                                <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
+                                                    class="modal-hapus">
+                                                    <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
+                                                        <p class="fw-bold">{{ $item->username . ' - ' . $item->role }}</p>
+                                                        <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                        <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
                                                     </div>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div> <!-- /.card-body -->
-                            <div class="card-footer clearfix">
-                                {{ $admins->onEachSide(1)->links() }}
-                            </div>
-                        </div> <!-- /.card -->
-                    </div> <!-- /.col -->
-                @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div> <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            {{ $admins->onEachSide(1)->links() }}
+                        </div>
+                    </div> <!-- /.card -->
+                </div> <!-- /.col -->
             </div> <!--end::Row-->
         </div> <!--end::Container-->
     </div> <!--end::App Content-->

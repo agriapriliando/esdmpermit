@@ -6,12 +6,6 @@
         </div>
         <div class="card-body login-card-body">
             <p class="login-box-msg">Admin Perijinan ESDM Kalteng</p>
-            @session('error')
-                <div id="alert-error" class="alert alert-danger text-bg-danger" x-init="setTimeout(() => document.getElementById('alert-error').remove(), 5000)">
-                    {{ session('error') }}
-                </div>
-            @endsession
-
             <form wire:submit.prevent="login">
                 <div class="mb-2">
                     <label for="username">Username</label>
@@ -46,6 +40,11 @@
                     <button class="btn btn-success btn-block" type="submit">Login</button>
                 </div>
             </form>
+            @session('error')
+                <div id="alert-error" class="alert alert-danger text-bg-danger" x-init="setTimeout(() => document.getElementById('alert-error').remove(), 5000)">
+                    {{ session('error') }}
+                </div>
+            @endsession
             <p class="my-2 text-center d-none"> <a href="#" style="color: #4d4d4d !important;">Belum terdaftar? Ajukan Akun</a> </p>
             <p class="mb-1 text-center d-none"> <a style="color: #4d4d4d !important;" wire:navigate href="{{ URL::route('resetpass') }}">I forgot my password</a> </p>
         </div> <!-- /.login-card-body -->

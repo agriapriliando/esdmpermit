@@ -15,6 +15,7 @@ class UsersList extends Component
     use WithPagination;
 
     public $search = '';
+    public $search_admin = '';
     public $pagelength = 5;
     public $jenis_role;
 
@@ -38,6 +39,10 @@ class UsersList extends Component
     public function resetSearch()
     {
         $this->reset('search');
+    }
+    public function resetSearchAdmin()
+    {
+        $this->reset('search_admin');
     }
 
     public function getUserDelete($id)
@@ -76,15 +81,16 @@ class UsersList extends Component
     public function render()
     {
         return view('livewire.admin.users-list', [
-            'users' => User::with('company')
+            'users' => User::with('company')->withCount('appreqs')
                 ->search($this->search)
-                ->when($this->jenis_role, function ($query) {
-                    $query->where('role', $this->jenis_role);
-                })
                 ->orderBy('created_at', 'desc')
                 ->whereRole('pemohon')
-                ->paginate($this->pagelength),
-            'admins' => User::where('role', '!=', 'pemohon')->paginate(5),
+                ->paginate($perPage = $this->pagelength, $columns = ['*'], $pageName = 'users'),
+            'count_pemohon' => User::whereRole('pemohon')->count(),
+            'count_admin' => User::where('role', '!=', 'pemohon')->count(),
+            'admins' => User::where('role', '!=', 'pemohon')
+                ->search($this->search_admin)
+                ->paginate($perPage = 20, $columns = ['*'], $pageName = 'admins'),
         ]);
     }
 }
