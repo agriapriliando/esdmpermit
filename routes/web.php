@@ -90,6 +90,7 @@ Route::get('/datawilayah', function () {
     file_put_contents($outputFile, $data,  FILE_APPEND);
 });
 
+Route::get('/', Login::class)->name('login');
 Route::get('login', Login::class)->name('login');
 Route::get('logout', function () {
     Auth::logout();
@@ -110,7 +111,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
     });
     Route::middleware('cekrole:pemohon')->group(function () {
-        // Route::get('/', Profile::class)->name('profile');
         Route::get('profile', Profile::class)->name('profile');
         Route::get('create/', AppreqCreate::class)->name('appreq.create');
         Route::get('pengajuan/{jenis}', AppreqList::class)->name('appreq.list');
