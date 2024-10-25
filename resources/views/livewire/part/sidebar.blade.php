@@ -26,7 +26,7 @@
                 @if (session('admin') || session('superadmin'))
                     <li class="nav-header">Daftar Pengajuan</li>
                     @foreach ($stats as $stat)
-                        @if ($stat->name_stat == 'disposisi' || $stat->name_stat == 'diproses' || $stat->name_stat == 'perbaikan' || $stat->name_stat == 'selesai')
+                        @if ($stat->name_stat == 'disposisi' || $stat->name_stat == 'diproses' || $stat->name_stat == 'perbaikan' || $stat->name_stat == 'selesai' || $stat->name_stat == 'dibatalkan')
                             <li class="nav-item">
                                 <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-filetype-docx"></i>
