@@ -2,6 +2,7 @@
 
 use App\Livewire\Admin\AdminAppreqdetail;
 use App\Livewire\Admin\AdminAppreqlist;
+use App\Livewire\Admin\AdminProfile;
 use App\Livewire\Admin\CompanyList;
 use App\Livewire\Admin\PermitworkList;
 use App\Livewire\Admin\UserCreate;
@@ -99,9 +100,8 @@ Route::get('logout', function () {
 })->name('logout');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', Profile::class)->name('profile');
-    Route::get('profile', Profile::class)->name('profile');
     Route::middleware(['cekrole:admin|adminutama|disposisi'])->group(function () {
+        Route::get('profile/admin', AdminProfile::class)->name('admin.profile');
         Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');
         Route::get('admin/appreqdetail/{appreq}', AdminAppreqdetail::class)->name('admin.appreqdetail');
         Route::get('users', UsersList::class)->name('users.list');
@@ -110,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('permitworks', PermitworkList::class)->name('permitworks.list');
     });
     Route::middleware('cekrole:pemohon')->group(function () {
+        // Route::get('/', Profile::class)->name('profile');
+        Route::get('profile', Profile::class)->name('profile');
         Route::get('create/', AppreqCreate::class)->name('appreq.create');
         Route::get('pengajuan/{jenis}', AppreqList::class)->name('appreq.list');
         Route::get('pengajuan/detail/{ver_code}', AppreqDetail::class)->name('appreq.detail');

@@ -24,12 +24,13 @@ class UsersList extends Component
     public $name;
     #[Validate('required', message: 'Username tidak boleh kosong')]
     #[Validate('alpha_dash', message: 'Username Tidak Boleh Memakai Spasi')]
+    #[Validate('unique:users,username', message: 'Username Telah Digunakan')]
     public $username;
     #[Validate('required', message: 'No HP tidak boleh kosong')]
-    // #[Validate('unique:users,nohp', message: 'No HP Telah Digunakan')]
     public $nohp;
     #[Validate('required', message: 'Email tidak boleh kosong')]
     #[Validate('email', message: 'Format Email Belum Benar, gunakan @')]
+    #[Validate('unique:users,email', message: 'Email Telah Digunakan')]
     public $email;
     public $password;
     public $role;
@@ -52,29 +53,6 @@ class UsersList extends Component
         $this->dispatch('user-deleted', message: 'Akun ' . $user->name . ' Berhasil Dihapus');
     }
 
-    public function getUserEdit($id)
-    {
-        $this->users_edit = User::find($id);
-        $this->name = $this->users_edit->name;
-        $this->username = $this->users_edit->username;
-        $this->nohp = $this->users_edit->nohp;
-        $this->email = $this->users_edit->email;
-    }
-    public function saveUserEdit()
-    {
-        $data = [
-            'name' => $this->name,
-            'username' => $this->username,
-            'nohp' => $this->nohp,
-            'email' => $this->email,
-        ];
-        if ($this->password != null) {
-            $data['password'] = bcrypt($this->password);
-        }
-        $this->users_edit->update($data);
-        session()->flash('successadmin', 'Akun ' . $this->users_edit->name . ' Berhasil Diperbaharui');
-    }
-
     public function userCreate()
     {
         $this->validate([
@@ -88,10 +66,11 @@ class UsersList extends Component
             'nohp' => $this->nohp,
             'email' => $this->email,
             'password' => bcrypt($this->password),
-            'role' => 'admin',
+            'role' => $this->role,
         ];
         User::insert($data);
         session()->flash('successadmin', 'Akun ' . $this->name . ' Berhasil Ditambahkan');
+        $this->reset();
     }
 
     public function render()
@@ -105,7 +84,7 @@ class UsersList extends Component
                 ->orderBy('created_at', 'desc')
                 ->whereRole('pemohon')
                 ->paginate($this->pagelength),
-            'admins' => User::where('role', 'admin')->paginate(5),
+            'admins' => User::where('role', '!=', 'pemohon')->paginate(5),
         ]);
     }
 }
