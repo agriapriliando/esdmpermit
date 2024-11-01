@@ -24,6 +24,7 @@ class User extends Authenticatable
         'nohp',
         'email',
         'password',
+        'api_token',
         'role',
     ];
 
