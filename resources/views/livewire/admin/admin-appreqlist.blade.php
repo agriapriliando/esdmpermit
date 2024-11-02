@@ -38,7 +38,7 @@
                         <div class="card-body table-responsive">
                             <div class="mb-2" x-data="{ show: false }">
                                 <span @click="show = !show" class="btn btn-sm btn-warning"><i class="bi bi-question-circle"></i> Panduan</span>
-                                <div x-show="show" x-transition class="mt-1" @click.outside="show = false">
+                                <div class="p-3" x-show="show" x-transition class="mt-1" @click.outside="show = false">
                                     * Klik Detail untuk melihat detail pengajuan<br>
                                     * Diajukan = Status saat pengajuan pertama kali diajukan oleh Pemohon<br>
                                     * Disposisi = Status saat pengajuan diterima/dibuka oleh Admin Disposisi<br>

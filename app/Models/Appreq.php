@@ -20,6 +20,8 @@ class Appreq extends Model
         'user_disposisi',
         'date_processed',
         'user_processed',
+        'date_revision',
+        'user_revision',
         'date_finished',
         'user_finished',
         'date_rejected',

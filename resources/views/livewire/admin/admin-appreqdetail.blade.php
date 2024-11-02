@@ -58,7 +58,8 @@
                                 <button @click="history.back()" class="float-end btn btn-warning me-1 mb-2" type="button"><i class="bi bi-arrow-left"></i> Kembali</button>
                                 <div class="mt-4">
                                     <div style="width: 300px">
-                                        <select wire:model.live="stat_id" class="form-select bg-warning text-bg-warning p-2 rounded" id="status" x-on:change="$wire.savestat()">
+                                        <select wire:model.live="stat_id" class="form-select {{ $appreq->stat_id == 6 ? 'text-bg-success' : 'text-bg-warning' }} p-2 rounded" id="status"
+                                            x-on:change="$wire.savestat()" {{ Auth::user()->role == 'superadmin' ? 'disabled' : '' }}>
                                             @foreach ($stats as $s)
                                                 <option value="{{ $s->id }}" {{ $s->id === $stat_id ? 'selected' : '' }}> Status : {{ $s->desc_stat }}</option>
                                             @endforeach
@@ -130,7 +131,16 @@
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">8. Tanggal Selesai</td>
+                                            <td class="fw-bold">8. Tanggal Perbaikan</td>
+                                            @if ($appreq->date_revision != null)
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_revision)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_revision['name'] }}</span>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">9. Tanggal Selesai</td>
                                             @if ($appreq->date_finished != null)
                                                 <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
                                                     <span class="badge rounded-pill text-bg-warning">oleh
@@ -141,11 +151,10 @@
                                         @if ($appreq->date_rejected != null)
                                             <tr>
                                                 <td class="fw-bold">Tanggal Ditolak</td>
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-bold">Alasan Ditolak</td>
-                                                <td>: {{ $appreq->reason_rejected }}</td>
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_rejected['name'] }}</span>
+                                                </td>
                                             </tr>
                                         @endif
                                     </table>
@@ -157,15 +166,17 @@
                                             <div class="p-3 rounded shadow" x-data="{ open: false }">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <h3>Korespondensi</h3>
-                                                    @if ($appreq->stat_id == 2 || $appreq->stat_id == 4)
-                                                        <button
-                                                            x-on:click="
+                                                    @if (Auth::user()->role != 'superadmin')
+                                                        @if ($appreq->stat_id == 2 || $appreq->stat_id == 3 || $appreq->stat_id == 4)
+                                                            <button
+                                                                x-on:click="
                                                 open = !open;
                                                 document.getElementById('file_uploadd').innerHTML = 'Klik Untuk Upload Berkas...';
                                                 $wire.file_upload = '';
                                                 "
-                                                            class="btn btn-sm btn-success"><i class="bi bi-reply"></i>
-                                                            Balas</button>
+                                                                class="btn btn-sm btn-success"><i class="bi bi-reply"></i>
+                                                                Balas</button>
+                                                        @endif
                                                     @endif
                                                 </div>
                                                 <div x-show="open" class="mb-3" x-transition>

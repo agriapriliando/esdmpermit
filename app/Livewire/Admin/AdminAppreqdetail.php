@@ -54,7 +54,7 @@ class AdminAppreqdetail extends Component
                 'user_disposisi' => Auth::id()
             ]);
         }
-        if ($appreq->stat_id == 2 && Auth::user()->role != 'disposisi') {
+        if ($appreq->stat_id == 2 && Auth::user()->role == 'admin') {
             // ubah status ke id 2
             $appreq->update([
                 'stat_id' => 3,
@@ -62,20 +62,22 @@ class AdminAppreqdetail extends Component
                 'user_processed' => Auth::id()
             ]);
         }
-        // cek pesan, otomatis viewed saat detail pengajuan dibuka
-        Correspondence::where('appreq_id', $this->appreqid)
-            ->where('viewed', 0)
-            ->where('user_id', '!=', Auth::id())
-            ->where('sender', 1)
-            ->update([
-                'viewed' => 1
-            ]);
-        Doc::where('appreq_id', $this->appreqid)
-            ->where('viewed', 0)
-            ->where('sender', 1)
-            ->update([
-                'viewed' => 1
-            ]);
+        if (Auth::user()->role != 'superadmin') {
+            // cek pesan, otomatis viewed saat detail pengajuan dibuka
+            Correspondence::where('appreq_id', $this->appreqid)
+                ->where('viewed', 0)
+                ->where('user_id', '!=', Auth::id())
+                ->where('sender', 1)
+                ->update([
+                    'viewed' => 1
+                ]);
+            Doc::where('appreq_id', $this->appreqid)
+                ->where('viewed', 0)
+                ->where('sender', 1)
+                ->update([
+                    'viewed' => 1
+                ]);
+        }
     }
 
     public function deleteAppreq()
@@ -112,6 +114,12 @@ class AdminAppreqdetail extends Component
             $this->appreq->update([
                 'date_disposisi' => Carbon::now(),
                 'user_disposisi' => Auth::id()
+            ]);
+        }
+        if ($this->stat_id == 4) { //perbaikan
+            $this->appreq->update([
+                'date_revision' => Carbon::now(),
+                'user_revision' => Auth::id()
             ]);
         }
         if ($this->stat_id == 5) { //batal

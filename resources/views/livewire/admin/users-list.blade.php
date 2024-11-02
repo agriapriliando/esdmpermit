@@ -178,89 +178,96 @@
                             </div>
                         </div> <!-- /.card-header -->
                         <div class="card-body table-responsive" x-data="{ addadmin: false }">
-                            <div class="d-flex flex-column flex-lg-row float-end">
-                                @if (Auth::user()->role == 'superadmin')
-                                    <button @click="addadmin = true" type="button" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</button>
-                                @endif
-                                <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
-                                    wire:loading.attr="disabled">
-                                    <i class="bi bi-arrow-repeat"></i> Refresh
-                                </button>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="d-flex float-end">
+                                        @if (Auth::user()->role == 'superadmin')
+                                            <button @click="addadmin = true" type="button" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</button>
+                                        @endif
+                                        <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button"
+                                            x-on:click="$wire.$refresh()" wire:loading.attr="disabled">
+                                            <i class="bi bi-arrow-repeat"></i> Refresh
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                             @if (Auth::user()->role == 'superadmin')
-                                <form x-show="addadmin" x-transition @click.outside="addadmin = false" wire:submit.prevent="userCreate()">
-                                    <hr>
-                                    <div class="row mt-2">
-                                        <h5>Tambah Akun Pengelola</h5>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <label for="name">Nama Lengkap</label>
-                                            <input wire:model.blur="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name" autocomplete="off">
-                                            @error('name')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                <div class="row">
+                                    <div class="col-12">
+                                        <form x-show="addadmin" x-transition @click.outside="addadmin = false" wire:submit.prevent="userCreate()">
+                                            <div class="row mt-2">
+                                                <h5>Tambah Akun Pengelola</h5>
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <label for="name">Nama Lengkap</label>
+                                                    <input wire:model.blur="name" type="text" class="form-control @error('name') is-invalid @enderror" id="name" autocomplete="off">
+                                                    @error('name')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <label for="username">Username - </label>
-                                            <small>Digunakan untuk login</small>
-                                            <input wire:model.blur="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username" autocomplete="off">
-                                            @error('username')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <label for="username">Username - </label>
+                                                    <small>Digunakan untuk login</small>
+                                                    <input wire:model.blur="username" type="text" class="form-control @error('username') is-invalid @enderror" id="username"
+                                                        autocomplete="off">
+                                                    @error('username')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <label for="nohp">No HP</label>
-                                            <input wire:model.blur="nohp" type="text" inputmode="numeric" class="form-control @error('nohp') is-invalid @enderror" id="nohp"
-                                                autocomplete="off">
-                                            @error('nohp')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <label for="nohp">No HP</label>
+                                                    <input wire:model.blur="nohp" type="text" inputmode="numeric" class="form-control @error('nohp') is-invalid @enderror" id="nohp"
+                                                        autocomplete="off">
+                                                    @error('nohp')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <label for="email">Email</label>
-                                            <input wire:model.blur="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" autocomplete="off">
-                                            @error('email')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <label for="email">Email</label>
+                                                    <input wire:model.blur="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" autocomplete="off">
+                                                    @error('email')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <label for="role">Role</label>
-                                            <select wire:model="role" class="form-select" aria-label="Default select example">
-                                                <option value="">== Pilih Role ==</option>
-                                                <option value="admin">Admin Verifikator</option>
-                                                <option value="disposisi">Admin Disposisi</option>
-                                                <option value="superadmin">Super Admin</option>
-                                            </select>
-                                            @error('role')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <label for="role">Role</label>
+                                                    <select wire:model="role" class="form-select" aria-label="Default select example">
+                                                        <option value="">== Pilih Role ==</option>
+                                                        <option value="admin">Evaluator</option>
+                                                        <option value="disposisi">Operator</option>
+                                                    </select>
+                                                    @error('role')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <label for="password">Password - </label>
-                                            <small>Isi untuk mengganti password</small>
-                                            <input wire:model.blur="password" type="password" class="form-control @error('password') is-invalid @enderror" id="password" autocomplete="off">
-                                            @error('password')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <label for="password">Password - </label>
+                                                    <input wire:model.blur="password" type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+                                                        autocomplete="off">
+                                                    @error('password')
+                                                        <div class="invalid-feedback">
+                                                            {{ $message }}
+                                                        </div>
+                                                    @enderror
                                                 </div>
-                                            @enderror
-                                        </div>
-                                        <div class="col-6 col-md-4 mb-2">
-                                            <button @click="addadmin = false" class="btn btn-success mt-4" type="submit">Simpan</button>
-                                            <button @click="addadmin = false" type="button" class="btn btn-warning mt-4">Tutup</button>
-                                        </div>
+                                                <div class="col-6 col-md-4 mb-2">
+                                                    <button @click="addadmin = false" class="btn btn-success mt-4" type="submit">Simpan</button>
+                                                    <button @click="addadmin = false" type="button" class="btn btn-warning mt-4">Tutup</button>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        </form>
                                     </div>
-                                    <hr>
-                                </form>
+                                </div>
                             @endif
                             <table class="table table-bordered table-hover">
                                 <thead>
@@ -279,7 +286,6 @@
                                             <td>
                                                 {{ $item->name }}
                                                 <br> <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
-                                                <br> <span class="badge text-bg-warning">Role: {{ $item->role }}</span>
                                                 <a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
                                                 <div class="mt-1">
                                                     <div class="badge text-bg-success">Dibuat {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div>

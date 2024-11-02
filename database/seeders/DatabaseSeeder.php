@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'Disposisi',
-                'username' => 'disposisi',
+                'username' => 'operator',
                 'nohp' => '-',
                 'email' => 'disposisi@gmail.com',
                 'password' => bcrypt('123'),

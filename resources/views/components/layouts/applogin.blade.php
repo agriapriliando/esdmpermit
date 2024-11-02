@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/css/adminlte.css"><!--end::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('') }}assets/css/login.css">
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head> <!--end::Head--> <!--begin::Body-->
 
 <body class="login-page bg-body-secondary">

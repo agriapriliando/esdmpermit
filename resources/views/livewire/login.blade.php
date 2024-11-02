@@ -24,7 +24,7 @@
             </div>
         @endsession
         <div class="card border-light-subtle shadow-sm">
-            <div class="row g-0" x-data="{ panduan: false, formlogin: false, }">
+            <div class="row g-0" x-data="{ panduan: false, formlogin: true, }">
                 <div x-show="panduan" id="overlay"></div>
                 <div x-show="panduan" class="position-fixed bg-white text-white p-3 rounded shadow-lg" style="top: 40%; left: 50%; transform: translate(-50%, -50%); z-index: 3;">
                     <div class="text-center text-black" @click.outside="panduan = false" x-transition>
@@ -39,7 +39,7 @@
                         <button class="btn btn-sm btn-primary" type="button"><i class="bi bi-x"></i> Tutup</button>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 text-bg-primary">
+                <div class="col-12 col-md-6 text-bg-primary pb-4">
                     <div class="d-flex align-items-center justify-content-center h-100">
                         <div class="col-10 col-xl-8 py-3">
                             <img class="img-fluid rounded mb-4" loading="lazy" src="{{ asset('') }}assets/img/logo_desdm_kalteng_white.png" width="260" alt="BootstrapBrain Logo">
@@ -95,13 +95,6 @@
                                         </div>
                                     @enderror
                                 </div>
-                                @session('error')
-                                    <div id="alert-error" style="top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;"
-                                        class="alert alert-danger alert-dismissible fade show position-fixed" x-transition role="alert" x-init="setTimeout(() => document.getElementById('alert-error').remove(), 5000)">
-                                        <strong>{{ session('error') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                @endsession
                                 <div class="col-12">
                                     <div class="d-grid">
                                         <button class="btn bsb-btn-xl btn-primary" type="submit"><i class="bi bi-box-arrow-in-right"></i> L o g i n</button>
@@ -228,7 +221,8 @@
                             <div class="col-12">
                                 <hr class="my-4 border-secondary-subtle">
                                 <div class="d-flex gap-2 gap-md-2 flex-column flex-md-row justify-content-md-end">
-                                    <button @click="formlogin = !formlogin" class="btn btn-primary btn-sm" type="button"><i class="bi bi-person-plus"></i> Pendaftaran</button>
+                                    <button @click="formlogin = !formlogin" class="btn btn-primary btn-sm" type="button"><i class="bi bi-person-plus"></i> <span
+                                            x-text="formlogin ? 'Pendaftaran' : 'Login'"></span></button>
                                     <button @click="panduan = !panduan" class="btn btn-primary btn-sm" type="button"><i class="bi bi-question-circle"></i> Panduan</button>
                                     <a href="#!" class="btn btn-primary btn-sm"><i class="bi bi-headset"></i> Hubungi Kami</a>
                                 </div>

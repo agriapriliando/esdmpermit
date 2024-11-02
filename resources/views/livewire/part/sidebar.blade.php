@@ -1,6 +1,8 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
-    <div class="sidebar-brand"> <!--begin::Brand Link--> <a href="./index.html" class="brand-link"> <!--begin::Brand Image--> <img src="{{ asset('') }}assets/img/AdminLTELogo.png" alt="AdminLTE Logo"
-                class="brand-image opacity-75 shadow"> <!--end::Brand Image--> <!--begin::Brand Text--> <span class="brand-text fw-light">ESDM Kalteng</span> <!--end::Brand Text--> </a>
+    <div class="sidebar-brand"> <!--begin::Brand Link-->
+        <a href="./index.html" class="brand-link"> <!--begin::Brand Image-->
+            <img src="{{ asset('') }}assets/img/logo_desdm_kalteng_white.png" alt="AdminLTE Logo" class="opacity-75 shadow" width="240"> <!--end::Brand Image-->
+        </a>
         <!--end::Brand Link-->
     </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
     <div class="sidebar-wrapper">
@@ -25,16 +27,27 @@
                 @endif
                 @if (session('admin') || session('superadmin'))
                     <li class="nav-header">Daftar Pengajuan</li>
-                    @foreach ($stats as $stat)
-                        @if ($stat->name_stat == 'disposisi' || $stat->name_stat == 'diproses' || $stat->name_stat == 'perbaikan' || $stat->name_stat == 'selesai' || $stat->name_stat == 'dibatalkan')
+                    @if (session('admin'))
+                        @foreach ($stats as $stat)
+                            @if ($stat->name_stat != 'diajukan')
+                                <li class="nav-item">
+                                    <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
+                                        <i class="nav-icon bi bi-filetype-docx"></i>
+                                        <p>{{ $stat->desc_stat }}</p>
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+                    @else
+                        @foreach ($stats as $stat)
                             <li class="nav-item">
                                 <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-filetype-docx"></i>
                                     <p>{{ $stat->desc_stat }}</p>
                                 </a>
                             </li>
-                        @endif
-                    @endforeach
+                        @endforeach
+                    @endif
                     <li class="nav-header">Data Master</li>
                     <li class="nav-item {{ request()->routeIs('topics.*') || request()->routeIs('users.*') || request()->routeIs('permitworks.*') ? 'menu-open' : '' }}"> <a href="#"
                             class="nav-link"> <i class="nav-icon bi bi-tree-fill"></i>
@@ -74,6 +87,7 @@
                         </a>
                     </li>
                 @endif
+                <hr class="mb-5">
                 <li class="nav-item d-none"> <a target="_blank" href="https://www.ditaria.com/" class="nav-link">
                         <p>Dev by ditaria.com</p>
                     </a>
@@ -84,26 +98,24 @@
 </aside> <!--end::Sidebar--> <!--begin::App Main-->
 @script
     <script>
-        $wire.on('sidebar', (event) => {
-            const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
-            const Default = {
-                scrollbarTheme: "os-theme-light",
-                scrollbarAutoHide: "leave",
-                scrollbarClickScroll: true,
-            };
-            const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-            if (
-                sidebarWrapper &&
-                typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined"
-            ) {
-                OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                    scrollbars: {
-                        theme: Default.scrollbarTheme,
-                        autoHide: Default.scrollbarAutoHide,
-                        clickScroll: Default.scrollbarClickScroll,
-                    },
-                });
-            }
-        });
+        const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
+        const Default = {
+            scrollbarTheme: "os-theme-light",
+            scrollbarAutoHide: "leave",
+            scrollbarClickScroll: true,
+        };
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (
+            sidebarWrapper &&
+            typeof OverlayScrollbarsGlobal?.OverlayScrollbars !== "undefined"
+        ) {
+            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+                scrollbars: {
+                    theme: Default.scrollbarTheme,
+                    autoHide: Default.scrollbarAutoHide,
+                    clickScroll: Default.scrollbarClickScroll,
+                },
+            });
+        }
     </script>
 @endscript

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->integer('user_disposisi')->nullable(); // nama operator
             $table->timestamp('date_processed')->nullable();
             $table->integer('user_processed')->nullable();
+            $table->timestamp('date_revision')->nullable();
+            $table->integer('user_revision')->nullable();
             $table->timestamp('date_finished')->nullable();
             $table->integer('user_finished')->nullable();
             $table->timestamp('date_rejected')->nullable();

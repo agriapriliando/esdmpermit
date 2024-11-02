@@ -5,11 +5,12 @@
         </ul> <!--end::Start Navbar Links--> <!--begin::End Navbar Links-->
         <ul class="navbar-nav ms-auto"> <!--begin::Navbar Search-->
             @if (Auth::user()->role != 'pemohon')
-                <li class="nav-item"> <a class="nav-link" wire:navigate href="{{ route('admin.profile') }}" role="button"><i class="bi bi-person-circle"></i> Profile</a> </li>
+                <li class="nav-item"> <a class="nav-link" wire:navigate href="{{ route('admin.profile') }}" role="button"><i class="bi bi-person-circle me-2"></i> Hai, {{ Auth::user()->name }}</a>
+                </li>
             @else
-                <li class="nav-item"> <a class="nav-link" wire:navigate href="{{ route('profile') }}" role="button"><i class="bi bi-person-circle"></i> Profile</a> </li>
+                <li class="nav-item"> <a class="nav-link" wire:navigate href="{{ route('profile') }}" role="button"><i class="bi bi-person-circle me-2"></i> Hai, {{ Auth::user()->name }}</a> </li>
             @endif
-            <li class="nav-item"> <a class="btn btn-sm btn-danger mt-1" href="{{ route('logout') }}" role="button"><i class="bi bi-backspace"></i> Logout</a> </li>
+            <li class="nav-item"> <a class="btn btn-sm btn-danger mt-1" href="{{ route('logout') }}" role="button"><i class="bi bi-backspace me-2"></i> Logout</a> </li>
         </ul> <!--end::End Navbar Links-->
     </div> <!--end::Container-->
 </nav>
