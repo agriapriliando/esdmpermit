@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AktivasiController;
 use App\Http\Controllers\DaftarController;
 use App\Livewire\Admin\AdminAppreqdetail;
 use App\Livewire\Admin\AdminAppreqlist;
@@ -18,10 +19,9 @@ use App\Livewire\Resetpass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('login');
-// });
-
+Route::get('/mail', function () {
+    return view('mail.aktivasi');
+});
 Route::get('/test/page', function () {
     dd(phpinfo());
 });
@@ -91,6 +91,7 @@ Route::get('/datawilayah', function () {
     file_put_contents($outputFile, $data,  FILE_APPEND);
 });
 
+
 Route::get('/', Login::class)->name('login');
 Route::get('login', Login::class)->name('login');
 Route::get('logout', function () {
@@ -99,6 +100,7 @@ Route::get('logout', function () {
     session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
+Route::get('aktivasi/{token}', AktivasiController::class)->name('aktivasi');
 Route::post('daftar', DaftarController::class)->name('daftar');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {

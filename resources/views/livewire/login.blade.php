@@ -1,10 +1,25 @@
 <!-- Login 5 - Bootstrap Brain Component -->
+
 <section class="p-3 p-md-4 p-xl-5">
     <div class="container mb-5">
         @session('success')
-            <div style="top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-primary alert-dismissible fade show position-fixed" x-transition role="alert">
+            <div style="top: 20%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-primary alert-dismissible fade show position-fixed" x-transition role="alert">
                 <strong>{{ session('success') }}</strong><br>
                 Silahkan Buka Email <span class="fw-bold">{{ session('success') }}</span> untuk mengaktifkan Akun Anda
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endsession
+        @session('aktivasi')
+            <div style="top: 20%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-primary alert-dismissible fade show position-fixed" x-transition
+                role="alert">
+                <strong>{{ session('aktivasi') }}</strong><br>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endsession
+        @session('error')
+            <div id="alert-error" style="top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-danger alert-dismissible fade show position-fixed"
+                x-transition role="alert">
+                <strong>{{ session('error') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endsession
@@ -202,13 +217,6 @@
                                         </div>
                                     @enderror
                                 </div>
-                                @session('error')
-                                    <div id="alert-error" style="top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;"
-                                        class="alert alert-danger alert-dismissible fade show position-fixed" x-transition role="alert" x-init="setTimeout(() => document.getElementById('alert-error').remove(), 5000)">
-                                        <strong>{{ session('error') }}</strong>
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                    </div>
-                                @endsession
                                 <div class="col-12">
                                     <div class="d-grid">
                                         <button class="btn bsb-btn-xl btn-primary" type="submit"><i class="bi bi-box-arrow-in-right"></i> D A F T A R</button>
