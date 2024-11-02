@@ -85,6 +85,7 @@ class UsersList extends Component
                 ->search($this->search)
                 ->orderBy('created_at', 'desc')
                 ->whereRole('pemohon')
+                ->orWhere('role', 'newuser')
                 ->paginate($perPage = $this->pagelength, $columns = ['*'], $pageName = 'users'),
             'count_pemohon' => User::whereRole('pemohon')->count(),
             'count_admin' => User::where('role', '!=', 'pemohon')->count(),

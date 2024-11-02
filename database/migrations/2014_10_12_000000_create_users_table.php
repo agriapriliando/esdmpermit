@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('role', 20)->default('pemohon'); // superadmin, admin, pemohon, nonaktif, disposisi
+            $table->string('api_token')->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

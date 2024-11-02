@@ -41,7 +41,7 @@ class UseradminEdit extends Component
         // validation unique data
         $this->validate();
         // ambil data form user
-        $data = $this->only('name', 'username', 'nohp');
+        $data = $this->only('name', 'username', 'nohp', 'role');
         // cek checkbox password
         if ($this->passCheck) {
             if ($this->password != null) {

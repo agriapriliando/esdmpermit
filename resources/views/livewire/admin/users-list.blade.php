@@ -78,40 +78,73 @@
 
                                     @foreach ($users as $item)
                                         <tr class="align-middle" x-data="{ open: false }" wire:key="{{ $item->id }}">
-                                            <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}</td>
-                                            <td>
-                                                {{ $item->name }} <span class="badge text-bg-success">{{ $item->appreqs_count }}</span>
-                                                <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
-                                                {{ $item->company->name_company }}
-                                                <a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
-                                                <div class="mt-1">
-                                                    <div class="badge text-bg-success">Dibuat {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div>
-                                                    <div class="badge text-bg-success">Diperbaharui {{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
-                                                </div>
-                                            </td>
-                                            <td class="d-flex">
-                                                <a wire:navigate href="{{ route('user.edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
-                                                <button @click="open = true" class="btn btn-sm btn-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                                <div x-show="open" @click.outside="open = false" class="overlay"></div>
-                                                <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out" class="modal-hapus">
-                                                    @if ($item->appreqs_count > 0)
-                                                        <div class="alert alert-danger text-center">Akun ini tidak bisa dihapus, akun ini telah tertaut dengan data permohonan layanan
-                                                            <p class="fw-bold">Cek Permohonan Layanan dengan Pemohon: {{ $item->name }}</p>
-                                                            <button class="btn btn-sm btn-warning">Tutup</button>
-                                                        </div>
-                                                    @else
-                                                        <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
-                                                            <p class="fw-bold">{{ $item->username . ' - ' . $item->company->name_company }}</p>
-                                                            <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
-                                                            <button class="btn btn-sm btn-warning">Batal</button>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                            </td>
+                                            @if ($item->role == 'newuser')
+                                                <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}</td>
+                                                <td class="bg-warning">{{ $item->name }} | {{ $item->company->name_company }} | {{ $item->email }}
+                                                    <span class="badge text-bg-danger">Akun Belum Aktif</span> <br>
+                                                    Cek Email Untuk Aktivasi Akun
+                                                </td>
+                                                <td class="d-flex">
+                                                    <a wire:navigate href="{{ route('user.edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button @click="open = true" class="btn btn-sm btn-danger">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                    <div x-show="open" @click.outside="open = false" class="overlay"></div>
+                                                    <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
+                                                        class="modal-hapus">
+                                                        @if ($item->appreqs_count > 0)
+                                                            <div class="alert alert-danger text-center">Akun ini tidak bisa dihapus, akun ini telah tertaut dengan data permohonan layanan
+                                                                <p class="fw-bold">Cek Permohonan Layanan dengan Pemohon: {{ $item->name }}</p>
+                                                                <button class="btn btn-sm btn-warning">Tutup</button>
+                                                            </div>
+                                                        @else
+                                                            <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
+                                                                <p class="fw-bold">{{ $item->username . ' - ' . $item->company->name_company }}</p>
+                                                                <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                                <button class="btn btn-sm btn-warning">Batal</button>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            @else
+                                                <td>{{ ($users->currentpage() - 1) * $users->perpage() + $loop->index + 1 }}</td>
+                                                <td>
+                                                    {{ $item->name }} <span class="badge text-bg-success">{{ $item->appreqs_count }}</span>
+                                                    <span class="badge text-bg-warning">Username: {{ $item->username }}</span>
+                                                    {{ $item->company->name_company }}
+                                                    <a href="#" class="btn btn-sm btn-success"><i class="bi bi-whatsapp"></i> {{ $item->nohp }}</a>
+                                                    <div class="mt-1">
+                                                        <div class="badge text-bg-success">Dibuat {{ Carbon\Carbon::parse($item->created_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                        <div class="badge text-bg-success">Diperbaharui {{ Carbon\Carbon::parse($item->updated_at)->translatedFormat('d F Y H:i') }} Wib</div>
+                                                    </div>
+                                                </td>
+                                                <td class="d-flex">
+                                                    <a wire:navigate href="{{ route('user.edit', $item->id) }}" class="btn btn-sm btn-warning me-2">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <button @click="open = true" class="btn btn-sm btn-danger">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                    <div x-show="open" @click.outside="open = false" class="overlay"></div>
+                                                    <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
+                                                        class="modal-hapus">
+                                                        @if ($item->appreqs_count > 0)
+                                                            <div class="alert alert-danger text-center">Akun ini tidak bisa dihapus, akun ini telah tertaut dengan data permohonan layanan
+                                                                <p class="fw-bold">Cek Permohonan Layanan dengan Pemohon: {{ $item->name }}</p>
+                                                                <button class="btn btn-sm btn-warning">Tutup</button>
+                                                            </div>
+                                                        @else
+                                                            <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
+                                                                <p class="fw-bold">{{ $item->username . ' - ' . $item->company->name_company }}</p>
+                                                                <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                                <button class="btn btn-sm btn-warning">Batal</button>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

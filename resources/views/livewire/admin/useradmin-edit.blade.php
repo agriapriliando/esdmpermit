@@ -53,8 +53,7 @@
                                         </div>
                                         <div class="mb-2">
                                             <label for="email">Email</label>
-                                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" inputmode="email" autocomplete="off"
-                                                value="{{ $email }}" disabled>
+                                            <input wire:model.blur="email" type="text" class="form-control @error('email') is-invalid @enderror" id="email" inputmode="email" autocomplete="off">
                                             @error('email')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -64,8 +63,8 @@
                                         <div class="mb-2">
                                             <label for="role">Role</label>
                                             <select wire:model="role" class="form-select" aria-label="Default select example">
-                                                <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Admin Verifikator</option>
-                                                <option value="disposisi" {{ $role == 'disposisi' ? 'selected' : '' }}>Admin Disposisi</option>
+                                                <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Evaluator</option>
+                                                <option value="disposisi" {{ $role == 'disposisi' ? 'selected' : '' }}>Operator</option>
                                                 <option value="superadmin" {{ $role == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
                                             </select>
                                             @error('role')

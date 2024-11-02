@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DaftarController;
 use App\Livewire\Admin\AdminAppreqdetail;
 use App\Livewire\Admin\AdminAppreqlist;
 use App\Livewire\Admin\AdminProfile;
@@ -98,6 +99,7 @@ Route::get('logout', function () {
     session()->regenerateToken();
     return redirect()->route('login');
 })->name('logout');
+Route::post('daftar', DaftarController::class)->name('daftar');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['cekrole:admin|superadmin|disposisi'])->group(function () {

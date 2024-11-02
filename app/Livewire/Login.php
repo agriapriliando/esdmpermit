@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Models\Commodity;
+use App\Models\Region;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
@@ -45,6 +47,9 @@ class Login extends Component
 
     public function render()
     {
-        return view('livewire.login');
+        return view('livewire.login', [
+            'commodities' => Commodity::all(),
+            'all_kab' => Region::where('parent_region', '62')->get(),
+        ]);
     }
 }
