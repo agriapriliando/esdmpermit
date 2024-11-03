@@ -134,28 +134,60 @@ class AppreqDetail extends Component
             ]);
 
         if ($this->appreq->user_disposisi != null) {
-            $user_disposisi = User::findOrFail($this->appreq->user_disposisi);
+            $user_disposisi = User::find($this->appreq->user_disposisi);
+            if ($user_disposisi == null) {
+                $user_disposisi = [
+                    'name' => "--"
+                ];
+            }
         } else {
             $user_disposisi = [
                 'name' => null
             ];
         }
         if ($this->appreq->user_processed != null) {
-            $user_processed = User::findOrFail($this->appreq->user_processed);
+            $user_processed = User::find($this->appreq->user_processed);
+            if ($user_processed == null) {
+                $user_processed = [
+                    'name' => "--"
+                ];
+            }
         } else {
             $user_processed = [
                 'name' => null
             ];
         }
+        if ($this->appreq->user_revision != null) {
+            $user_revision = User::find($this->appreq->user_revision);
+            if ($user_revision == null) {
+                $user_revision = [
+                    'name' => "--"
+                ];
+            }
+        } else {
+            $user_revision = [
+                'name' => null
+            ];
+        }
         if ($this->appreq->user_finished != null) {
-            $user_finished = User::findOrFail($this->appreq->user_finished);
+            $user_finished = User::find($this->appreq->user_finished);
+            if ($user_finished == null) {
+                $user_finished = [
+                    'name' => "--"
+                ];
+            }
         } else {
             $user_finished = [
                 'name' => null
             ];
         }
         if ($this->appreq->user_rejected != null) {
-            $user_rejected = User::findOrFail($this->appreq->user_rejected);
+            $user_rejected = User::find($this->appreq->user_rejected);
+            if ($user_rejected == null) {
+                $user_rejected = [
+                    'name' => "--"
+                ];
+            }
         } else {
             $user_rejected = [
                 'name' => null
@@ -172,6 +204,7 @@ class AppreqDetail extends Component
             'appreq' => Appreq::where('ver_code', $this->appreq->ver_code)->with('user', 'permitwork', 'company')->first(),
             'user_disposisi' => $user_disposisi,
             'user_processed' => $user_processed,
+            'user_revision' => $user_revision,
             'user_finished' => $user_finished,
             'user_rejected' => $user_rejected
         ]);

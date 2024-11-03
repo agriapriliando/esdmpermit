@@ -65,7 +65,6 @@
                                             <select wire:model="role" class="form-select" aria-label="Default select example">
                                                 <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Evaluator</option>
                                                 <option value="disposisi" {{ $role == 'disposisi' ? 'selected' : '' }}>Operator</option>
-                                                <option value="superadmin" {{ $role == 'superadmin' ? 'selected' : '' }}>Super Admin</option>
                                             </select>
                                             @error('role')
                                                 <div class="invalid-feedback">

@@ -53,13 +53,13 @@
                                             @enderror
                                         </div>
                                         <div class="mb-2">
-                                            <label for="password">Password Default menggunakan Username</label>
+                                            <label for="password">Pilih untuk mengganti Password</label>
                                             <div class="mb-3 form-check">
                                                 <input wire:model="passCheck" type="checkbox" class="form-check-input" id="exampleCheck1" x-model="pass">
-                                                <label class="form-check-label" for="exampleCheck1">Gunakan Password Berbeda</label>
+                                                <label class="form-check-label" for="exampleCheck1">Ganti Password</label>
                                             </div>
                                             <div x-show="pass">
-                                                <label for="password">Password</label>
+                                                <label for="password">Password Baru</label>
                                                 <input wire:model.live="password" type="password" class="form-control" id="password">
                                                 @error('password')
                                                     <div class="invalid-feedback">

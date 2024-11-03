@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Company;
 use App\Models\Region;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -91,6 +92,8 @@ class UsersList extends Component
             'count_admin' => User::where('role', '!=', 'pemohon')->count(),
             'admins' => User::where('role', '!=', 'pemohon')
                 ->search($this->search_admin)
+                ->where('id', '!=', Auth::id())
+                ->where('role', '!=', 'superadmin')
                 ->paginate($perPage = 20, $columns = ['*'], $pageName = 'admins'),
         ]);
     }

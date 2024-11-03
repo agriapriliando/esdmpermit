@@ -296,18 +296,20 @@
                                                 <a wire:navigate href="{{ route('admin.edit', $item->id) }}" class="btn btn-sm btn-warning me-1">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <button @click="open = true" class="btn btn-sm btn-danger" {{ $item->id == Auth::id() ? 'disabled' : '' }}>
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                                <div x-show="open" @click.outside="open = false" class="overlay"></div>
-                                                <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
-                                                    class="modal-hapus">
-                                                    <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
-                                                        <p class="fw-bold">{{ $item->username . ' - ' . $item->role }}</p>
-                                                        <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
-                                                        <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
+                                                @if (Auth::user()->role == 'superadmin')
+                                                    <button @click="open = true" class="btn btn-sm btn-danger" {{ $item->id == Auth::id() ? 'disabled' : '' }}>
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                    <div x-show="open" @click.outside="open = false" class="overlay"></div>
+                                                    <div x-show="open" @click.away="open = false" x-transition:enter-start="modal-hapus-in" x-transition:leave-end="modal-hapus-out"
+                                                        class="modal-hapus">
+                                                        <div class="alert alert-danger text-center">Yakin ingin menghapus akun ini?
+                                                            <p class="fw-bold">{{ $item->username . ' - ' . $item->role }}</p>
+                                                            <button wire:click.prevent="getUserDelete({{ $item->id }})" class="btn btn-sm btn-danger">Hapus!!</button>
+                                                            <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

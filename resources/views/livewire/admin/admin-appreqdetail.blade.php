@@ -197,7 +197,7 @@
                                                                     : 'Klik Untuk Upload Berkas...'">
                                                                         Pilih berkas
                                                                     </div>
-                                                                    <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg | Size 1 File Max 6MB</small>
+                                                                    <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg | Size 1 File Max 10MB</small>
                                                                     <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload"
                                                                         wire:model.live="file_upload" type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror"
                                                                         id="file_upload" multiple="true">
@@ -213,7 +213,7 @@
                                                                     </div>
                                                                 @enderror
                                                             </div>
-                                                            <div wire:loading wire:target="file_upload" class="bg-warning px-2 rounded">Tunggu, sedang memeriksa file...</div>
+                                                            <div wire:loading wire:target="file_upload" class="bg-warning px-2 rounded mb-2">Tunggu, sedang memeriksa file...</div>
                                                             <div class="mb-2" x-show="uploading">
                                                                 <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0"
                                                                     aria-valuemax="100">
@@ -229,7 +229,8 @@
                                                                     </div>
                                                                 @enderror
                                                             </div>
-                                                            <button x-on:click="open = false" type="submit" class="btn btn-success" wire:loading.attr="disabled" wire:target="file_upload">
+                                                            <button x-on:click="open = false" type="submit" class="btn btn-success" wire:loading.remove wire:loading.attr="disabled"
+                                                                wire:target="file_upload">
                                                                 <i class="bi bi-send"></i> Kirim
                                                             </button>
                                                         </div>

@@ -118,7 +118,16 @@
                                             @endif
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">8. Tanggal Selesai</td>
+                                            <td class="fw-bold">8. Tanggal Perbaikan</td>
+                                            @if ($appreq->date_revision != null)
+                                                <td>: {{ Carbon\Carbon::parse($appreq->date_revision)->translatedFormat('d/m/Y H:i') }} Wib
+                                                    <span class="badge rounded-pill text-bg-warning">oleh
+                                                        {{ $user_revision['name'] }}</span>
+                                                </td>
+                                            @endif
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-bold">9. Tanggal Selesai</td>
                                             @if ($appreq->date_finished != null)
                                                 <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
                                                     <span class="badge rounded-pill text-bg-warning">oleh
@@ -133,10 +142,6 @@
                                                     <span class="badge rounded-pill text-bg-warning">oleh
                                                         {{ $user_rejected['name'] }}</span>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="fw-bold">Alasan Ditolak</td>
-                                                <td>: {{ $appreq->reason_rejected }}</td>
                                             </tr>
                                         @endif
                                     </table>

@@ -20,7 +20,7 @@ class AdminAppreqdetail extends Component
 
     #[Validate(
         [
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg|max:6000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar|max:15000'
         ],
         message: [
             'max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 6MB',
