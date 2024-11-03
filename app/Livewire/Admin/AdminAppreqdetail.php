@@ -233,6 +233,13 @@ class AdminAppreqdetail extends Component
                 'name' => null
             ];
         }
+        if ($this->appreq->user_revision != null) {
+            $user_revision = User::findOrFail($this->appreq->user_revision);
+        } else {
+            $user_revision = [
+                'name' => null
+            ];
+        }
         if ($this->appreq->user_finished != null) {
             $user_finished = User::findOrFail($this->appreq->user_finished);
         } else {
@@ -257,7 +264,8 @@ class AdminAppreqdetail extends Component
             'appreq' => Appreq::where('id', $this->appreqid)->with('user', 'permitwork', 'company')->first(),
             'stats' => $stat,
             'user_disposisi' => $user_disposisi,
-            'user_processed' => $user_processed,
+            // 'user_processed' => $user_processed,
+            'user_revision' => $user_revision,
             'user_finished' => $user_finished,
             'user_rejected' => $user_rejected
         ]);
