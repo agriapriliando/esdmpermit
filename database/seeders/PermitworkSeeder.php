@@ -14,7 +14,7 @@ class PermitworkSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('permitworks')->insert([
+        $datalayanan = [
             [
                 // 1
                 'name_permit' => 'Surat Persetujuan RKAB IUP Eksplorasi Mineral Bukan Logam',
@@ -141,6 +141,49 @@ class PermitworkSeeder extends Seeder
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
-        ]);
+        ];
+
+        $datanew = [
+            [
+                // 1
+                'name_permit' => 'Surat Persetujuan Pembangunan Gudang Bahan Peledak ',
+                'desc_permit' => '1. GAMBAR KONSTRUKSI GUDANG BAHAN PELEDAK <br>
+                                2. GAMBAR SITUASI GUDANG BAHAN PELEDAK <br>
+                                3. DETIL RENCANA WAKTU DAN TAHAPAN PEMBANGUNAN GUDANG BAHAN PELEDAK <br>
+                                4. PENGESAHAN KEPALA TEKNIK TAMBANG <br>
+                                5. PETA WIUP YANG SUDAH DIOVERLAY DENGAN KAWASAN HUTAN  <br>
+                                6. BA PENENTUAN LOKASI RENCANA PEMBAGUNAN GUDANG BAHAN PELEDAK  <br>
+                                7. LAPORAN PENYELIDIKAN TANAH <br>
+                                8. RENCANA PONDASI GUDANG BAHAN PELEDAK <br>
+                                9. PERHITUNGAN KEBUTUHAN MATERIAL BLASTING <br>
+                                10.	FOTO SITUASI PERMUKAAN LAHAN <br>
+                                11.	SALINAN IJIN LINGKUNGAN DAN FS <br>
+                                12.	SURAT PERNYATAAN KEBENARAN DOKUMEN <br>
+                                13.	PENGESAHAN RKAB PT BKR <br>',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                // 1
+                'name_permit' => 'Dokumen Pengesahan Kepala Teknik Tambang (KTT)',
+                'desc_permit' => '1. SURAT PERMOHONAN (TTD DIREKTUR UTAMA DAN CAP) <br>
+                                2. SALINAN IZIN USAHA PERTAMBANGAN ( IUP ) <br>
+                                3. SURAT PERNYATAAN TIDAK MEMILIKI KETERIKATAN DI PERUSAHAAN TAMBANG LAIN (TTD CALON KTT DAN METERAI) <br>
+                                4. SURAT PERNYATAAN KOMITMEN MELAKSANAKAN TUGAS DAN TANGGUNG JAWAB KTT PALING SEDIKIT 2 TAHUN DIPERUSAHAAN YANG MENUNJUKNYA (TTD CALON KTT DAN METERAI) <br>
+                                5. STRUKTUR ORGANISASI PERUSAHAAN YANG DITANDATANGANI OLEH PIMPINAN DAN DIBERI CAP BASAH PERUSAHAAN <br>
+                                6. SURAT PERNYATAAN , BERMETERAI YANG DITANDATANGANI OLEH PIMPINAN TERTINGGI PERUSAHAAN YANG MENYATAKAN MENDUKUNG SEMUA PROGRAM KTT (TTD DAN CAP PERUSAHAAN) <br>
+                                7. SURAT PERNYATAAN PERSETUJUAN PENGESAHAN KTT BERISI KEBENARAN DOKUMEN (TTD CAP PERUSAHAAN DIREKTUR DAN BERMETERAI) <br>
+                                8. DAFTAR RIWAYAT HIDUP CALON KTT LENGKAP <br>
+                                9. SALINAN SERTIFIKAT KOMPETENSI DAN MELAMPIRKAN BUKTI TELAH DIREGISTRASI OLEH LSP KE KESDM SERTIFIKAT KOMPETENSINYA <br>
+                                10. SALINAN PENGESAHAN KTT (APABILA PERNAH MENJADI KTT) <br>
+                                11. DOKUMEN BENEFICIAL OWNERSHIP (TTD DAN CAP PERUSAHAAN) <br>
+                                12. SALINAN SURAT PERSETUJUAN FS/STUDI KELAYAKAN JIKA PADA TAHAPAN OPERASI PRODUKSI <br>
+                                13. TERDAFTAR DI MINERBA ONE DATA INDONESIA (MODI) <br>
+                                14. SURAT PENYATAAN TIDAK RANGKAP JABATAN KTT <br>',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+        ];
+        DB::table('permitworks')->insert($datanew);
     }
 }
