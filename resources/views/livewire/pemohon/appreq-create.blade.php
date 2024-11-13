@@ -35,7 +35,7 @@
                                 * Sebelum diunggah, seluruh Berkas/File wajib diberi nama/judul sesuai isi dokumen.
                                 <span class="fst-italic">Contoh: Jika dokumen/file adalah Surat Permohonan, maka diberi nama Surat Permohonan</span>
                                 <br>
-                                * Berkas unggah berformat pdf,doc,docx,xls,xlsx,jpeg,jpg.<br>
+                                * Berkas unggah berformat pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar<br>
                                 * Berkas unggah dapat berjumlah lebih dari satu.<br>
                                 * Berkas Satuan maksimal 10MB.<br>
                                 * Untuk berkas satuan yang berukuran melebihi 10Mb, silahkan diunggah ke google drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.<br>

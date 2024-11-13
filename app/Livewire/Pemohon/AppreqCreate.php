@@ -21,12 +21,12 @@ class AppreqCreate extends Component
         [
             'permitwork_id' => 'required',
             'file_upload' => 'required',
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg|max:11000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar|max:11000'
         ],
         message: [
             'permitwork_id.required' => 'Silahkan Memilih Layanan',
             'file_upload.required' => 'Silahkan Memilih Berkas',
-            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg',
+            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar',
             'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
         ]
     )]

@@ -19,11 +19,11 @@ class AppreqDetail extends Component
 
     #[Validate(
         [
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png|max:6000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png,zip,rar|max:11000'
         ],
         message: [
             'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,png',
-            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 6MB',
+            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
         ]
     )]
     public $appreq;

@@ -35,18 +35,18 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h2 class="text-bg-success rounded px-3 py-1 d-inline">
-                                Kode Pengajuan : {{ $appreq->ver_code }}
-                            </h2>
+                            <h3>
+                                Kode Pengajuan : <span class="badge bg-success">{{ $appreq->ver_code }}</span>
+                            </h3>
                             <div x-data="{ panduan: false }" class="mt-3">
                                 <button class="float-end btn btn-info" @click="panduan = true"><i class="bi bi-question-circle"></i> Panduan</button>
                                 <div x-show="panduan" @click.outside="panduan = false" class="overlay"></div>
                                 <div x-show="panduan" @click.outside="panduan = false" x-transition:enter-start="modal-panduan-in" x-transition:leave-end="modal-panduan-out" class="modal-panduan">
                                     <div class="alert alert-danger text-center">
                                         <span class="font-weight-bold">Panduan :</span> <br>
-                                        * Fitur Korespondensi akan terbuka saat Status Pengajuan : Perbaikan <br>
-                                        * Pesan yang telah dibaca tidak bisa dihapus <br>
-                                        * Berkas File yang diunggah wajib diberi nama/judul<br>
+                                        * Fitur Korespondensi akan terbuka saat Status Pengajuan : Disposisi/Diproses/Perbaikan <br>
+                                        * Pesan atau File yang telah dibaca tidak bisa dihapus <br>
+                                        * Berkas File sebelum diunggah wajib diberi nama/judul<br>
                                         * Berkas File Ajuan tidak bisa dihapus<br>
                                         <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                                     </div>
@@ -85,8 +85,7 @@
                                 <div class="col-md-6">
                                     <table>
                                         <tr>
-                                            <td class="fw-bold" style="min-width: 150px">1. Layanan</td>
-                                            <td>: {{ $appreq->permitwork->name_permit }}</td>
+                                            <td colspan="2" class="fw-bold" style="min-width: 150px">1. Layanan : {{ $appreq->permitwork->name_permit }}</td>
                                         </tr>
                                         <tr>
                                             <td class="fw-bold">2. Nama Pemohon</td>
@@ -179,7 +178,7 @@
                                                         @endif
                                                     @endif
                                                 </div>
-                                                <div x-show="open" class="mb-3" x-transition>
+                                                <div x-show="open" class="mb-3" x-transition @click.outside="open = false">
                                                     <style>
                                                         .trix-button--icon-code,
                                                         .trix-button--icon-strike {
@@ -197,7 +196,7 @@
                                                                     : 'Klik Untuk Upload Berkas...'">
                                                                         Pilih berkas
                                                                     </div>
-                                                                    <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg | Size 1 File Max 10MB</small>
+                                                                    <small>Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar <br> Size Satu File Max 10MB</small>
                                                                     <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload"
                                                                         wire:model.live="file_upload" type="file" class="custom-file-input d-none @error('file_upload') is-invalid @enderror"
                                                                         id="file_upload" multiple="true">
@@ -220,7 +219,7 @@
                                                                     <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                                                 </div>
                                                             </div>
-                                                            <div class="mb-2">
+                                                            <div class="mb-2" wire:loading.remove>
                                                                 <input wire:model="desc" id="desc" type="hidden" name="desc">
                                                                 <trix-editor input="desc"></trix-editor>
                                                                 @error('desc')
@@ -284,14 +283,16 @@
                                                 <button wire:click="resetSearchDocs" class="btn btn-sm btn-warning me-2"><i class="bi bi-x"></i></button>
                                                 <button @click="persyaratan = true" class="btn btn-sm btn-success me-1" type="button"><i class="bi bi-file-text"></i> Daftar Persyaratan</button>
                                                 <div x-show="persyaratan" class="overlay"></div>
-                                                <div x-show="persyaratan" x-transition @click.outside="persyaratan = false" class="position-fixed bg-white top-50 start-50 translate-middle p-3 mx-1"
-                                                    style="z-index: 10000;">
-                                                    <p>
-                                                        <span class="fw-bold">Nama Layanan : {{ $appreq->permitwork->name_permit }}</span><br>
-                                                        <span class="fw-bold">Persyaratan:</span><br>
-                                                        {!! $appreq->permitwork->desc_permit !!}
-                                                    </p>
-                                                    <button @click="persyaratan = false" class="btn btn-sm btn-warning">Tutup Panduan</button>
+                                                <div x-show="persyaratan" x-transition @click.outside="persyaratan = false" class="position-fixed p-3"
+                                                    style="z-index: 10000; margin: auto; top: 0; right: 0; bottom: 0; left: 0">
+                                                    <div class="alert alert-danger text-center">
+                                                        <p>
+                                                            <span class="fw-bold">Nama Layanan : {{ $appreq->permitwork->name_permit }}</span><br>
+                                                            <span class="fw-bold">Persyaratan:</span><br>
+                                                            {!! $appreq->permitwork->desc_permit !!}
+                                                        </p>
+                                                        <button @click="persyaratan = false" class="btn btn-sm btn-warning">Tutup Panduan</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <ol class="list-group list-group-numbered">
