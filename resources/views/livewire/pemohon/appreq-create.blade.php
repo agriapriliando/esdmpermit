@@ -62,12 +62,17 @@
                                     <div class="mb-2">
                                         <div wire:ignore class="form-group mb-2">
                                             <label for="permitwork_id">Daftar Layanan</label>
-                                            <select wire:model="permitwork_id" name="permitwork_id" class="form-control select2" id="permitwork_id" style="width: 100%;">
-                                                <option value="">== Pilih ==</option>
-                                                @foreach ($permitworks as $a)
-                                                    <option value="{{ $a->id }}">{{ $a->name_permit }}</option>
-                                                @endforeach
-                                            </select>
+                                            @if (date('l') != 'Saturday' || date('l') != 'Sunday')
+                                                <select wire:model.live="permitwork_id" name="permitwork_id" class="form-control select2" id="permitwork_id" style="width: 100%;">
+                                                    <option value="">== Pilih ==</option>
+                                                    @foreach ($permitworks as $a)
+                                                        <option value="{{ $a->id }}">{{ $a->name_permit }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div wire:loading class="alert alert-warning">Tunggu, sedang mengecek Syarat dan Ketentuan</div>
+                                            @else
+                                                <div class="fw-bold">Mohon maaf Pengajuan hanya bisa dilakukan dihari kerja Senin s.d. Jumat. Terima Kasih.</div>
+                                            @endif
                                         </div>
                                         @error('permitwork_id')
                                             <div class="alert alert-danger">
