@@ -9,7 +9,7 @@
     <meta name="author" content="www.ditaria.com">
     <meta name="description" content="Dinas ESDM Provinsi Kalimantan Tengah">
     <meta name="keywords" content="esdm kalteng, perijinan">
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/favicon-simbida-32x32.png') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('') }}assets/img/logo miners 1x1.png">
     <!--end::Primary Meta Tags--><!--begin::Fonts-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous">
     <!--end::Fonts--><!--begin::Third Party Plugin(OverlayScrollbars)-->
@@ -22,6 +22,11 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.3/dist/cdn.min.js"></script>
 
 </head> <!--end::Head--> <!--begin::Body-->
+<style>
+    .filehover {
+        cursor: pointer;
+    }
+</style>
 
 <body class="login-page bg-body-secondary">
     <div class="scroll-bg"></div>

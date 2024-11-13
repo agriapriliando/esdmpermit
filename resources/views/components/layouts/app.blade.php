@@ -10,7 +10,7 @@
     <meta name="author" content="ditaria.com">
     <meta name="description" content="ESDM Kalteng">
     <meta name="keywords" content="esdm kalteng">
-    <link rel="icon" type="image/x-icon" href="{{ asset('') }}assets/img/logo_kalteng_small.jpg">
+    <link rel="icon" type="image/x-icon" href="{{ asset('') }}assets/img/logo miners 1x1.png">
     <!--end::Primary Meta Tags--><!--begin::Fonts-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous">
     <!--end::Fonts--><!--begin::Third Party Plugin(OverlayScrollbars)-->
@@ -20,7 +20,6 @@
         crossorigin="anonymous"><!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('') }}assets/css/adminlte.css"><!--end::Required Plugin(AdminLTE)-->
     @stack('styles')
-
     {{-- trix editor --}}
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/trix@2.0.8/dist/trix.css">
 
@@ -96,7 +95,7 @@
     .overlay {
         position: fixed;
         inset: 0;
-        z-index: 99998;
+        z-index: 9998;
         backdrop-filter: blur(2px);
         background-color: rgb(0, 0, 0, 0.1);
         transition: 5s ease;

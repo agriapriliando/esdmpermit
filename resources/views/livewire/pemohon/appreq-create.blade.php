@@ -6,7 +6,6 @@
                 <div class="col-12 p-2 ps-3 rounded text-md-start text-center">
                     <h4>
                         <span>Hai, {{ Auth::user()->name }}</span><br>
-                        <span>{{ $company->type_company . ' ' . $company->name_company }}</span>
                     </h4>
                 </div>
             </div>
@@ -19,9 +18,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 order-md-last mb-2">
-                    <div class="card">
-                        <div class="card-body">
+                <div class="col-12" id="edit">
+                    <div class="card mb-4" x-data="{ panduan: false }">
+                        <div class="card-header">
+                            <h3 class="card-title">Formulir Pengajuan Permohonan
+                            </h3>
+                            <div class="card-tools">
+                                <a wire:navigate href="{{ route('appreq.list', 'list') }}" class="btn btn-success"><i class="bi bi-book"></i> Daftar Ajuan</a>
+                                <button @click="panduan = !panduan" class="btn btn-warning"> <i class="bi bi-question-circle"></i> Panduan</button>
+                            </div>
+                        </div> <!-- /.card-header -->
+                        <div x-show="panduan" class="overlay"></div>
+                        <div x-show="panduan" x-transition @click.outside="panduan = false" class="position-fixed bg-white top-50 start-50 translate-middle p-3 mx-1" style="z-index: 10000;">
                             <p>
                                 <span class="fw-bold">Panduan :</span><br>
                                 * Sebelum diunggah, seluruh Berkas/File wajib diberi nama/judul sesuai isi dokumen.
@@ -32,21 +40,9 @@
                                 * Berkas Satuan maksimal 10MB.<br>
                                 * Untuk berkas satuan yang berukuran melebihi 10Mb, silahkan diunggah ke google drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.<br>
                                 * Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai kebutuhan. <br>
-                                <a target="_blank" href="#" class="btn btn-sm btn-success mt-1"><i class="bi bi-book"></i> Panduan Penggunaan</a>
-                                <a target="_blank" href="#" class="btn btn-sm btn-success mt-1"><i class="bi bi-question-circle"></i> Bertanya ?</a>
                             </p>
+                            <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup Panduan</button>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-8" id="edit">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Formulir Pengajuan Layanan
-                            </h3>
-                            <div class="card-tools">
-                                <a wire:navigate href="{{ route('appreq.list', 'list') }}" class="btn btn-success"><i class="bi bi-book"></i> Daftar Ajuan</a>
-                            </div>
-                        </div> <!-- /.card-header -->
                         @session('message')
                             <div id="alertm" class="alert alert-success alert-dismissible fade show m-3" role="alert">
                                 <strong>{{ session('message') }}</strong>
@@ -78,44 +74,46 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
+                                    </div>
+                                    <div class="mb-2 row">
                                         @if ($permitwork_desc)
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <p>
-                                                        <span class="fw-bold">Syarat dan Ketentuan :</span><br>
-                                                        {!! $permitwork_desc[0] !!}
-                                                    </p>
-                                                </div>
+                                            <div class="col-md-6">
+                                                <p>
+                                                    <span class="fw-bold">Syarat dan Ketentuan :</span><br>
+                                                    {!! $permitwork_desc[0] !!}
+                                                </p>
                                             </div>
                                         @endif
-                                    </div>
-                                    <div class="mb-2 {{ $permitwork_desc ? '' : 'd-none' }}">
-                                        {{-- <label for="file_upload">Upload Berkas</label> --}}
-                                        <div class="form-group mb-2 filehover" x-data="{ files: null }">
-                                            <div class="custom-file bg-warning rounded py-2 ps-3" @click="$refs.upload.click()" style="min-height: 30px; z-index:11;"
-                                                x-html="files ?
-                                                files.map(file => '+ '+file.name).join('</br> ')
-                                                : 'Klik Untuk Pilih Berkas...'">
+                                        <div class="col-md-6">
+                                            <div class="mb-2 {{ $permitwork_desc ? '' : 'd-none' }}">
+                                                {{-- <label for="file_upload">Upload Berkas</label> --}}
+                                                <div class="form-group mb-2 filehover" x-data="{ files: [] }">
+                                                    {{-- <label class="custom-file-label m-3" for="file_upload">Pilih Berkas</label><br> --}}
+                                                    <input wire:model.live="file_upload" class="form-control bg-warning" type="file" id="file_upload" multiple="true"
+                                                        @change="files = Array.from($event.target.files).map(file => (file.name).toUpperCase())">
+                                                    <ol x-show="files.length > 0" class="mt-2">
+                                                        <template x-for="file in files" :key="file">
+                                                            <li x-text="file"></li>
+                                                        </template>
+                                                    </ol>
+                                                </div>
+                                                @error('file_upload')
+                                                    <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                                @error('file_upload.*')
+                                                    <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
                                             </div>
-                                            {{-- <label class="custom-file-label m-3" for="file_upload">Pilih Berkas</label><br> --}}
-                                            <input style="z-index: -22;" x-on:change="files = Object.values($event.target.files)" x-ref="upload" wire:model.live="file_upload" type="file"
-                                                class="custom-file-input d-none" id="file_upload" multiple="true">
-                                        </div>
-                                        @error('file_upload')
-                                            <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
-                                                {{ $message }}
+                                            <div class="badge bg-success mb-1" wire:loading wire:target="file_upload">Silahkan tunggu, sedang memeriksa berkas...</div>
+                                            <div class="mb-2" x-show="uploading">
+                                                <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
+                                                    <div class="progress-bar" :style="{ width: progress + '%' }"></div>
+                                                </div>
                                             </div>
-                                        @enderror
-                                        @error('file_upload.*')
-                                            <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
-                                    <div class="badge bg-success mb-1" wire:loading wire:target="file_upload">Silahkan tunggu, sedang memeriksa berkas...</div>
-                                    <div class="mb-2" x-show="uploading">
-                                        <div class="progress" role="progressbar" aria-label="Basic example" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100">
-                                            <div class="progress-bar" :style="{ width: progress + '%' }"></div>
                                         </div>
                                     </div>
                                     @if ($file_upload)
@@ -123,6 +121,7 @@
                                             <label for="notes">Keterangan : </label>
                                             <input wire:model="notes" id="notes" type="hidden" name="notes">
                                             <trix-editor input="notes"></trix-editor>
+                                            <small>Untuk File Berukuran lebih dari 10Mb, silahkan diunggah ke google drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.</small><br>
                                             <small>Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai kebutuhan.</small>
                                         </div>
                                         <div class="mb-2 d-grid" x-data="{ open: false }">

@@ -3,22 +3,20 @@
 <section class="p-3 p-md-4 p-xl-5">
     <div class="container mb-5">
         @session('success')
-            <div style="top: 20%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-primary alert-dismissible fade show position-fixed" x-transition role="alert">
+            <div style="z-index: 3;" class="alert alert-primary alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
                 <strong>{{ session('success') }}</strong><br>
                 Silahkan Buka Email <span class="fw-bold">{{ session('success') }}</span> untuk mengaktifkan Akun Anda
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endsession
         @session('aktivasi')
-            <div style="top: 20%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-primary alert-dismissible fade show position-fixed" x-transition
-                role="alert">
+            <div style="z-index: 3;" class="alert alert-primary alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
                 <strong>{{ session('aktivasi') }}</strong><br>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endsession
         @session('error')
-            <div id="alert-error" style="top: 10%; left: 50%; transform: translate(-50%, -50%); z-index: 3; width: 550px;" class="alert alert-danger alert-dismissible fade show position-fixed"
-                x-transition role="alert">
+            <div id="alert-error" style="z-index: 3;" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
                 <strong>{{ session('error') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -26,23 +24,44 @@
         <div class="card border-light-subtle shadow-sm">
             <div class="row g-0" x-data="{ panduan: false, formlogin: true, }">
                 <div x-show="panduan" id="overlay"></div>
-                <div x-show="panduan" class="position-fixed bg-white text-white p-3 rounded shadow-lg" style="top: 40%; left: 50%; transform: translate(-50%, -50%); z-index: 3;">
+                <div x-show="panduan" class="position-fixed bg-white text-white p-3 rounded shadow-lg top-50 start-50 translate-middle" style="z-index: 3;">
                     <div class="text-center text-black" @click.outside="panduan = false" x-transition>
-                        <h5>Panduan Penggunaan </h5>
-                        <ul class="list-group mb-2">
-                            <li class="list-group-item">Bagi Pengguna </li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                            <li class="list-group-item">A fourth item</li>
-                            <li class="list-group-item">And a fifth one</li>
-                        </ul>
-                        <button class="btn btn-sm btn-primary" type="button"><i class="bi bi-x"></i> Tutup</button>
+                        <p x-data="{ copiedformat: null, copiedd: false }">
+                            <span class="fw-bold">Lupa Password atau Username?</span><br>
+                            Silahkan mengirim Email ke
+                            <span class="fw-bold" x-data="{ copied: false, text: 'desdm_kalteng@gmail.com' }">
+                                desdm_kalteng@gmail.com
+                                <i class="bi bi-copy filehover" @click="navigator.clipboard.writeText(text).then(() => copied = true)"></i>
+                                <span x-show="copied" x-transition @click.outside="copied = false">Disalin</span>
+                            </span>
+                            <br>
+                            <span>
+                                <br>Dengan Format berikut :
+                                <br>Subjek : Permohonan Pemulihan Password atau Username
+                                <br>Nama Perusahaan : (CV atau PT .....)
+                                <br>Email : (diisi email perusahaan)
+                                <br>Kontak Whatsapp Aktif : (diisi kontak whatsapp aktif)
+                            </span>
+                            <script>
+                                let textformat = "Permohonan Pemulihan Password atau Username" +
+                                    "\r\n" + "Nama Perusahaan :" +
+                                    "\r\n" + "Email :" +
+                                    "\r\n" + "Kontak Whatsapp Aktif :" +
+                                    "\r\n" + "Diisi oleh Admin ESDM" +
+                                    "\r\n" + "Username : ..." +
+                                    "\r\n" + "Password : ...";
+                                console.log(textformat);
+                            </script>
+                            <i x-init="copiedformat = textformat.trim()" class="bi bi-copy filehover" @click="navigator.clipboard.writeText(copiedformat).then(() => copiedd = true)"> Salin Format</i>
+                            <span x-show="copiedd" x-transition @click.outside="copiedd = false">Disalin</span>
+                        </p>
+                        <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                     </div>
                 </div>
                 <div class="col-12 col-md-6 text-bg-primary pb-4">
                     <div class="d-flex align-items-center justify-content-center h-100">
                         <div class="col-10 col-xl-8 py-3">
-                            <img class="img-fluid rounded mb-4" loading="lazy" src="{{ asset('') }}assets/img/logo_desdm_kalteng_white.png" width="260" alt="BootstrapBrain Logo">
+                            <img class="img-fluid rounded mb-2" loading="lazy" src="{{ asset('') }}assets/img/logo_miners_putih.png" width="260" alt="BootstrapBrain Logo">
                             <h2 class="h1 mb-4">Sistem Informasi Pelayanan Pertambangan</h2>
                             <p class="lead m-0 d-none d-md-block">Adalah Platform digital yang berfungsi untuk mempermudah proses penerbitan surat
                                 teknis di sektor pertambangan agar operasional pertambangan berjalan lancar sesuai dengan regulasi.</p>
@@ -223,8 +242,8 @@
                                 <div class="d-flex gap-2 gap-md-2 flex-column flex-md-row justify-content-md-end">
                                     <button @click="formlogin = !formlogin" class="btn btn-primary btn-sm" type="button"><i class="bi bi-person-plus"></i> <span
                                             x-text="formlogin ? 'Pendaftaran' : 'Login'"></span></button>
-                                    <button @click="panduan = !panduan" class="btn btn-primary btn-sm" type="button"><i class="bi bi-question-circle"></i> Panduan</button>
-                                    <a href="#!" class="btn btn-primary btn-sm"><i class="bi bi-headset"></i> Hubungi Kami</a>
+                                    <button @click="panduan = !panduan" class="btn btn-primary btn-sm" type="button"><i class="bi bi-question-circle"></i> Lupa Password?</button>
+                                    <a href="#!" class="btn btn-primary btn-sm d-none"><i class="bi bi-headset"></i> Hubungi Kami</a>
                                 </div>
                             </div>
                         </div>

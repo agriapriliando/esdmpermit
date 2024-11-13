@@ -22,17 +22,18 @@ class DaftarController extends Controller
             'password' => 'required',
             'nohp' => 'required',
         ]);
-        $datauser['role'] = 'newuser';
-        $datauser['password'] = bcrypt($datauser['password']);
-        $token = Str::random(60);
-        $datauser['api_token'] = $token;
-
         $data_company = $request->validate([
             'name_company' => 'required',
             'type_company' => 'required',
             'commodity_id' => 'required',
             'region_id' => 'required',
         ]);
+
+        $datauser['role'] = 'newuser';
+        $datauser['password'] = bcrypt($datauser['password']);
+        $token = Str::random(60);
+        $datauser['api_token'] = $token;
+
         $data_company['name_company'] = strtoupper($data_company['type_company']) . ' ' . strtoupper($data_company['name_company']);
         $data_company['province_company'] = "KALIMANTAN TENGAH";
         $data_company['kab_kota_company'] = Region::find(substr($data_company['region_id'], 0, 5))->name_region;

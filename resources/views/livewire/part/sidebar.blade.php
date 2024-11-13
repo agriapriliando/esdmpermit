@@ -1,7 +1,7 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
     <div class="sidebar-brand"> <!--begin::Brand Link-->
         <a href="./index.html" class="brand-link"> <!--begin::Brand Image-->
-            <img src="{{ asset('') }}assets/img/logo_desdm_kalteng_white.png" alt="AdminLTE Logo" class="opacity-75 shadow" width="240"> <!--end::Brand Image-->
+            <img src="{{ asset('') }}assets/img/logo_miners_putih.png" alt="AdminLTE Logo" class="opacity-75 shadow" width="190"> <!--end::Brand Image-->
         </a>
         <!--end::Brand Link-->
     </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->

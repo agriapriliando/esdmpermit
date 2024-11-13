@@ -53,7 +53,7 @@ class StatSeeder extends Seeder
             [
                 'no_urut' => 6,
                 'name_stat' => 'selesai',
-                'desc_stat' => 'Selesai, Izin Telah Terbit',
+                'desc_stat' => 'Selesai',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

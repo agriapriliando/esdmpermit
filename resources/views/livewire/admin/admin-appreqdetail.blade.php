@@ -277,10 +277,21 @@
                                         <div class="col-md-6">
                                             <div class="d-flex justify-content-between mb-2 pt-3">
                                                 <h4>Daftar Berkas File</h4>
-                                                <div class="d-flex">
-                                                    <input wire:model.live.debounce="search_docs" style="width: 180px" type="text" class="form-control form-control-sm"
-                                                        placeholder="Cari Nama Berkas">
-                                                    <button wire:click="resetSearchDocs" class="btn btn-sm btn-warning"><i class="bi bi-x"></i></button>
+                                            </div>
+                                            <div class="d-flex mb-3" x-data="{ persyaratan: false }">
+                                                <input wire:model.live.debounce="search_docs" style="width: 180px" type="text" class="form-control form-control-sm"
+                                                    placeholder="Cari Nama Berkas">
+                                                <button wire:click="resetSearchDocs" class="btn btn-sm btn-warning me-2"><i class="bi bi-x"></i></button>
+                                                <button @click="persyaratan = true" class="btn btn-sm btn-success me-1" type="button"><i class="bi bi-file-text"></i> Daftar Persyaratan</button>
+                                                <div x-show="persyaratan" class="overlay"></div>
+                                                <div x-show="persyaratan" x-transition @click.outside="persyaratan = false" class="position-fixed bg-white top-50 start-50 translate-middle p-3 mx-1"
+                                                    style="z-index: 10000;">
+                                                    <p>
+                                                        <span class="fw-bold">Nama Layanan : {{ $appreq->permitwork->name_permit }}</span><br>
+                                                        <span class="fw-bold">Persyaratan:</span><br>
+                                                        {!! $appreq->permitwork->desc_permit !!}
+                                                    </p>
+                                                    <button @click="persyaratan = false" class="btn btn-sm btn-warning">Tutup Panduan</button>
                                                 </div>
                                             </div>
                                             <ol class="list-group list-group-numbered">
@@ -322,7 +333,7 @@
                                                                 @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
                                                                     <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox
                                                                         data-caption="{{ $d->name_doc }}">
-                                                                        <i class="bi bi-images">Lihat Gambar</i>
+                                                                        <i class="bi bi-images"></i>
                                                                     </a>
                                                                 @endif
 
