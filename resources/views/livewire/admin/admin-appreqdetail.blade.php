@@ -65,9 +65,13 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div wire:loading class="bg-warning text-bg-warning p-2 rounded mt-2">
+                                        Tunggu... Sedang Proses Menyimpan Status Pengajuan
+                                    </div>
                                     @session('savestat')
-                                        <div id="savestat" class="bg-success text-bg-success p-2 rounded mt-2" x-transition x-init="setTimeout(() => document.getElementById('savestat').remove(), 2000)">
-                                            {{ session('savestat') }}</div>
+                                        <div id="savestat" class="bg-success text-bg-success p-2 rounded mt-2" x-transition x-init="setTimeout(() => document.getElementById('savestat').remove(), 6000)">
+                                            {{ session('savestat') }}
+                                        </div>
                                     @endsession
                                 </div>
                             </div>

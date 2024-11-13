@@ -22,9 +22,9 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Pengajuan</h3><br>
-                            <span class="bg-primary text-white px-2 rounded">Status : {{ $stat->desc_stat }}</span>
-                            <div class="card-tools">
+                            <h3 class="card-title">Daftar Pengajuan</h3>
+                            <span class="bg-primary text-white px-2 mx-2 rounded">Status : {{ $stat->desc_stat }}</span>
+                            <div class="card-tools mt-2">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
                                     <div class="input-group-append">
