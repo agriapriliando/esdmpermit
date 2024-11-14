@@ -316,19 +316,18 @@
                                                                     {{ Carbon\Carbon::parse($d->created_at)->diffForHumans() }} Wib
                                                                 </i>
                                                             @endif
-                                                            <div x-data="{ doc{{ $d->id }}: false, doc_render{{ $d->id }}: false }">
+                                                            <div x-data="{ doc: false, doc_render: false }">
                                                                 <div class="badge text-bg-success me-2 py-2">
                                                                     Berkas : {{ $d->type_doc }}
                                                                 </div>
                                                                 <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i
                                                                         class="bi bi-download"></i></a>
                                                                 @if (substr(strtolower($d->file_name), -4) == '.pdf')
-                                                                    <button class="btn btn-sm btn-success" @click="doc{{ $d->id }} = true, doc_render{{ $d->id }} = true"><i
-                                                                            class="bi bi-eye"></i> Lihat PDF</button>
-                                                                    <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" class="overlay"></div>
-                                                                    <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" x-transition class="modal-dokumen">
+                                                                    <button class="btn btn-sm btn-success" @click="doc = true, doc_render = true"><i class="bi bi-eye"></i> Lihat PDF</button>
+                                                                    <div x-show="doc" @click.outside="doc = false" class="overlay"></div>
+                                                                    <div x-show="doc" @click.outside="doc = false" x-transition class="modal-dokumen">
                                                                         <button class="btn btn-warning btn-sm">TUTUP</button>
-                                                                        <template x-if="doc_render{{ $d->id }}">
+                                                                        <template x-if="doc_render">
                                                                             <object class="sizemodal-dokumen" data="{{ url('storage/file_doc/' . $d->file_name) }}">
                                                                             </object>
                                                                         </template>
@@ -344,11 +343,11 @@
 
                                                             </div>
                                                             @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By Operator' && $appreq->stat_id != 6)
-                                                                <div class="position-relative" x-data="{ doc: false }">
-                                                                    <a class="btn btn-danger btn-sm" @click="doc = true" x-init="setTimeout(() => doc = false, 1000)">
+                                                                <div class="position-relative" x-data="{ docc: false }">
+                                                                    <a class="btn btn-danger btn-sm" @click="docc = true" x-init="setTimeout(() => docc = false, 1000)">
                                                                         <i class="bi bi-trash"></i>
                                                                     </a>
-                                                                    <div x-show="doc" @click.outside="doc = false" class="position-absolute top-0 bg-warning rounded px-2"
+                                                                    <div x-show="docc" @click.outside="docc = false" class="position-absolute top-0 bg-warning rounded px-2"
                                                                         style="z-index: 99; cursor: pointer; width: 80px">
                                                                         <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
                                                                     </div>
