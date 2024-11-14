@@ -53,6 +53,13 @@
                                     <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
                                         <table border="0" cellspacing="0" cellpadding="0">
                                             <tr>
+                                                <td>
+                                                    <span style="font-weight: bold">Informasi Akun Anda</span><br>
+                                                    Username : {{ $username }}<br>
+                                                    Password : {{ $password }}<br>
+                                                </td>
+                                            </tr>
+                                            <tr>
                                                 <td align="center" style="border-radius: 20px;" bgcolor="#0479ff">
                                                     <a href="{{ $url }}" target="_blank"
                                                         style="font-size: 20px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; padding: 15px 25px; border-radius: 20px; border: 1px solid #4d4d4d; display: inline-block;">

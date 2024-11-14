@@ -16,8 +16,12 @@ class AktivasiAkun extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public $name, public $url)
-    {
+    public function __construct(
+        public $name,
+        public $username,
+        public $password,
+        public $url
+    ) {
         //
     }
 
@@ -27,7 +31,7 @@ class AktivasiAkun extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Aktivasi Akun',
+            subject: 'Aktivasi Akun MINERS Kalteng',
         );
     }
 
@@ -40,6 +44,8 @@ class AktivasiAkun extends Mailable
             view: 'mail.aktivasi',
             with: [
                 'name' => $this->name,
+                'username' => $this->username,
+                'password' => $this->password,
                 'url' => $this->url
             ],
         );

@@ -30,6 +30,7 @@ class DaftarController extends Controller
         ]);
 
         $datauser['role'] = 'newuser';
+        $datauser['nohp'] = '62' . $datauser['nohp'];
         $datauser['password'] = bcrypt($datauser['password']);
         $token = Str::random(60);
         $datauser['api_token'] = $token;
@@ -44,7 +45,7 @@ class DaftarController extends Controller
             $user = User::create($datauser);
             $data_company['user_id'] = $user->id;
             Company::create($data_company);
-            Mail::to($datauser['email'])->send(new AktivasiAkun($user['name'], $url));
+            Mail::to($datauser['email'])->send(new AktivasiAkun($user['name'], $datauser['username'], $datauser['password'], $url));
             session()->flash('success', 'Pendaftaran Akun ' . $data_company['name_company'] . ' Dengan Email ' . $datauser['email'] . ' Berhasil.');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
