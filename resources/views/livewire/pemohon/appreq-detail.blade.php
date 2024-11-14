@@ -278,7 +278,7 @@
                                                 @endsession
                                                 @foreach ($docs as $d)
                                                     <div wire:key="d-{{ $d->id }}">
-                                                        <li class="list-group-item">
+                                                        <li class="list-group-item" x-data="{ doc: false, doc_render: false, docc: false }">
                                                             {{ $d->name_doc }} <br>
                                                             @if ($d->type_doc == 'Ajuan')
                                                                 <i class="bi bi-clock-history me-1" style="font-size: 12px">
@@ -289,7 +289,7 @@
                                                                     {{ Carbon\Carbon::parse($d->created_at)->diffForHumans() }} Wib
                                                                 </i>
                                                             @endif
-                                                            <div x-data="{ doc: false, doc_render: false }">
+                                                            <div>
                                                                 <div class="badge text-bg-success me-2 py-2">
                                                                     Berkas : {{ $d->type_doc }}
                                                                 </div>
@@ -313,7 +313,7 @@
                                                                     </a>
                                                                 @endif
                                                             </div>
-                                                            <div class="position-relative mt-1" x-data="{ docc: false }">
+                                                            <div class="position-relative mt-1">
                                                                 @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 6)
                                                                     <a class="btn btn-danger btn-sm" @click="docc = true">
                                                                         <i class="bi bi-trash"></i>
