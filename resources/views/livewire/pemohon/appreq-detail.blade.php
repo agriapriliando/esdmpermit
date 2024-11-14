@@ -278,7 +278,7 @@
                                                 @endsession
                                                 @foreach ($docs as $d)
                                                     <div wire:key="d-{{ $d->id }}">
-                                                        <li class="list-group-item" x-data="{ doc: false, doc_render: false, docc: false }">
+                                                        <li class="list-group-item" x-data="{ docc: false }">
                                                             {{ $d->name_doc }} <br>
                                                             @if ($d->type_doc == 'Ajuan')
                                                                 <i class="bi bi-clock-history me-1" style="font-size: 12px">
@@ -295,21 +295,10 @@
                                                                 </div>
                                                                 <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i
                                                                         class="bi bi-download"></i> Unduh</a>
-                                                                @if (substr(strtolower($d->file_name), -4) == '.pdf')
-                                                                    <button class="btn btn-sm btn-success" @click="doc = true, doc_render = true"><i class="bi bi-eye"></i> Lihat PDF</button>
-                                                                    <div x-show="doc" @click.outside="doc = false" class="overlay"></div>
-                                                                    <div x-show="doc" @click.outside="doc = false" x-transition class="modal-dokumen">
-                                                                        <button class="btn btn-warning btn-sm">TUTUP</button>
-                                                                        <template x-if="doc_render">
-                                                                            <object class="sizemodal-dokumen" data="{{ url('storage/file_doc/' . $d->file_name) }}">
-                                                                            </object>
-                                                                        </template>
-                                                                    </div>
-                                                                @endif
                                                                 @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
                                                                     <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox
                                                                         data-caption="{{ $d->name_doc }}">
-                                                                        <i class="bi bi-images"></i> Lihat Gambar
+                                                                        <i class="bi bi-images"></i>
                                                                     </a>
                                                                 @endif
                                                             </div>
@@ -318,8 +307,8 @@
                                                                     <a class="btn btn-danger btn-sm" @click="docc = true">
                                                                         <i class="bi bi-trash"></i>
                                                                     </a>
-                                                                    <div @click="docc= false, doc= false, doc_render= false" x-show="docc" @click.outside="docc= false"
-                                                                        class="position-absolute top-0 bg-warning rounded px-2" style="z-index: 99; cursor: pointer; width: 80px">
+                                                                    <div @click="docc= false" x-show="docc" @click.outside="docc= false" class="position-absolute top-0 bg-warning rounded px-2"
+                                                                        style="z-index: 99; cursor: pointer; width: 80px">
                                                                         <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
                                                                     </div>
                                                                 @endif
