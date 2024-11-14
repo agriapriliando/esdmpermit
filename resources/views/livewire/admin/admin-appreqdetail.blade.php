@@ -324,16 +324,15 @@
                                                                         class="bi bi-download"></i></a>
                                                                 @if (substr(strtolower($d->file_name), -4) == '.pdf')
                                                                     <button class="btn btn-sm btn-success" @click="doc = true, doc_render = true"><i class="bi bi-eye"></i> Lihat PDF</button>
-                                                                    <div x-show="doc" @click.outside="doc = false" class="overlay"></div>
-                                                                    <div x-show="doc" @click.outside="doc = false" x-transition class="modal-dokumen">
-                                                                        <button class="btn btn-warning btn-sm">TUTUP</button>
-                                                                        <template x-if="doc_render">
-                                                                            <object class="sizemodal-dokumen" data="{{ url('storage/file_doc/' . $d->file_name) }}">
-                                                                            </object>
-                                                                        </template>
-
-                                                                    </div>
                                                                 @endif
+                                                                <div x-show="doc" @click.outside="doc = false" class="overlay"></div>
+                                                                <div x-show="doc" @click.outside="doc = false" x-transition class="modal-dokumen">
+                                                                    <button class="btn btn-warning btn-sm">TUTUP</button>
+                                                                    <template x-if="doc_render">
+                                                                        <object class="sizemodal-dokumen" data="{{ url('storage/file_doc/' . $d->file_name) }}">
+                                                                        </object>
+                                                                    </template>
+                                                                </div>
                                                                 @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
                                                                     <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" data-fancybox
                                                                         data-caption="{{ $d->name_doc }}">
@@ -347,7 +346,8 @@
                                                                     <a class="btn btn-danger btn-sm" @click="docc = true" x-init="setTimeout(() => docc = false, 1000)">
                                                                         <i class="bi bi-trash"></i>
                                                                     </a>
-                                                                    <div x-show="docc" @click.outside="docc = false" class="position-absolute top-0 bg-warning rounded px-2"
+                                                                    <div @click="docc = false, doc= false, doc_render= false" x-show="docc"
+                                                                        @click.outside="docc = false, doc= false, doc_render= false" class="position-absolute top-0 bg-warning rounded px-2"
                                                                         style="z-index: 99; cursor: pointer; width: 80px">
                                                                         <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
                                                                     </div>
