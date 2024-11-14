@@ -328,9 +328,11 @@
                                                                     <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" class="overlay"></div>
                                                                     <div x-show="doc{{ $d->id }}" @click.outside="doc{{ $d->id }} = false" x-transition class="modal-dokumen">
                                                                         <button class="btn btn-warning btn-sm">TUTUP</button>
-                                                                        <object x-if="doc_render{{ $d->id }}" class="sizemodal-dokumen"
-                                                                            data="{{ url('storage/file_doc/' . $d->file_name) }}">
-                                                                        </object>
+                                                                        <template x-if="doc_render{{ $d->id }}">
+                                                                            <object class="sizemodal-dokumen" data="{{ url('storage/file_doc/' . $d->file_name) }}">
+                                                                            </object>
+                                                                        </template>
+
                                                                     </div>
                                                                 @endif
                                                                 @if (substr(strtolower($d->file_name), -3) == 'jpg' || substr(strtolower($d->file_name), -4) == 'jpeg')
