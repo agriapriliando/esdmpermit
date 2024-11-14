@@ -341,18 +341,17 @@
                                                                 @endif
 
                                                             </div>
-                                                            @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By Operator' && $appreq->stat_id != 6)
-                                                                <div class="position-relative" x-data="{ docc: false }">
-                                                                    <a class="btn btn-danger btn-sm" @click="docc = true" x-init="setTimeout(() => docc = false, 1000)">
+                                                            <div class="position-relative" x-data="{ docc: false }">
+                                                                @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By Operator' && $appreq->stat_id != 6)
+                                                                    <a class="btn btn-danger btn-sm" @click="docc = true">
                                                                         <i class="bi bi-trash"></i>
                                                                     </a>
-                                                                    <div @click="docc = false, doc= false, doc_render= false" x-show="docc"
-                                                                        @click.outside="docc = false, doc= false, doc_render= false" class="position-absolute top-0 bg-warning rounded px-2"
-                                                                        style="z-index: 99; cursor: pointer; width: 80px">
+                                                                    <div @click="docc= false, doc= false, doc_render= false" x-show="docc" @click.outside="docc= false"
+                                                                        class="position-absolute top-0 bg-warning rounded px-2" style="z-index: 99; cursor: pointer; width: 80px">
                                                                         <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
                                                                     </div>
-                                                                </div>
-                                                            @endif
+                                                                @endif
+                                                            </div>
                                                             <div class="float-end">
                                                             </div>
                                                         </li>

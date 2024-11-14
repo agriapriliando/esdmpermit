@@ -313,17 +313,17 @@
                                                                     </a>
                                                                 @endif
                                                             </div>
-                                                            @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 6)
-                                                                <div class="position-relative mt-1" x-data="{ docz: false }">
-                                                                    <button type="button" class="btn btn-danger btn-sm" @click="docz = true" x-init="setTimeout(() => docz = false, 1000)">
-                                                                        <i class="bi bi-trash"></i> Hapus
-                                                                    </button>
-                                                                    <div x-show="docz" @click.outside="docz = false" class="position-absolute top-0 bg-warning rounded px-2"
-                                                                        style="z-index: 99; cursor: pointer; width: 80px">
+                                                            <div class="position-relative mt-1" x-data="{ docc: false }">
+                                                                @if (Auth::user()->role == 'pemohon' && $d->type_doc == 'Revisi' && $appreq->stat_id != 6)
+                                                                    <a class="btn btn-danger btn-sm" @click="docc = true">
+                                                                        <i class="bi bi-trash"></i>
+                                                                    </a>
+                                                                    <div @click="docc= false, doc= false, doc_render= false" x-show="docc" @click.outside="docc= false"
+                                                                        class="position-absolute top-0 bg-warning rounded px-2" style="z-index: 99; cursor: pointer; width: 80px">
                                                                         <span wire:click="deleteDoc({{ $d->id }})">Ya, hapus</span>
                                                                     </div>
-                                                                </div>
-                                                            @endif
+                                                                @endif
+                                                            </div>
                                                         </li>
                                                     </div>
                                                 @endforeach
