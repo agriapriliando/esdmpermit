@@ -52,9 +52,9 @@
                                 <tr>
                                     <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
                                         <table border="0" cellspacing="0" cellpadding="0">
-                                            <tr>
+                                            <tr style="padding: 20px 30px 60px 30px;">
                                                 <td>
-                                                    <span style="font-weight: bold">Informasi Akun Anda</span><br>
+                                                    <span style="font-weight: bold; font-size: 20px">Informasi Akun Anda</span><br>
                                                     Username : {{ $username }}<br>
                                                     Password : {{ $password }}<br>
                                                 </td>
