@@ -47,6 +47,7 @@ class DaftarController extends Controller
             Company::create($data_company);
             Mail::to($datauser['email'])->send(new AktivasiAkun($user['name'], $datauser['username'], $request->password, $url));
             session()->flash('successdaftar', 'Pendaftaran Akun ' . $data_company['name_company'] . ' Dengan Email ' . $datauser['email'] . ' Berhasil.');
+            return redirect()->route('login');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }

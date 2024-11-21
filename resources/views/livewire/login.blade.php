@@ -12,6 +12,7 @@
         @session('successdaftar')
             <div style="z-index: 3;" class="alert alert-primary alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
                 <strong>{{ session('successdaftar') }}</strong><br>
+                <strong>Silahkan Buka Email untuk mengaktifkan Akun Anda</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endsession
