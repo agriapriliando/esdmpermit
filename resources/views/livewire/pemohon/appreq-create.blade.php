@@ -130,7 +130,7 @@
                                             <small>Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai kebutuhan.</small>
                                         </div>
                                         <div class="mb-2 d-grid" x-data="{ open: false }">
-                                            <button @click="open = true" type="button" class="btn btn-sm btn-success" wire:loading.attr="disabled" wire:target="file_upload">
+                                            <button @click="open = true" type="button" class="btn btn-success" wire:loading.attr="disabled" wire:target="file_upload">
                                                 <i class="bi bi-plus"></i> Ajukan Permohonan
                                             </button>
                                             <div x-show="open" @click.outside="open = false" class="overlay"></div>

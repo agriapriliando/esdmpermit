@@ -15,7 +15,7 @@ class AktivasiController extends Controller
             'email_verified_at' => now(),
             'api_token' => ''
         ]);
-        session()->flash('aktivasi', 'Aktivasi Akun Berhasil, silahkan login');
+        session()->flash('aktivasi', 'Aktivasi Akun ' . $user->email . ' Berhasil, silahkan login');
         return redirect('/login');
     }
 }

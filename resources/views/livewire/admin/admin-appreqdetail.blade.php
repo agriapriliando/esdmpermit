@@ -87,23 +87,20 @@
                                 <div class="col-md-6">
                                     <table>
                                         <tr>
-                                            <td colspan="2" class="fw-bold" style="min-width: 150px">1. Layanan : {{ $appreq->permitwork->name_permit }}</td>
+                                            <td colspan="2" class="fw-bold" style="min-width: 150px">1. Layanan : <br> {{ $appreq->permitwork->name_permit }}</td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">2. Nama Pemohon</td>
-                                            <td>: {{ $appreq->user->name }}</td>
+                                            <td colspan="2">
+                                                2. Pemohon : <span class="fw-bold">{{ $appreq->user->name }}</span>
+                                                <a class="ms-1" style="color: green" target="_blank" href="https://api.whatsapp.com/send/?phone={{ $appreq->user->nohp }}"><i
+                                                        class="bi bi-whatsapp"></i>
+                                                    {{ $appreq->user->nohp }}</a>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td class="fw-bold">3. Nama Perusahaan</td>
-                                            <td>: {{ $appreq->company->name_company }}</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="fw-bold">4. Catatan Pemohon</td>
-                                            @if ($appreq->notes == null)
-                                                <td>: Tidak Ada Catatan</td>
-                                            @else
-                                                <td>: {!! $appreq->notes !!}</td>
-                                            @endif
+                                            <td colspan="2">
+                                                3. Nama Perusahaan : <span class="fw-bold">{{ $appreq->company->name_company }}</span>
+                                            </td>
                                         </tr>
                                     </table>
                                 </div>
@@ -159,6 +156,13 @@
                                             </tr>
                                         @endif
                                     </table>
+                                </div>
+                                <div class="fw-bold">Keterangan / Catatan dari Pemohon : <br>
+                                    @if ($appreq->notes == null)
+                                        Tidak Ada Catatan
+                                    @else
+                                        {!! $appreq->notes !!}
+                                    @endif
                                 </div>
                                 <hr class="mt-4">
                                 <div class="col-12">

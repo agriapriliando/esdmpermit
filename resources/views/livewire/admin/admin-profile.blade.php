@@ -54,7 +54,7 @@
                                         <div class="mb-2">
                                             <label for="email">Email</label>
                                             <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" inputmode="email" autocomplete="off"
-                                                value="{{ $email }}" disabled>
+                                                value="{{ $email }}">
                                             @error('email')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}

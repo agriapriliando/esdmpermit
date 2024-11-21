@@ -105,7 +105,7 @@ class Profile extends Component
         // validation unique data
         $this->validate();
         // ambil data form user
-        $data = $this->only('name', 'username', 'nohp');
+        $data = $this->only('name', 'username', 'nohp', 'address_sk_company', 'notes_company');
         // cek checkbox password
         if ($this->passCheck) {
             if ($this->password != null) {
@@ -115,6 +115,7 @@ class Profile extends Component
         }
         try {
             User::find(Auth::id())->update($data);
+            Company::where('user_id', Auth::id())->update(['address_sk_company' => $this->address_sk_company, 'notes_company' => $this->notes_company]);
             $this->dispatch('profile-updated', message: 'Profile Anda Berhasil Diperbaharui');
         } catch (\Exception $e) {
             $this->dispatch('fail-updated', message: $e->getMessage());

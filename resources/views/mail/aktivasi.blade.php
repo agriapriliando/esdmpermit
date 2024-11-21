@@ -30,7 +30,7 @@
                     <tr>
                         <td bgcolor="#ffffff" align="center" valign="top"
                             style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 48px; font-weight: 400; line-height: 48px;">
-                            <img src="{{ asset('assets/img/logo_desdm_kalteng_black.png') }}" height="120" style="display: block; border: 0px; margin : 30px 20px 20px 20px" />
+                            <img src="{{ asset('assets/img/logo_miners_hitam.png') }}" height="120" style="display: block; border: 0px; margin : 30px 20px 20px 20px" />
                             <h1 style="font-size: 48px; font-weight: 400; margin: 2;">Hai, {{ $name }}</h1>
                         </td>
                     </tr>
@@ -52,7 +52,7 @@
                                 <tr>
                                     <td bgcolor="#ffffff" align="center" style="padding: 20px 30px 60px 30px;">
                                         <table border="0" cellspacing="0" cellpadding="0">
-                                            <tr style="padding: 20px 30px 60px 30px;">
+                                            <tr style="padding: 20px 30px 60px 30px; margin:20px;">
                                                 <td>
                                                     <span style="font-weight: bold; font-size: 20px">Informasi Akun Anda</span><br>
                                                     Username : {{ $username }}<br>

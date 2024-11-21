@@ -103,11 +103,21 @@
         transition: 5s ease;
     }
 
+    .trix-button-group .trix-button-group--block-tools {
+        display: none;
+    }
+
+    .trix-button--icon-strike,
+    .trix-button--icon-italic,
+    .trix-button--icon-bullet-list,
     .trix-button--icon-increase-nesting-level,
     .trix-button--icon-decrease-nesting-level,
     .trix-button-group--file-tools,
     .trix-button--icon-attach,
-    .trix-button--icon-quote {
+    .trix-button--icon-quote,
+    .trix-button--icon-heading-1,
+    .trix-button--icon-number-list,
+    .trix-button--icon-code {
         display: none;
     }
 

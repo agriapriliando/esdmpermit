@@ -29,6 +29,6 @@ class CekRole
             session()->put($user->role, true);
             return $next($request);
         }
-        return redirect('login')->with('error', 'Anda tidak punya akses');
+        return redirect('login')->with('error', 'Anda belum punya akses, silahkan cek email untuk aktivasi akun');
     }
 }

@@ -100,12 +100,6 @@
                                         <div class="mb-2">
                                             <label for="name_company">Nama Perusahaan</label>
                                             <input wire:model.blur="name_company" type="text" class="form-control @error('name_company') is-invalid @enderror" id="name_company" disabled>
-                                            <small>Diawali dengan PT atau CV tanpa menggunakan titik <br>Contoh : PT Kalimantan Sumber Jaya</small>
-                                            @error('name_company')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                         </div>
                                         <div class="mb-2">
                                             <label for="commodity_id">Aktivitas Perusahaan</label>
@@ -141,24 +135,11 @@
                                             @enderror
                                         </div>
                                         <div class="mb-2">
-                                            <label for="kecamatan_company">Pilih Kecamatan</label>
-                                            <select wire:model.live="kecamatan_company" class="form-select @error('kecamatan_company') is-invalid @enderror" id="kecamatan_company" disabled>
-                                                <option value="">{{ $kecamatan_company }}</option>
-                                            </select>
-                                            @error('kecamatan_company')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-1">
-                                            <p class="badge bg-primary">Kode Wilayah : {{ $region_id }}</p>
-                                        </div>
-                                        <div class="mb-2">
                                             <label for="address_sk_company">Alamat Perusahaan (Sesuai SK)</label>
-                                            <textarea wire:model.live="address_sk_company" id="address_sk_company" cols="30" rows="4" class="form-control @error('address_sk_company') is-invalid @enderror" disabled>
+                                            <textarea wire:model.live="address_sk_company" id="address_sk_company" cols="30" rows="4" class="form-control @error('address_sk_company') is-invalid @enderror">
                                                 {{ $address_sk_company }}
                                             </textarea>
+                                            <small class="text-muted">Cantumkan Nomor SK</small>
                                             @error('address_sk_company')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -167,9 +148,10 @@
                                         </div>
                                         <div class="mb-2">
                                             <label for="notes_company">Catatan</label>
-                                            <textarea wire:model.live="notes_company" id="notes_company" cols="30" rows="2" class="form-control @error('notes_company') is-invalid @enderror" disabled>
+                                            <textarea wire:model.live="notes_company" id="notes_company" cols="30" rows="2" class="form-control @error('notes_company') is-invalid @enderror">
                                                 {{ $notes_company }}
                                             </textarea>
+                                            <small class="text-muted">Silahkan tambahkan Catatan untuk melengkapi Informasi Perusahaan</small>
                                             @error('notes_company')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
