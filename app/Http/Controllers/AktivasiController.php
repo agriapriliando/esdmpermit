@@ -13,7 +13,7 @@ class AktivasiController extends Controller
         $user->update([
             'role' => 'pemohon',
             'email_verified_at' => now(),
-            'api_token' => ''
+            'api_token' => $token,
         ]);
         session()->flash('aktivasi', 'Aktivasi Akun ' . $user->email . ' Berhasil, silahkan login');
         return redirect('/login');

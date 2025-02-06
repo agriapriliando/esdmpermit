@@ -140,7 +140,7 @@
                                                     Apakah Anda Yakin
                                                     <button @click="alert = true" class="btn btn-sm btn-success" type="submit" wire:loading.attr="disabled" wire:target="file_upload">Ajukan
                                                         Permohonan Layanan</button>
-                                                    <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
+                                                    <button @click="open = false" class="btn btn-sm btn-warning" type="button">Batal</button>
                                                 </div>
                                             </div>
                                         </div>

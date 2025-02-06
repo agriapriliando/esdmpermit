@@ -68,7 +68,7 @@
                 <div class="col-12 col-md-6 text-bg-primary pb-4">
                     <div class="d-flex align-items-center justify-content-center h-100">
                         <div class="col-10 col-xl-8 py-3">
-                            <img class="img-fluid rounded mb-2" loading="lazy" src="{{ asset('') }}assets/img/logo_miners_putih.png" width="260" alt="BootstrapBrain Logo">
+                            <img class="img-fluid rounded mb-2" loading="lazy" src="{{ asset('') }}assets/img/newlogo_miners_putih.png" width="260" alt="BootstrapBrain Logo">
                             <h2 class="h1 mb-4">Sistem Informasi Pelayanan Pertambangan</h2>
                             <p class="lead m-0 d-none d-md-block">Adalah Platform digital yang berfungsi untuk mempermudah proses penerbitan surat
                                 teknis di sektor pertambangan agar operasional pertambangan berjalan lancar sesuai dengan regulasi.</p>
