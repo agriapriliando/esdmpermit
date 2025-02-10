@@ -10,7 +10,7 @@
     <meta name="author" content="ditaria.com">
     <meta name="description" content="ESDM Kalteng">
     <meta name="keywords" content="esdm kalteng">
-    <link rel="icon" type="image/x-icon" href="{{ asset('') }}assets/img/logo miners 1x1.png">
+    <link rel="icon" type="image/x-icon" href="{{ asset('') }}assets/img/favicon_miners.png">
     <!--end::Primary Meta Tags--><!--begin::Fonts-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css" integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q=" crossorigin="anonymous">
     <!--end::Fonts--><!--begin::Third Party Plugin(OverlayScrollbars)-->
