@@ -18,7 +18,7 @@ class DaftarController extends Controller
         $datauser = $request->validate([
             'name' => 'required',
             'username' => 'required|unique:users,username',
-            'email' => 'required|email|unique:user,email',
+            'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'nohp' => 'required',
         ]);
