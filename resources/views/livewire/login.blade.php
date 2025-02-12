@@ -247,6 +247,8 @@
                             <div class="col-12">
                                 <hr class="my-4 border-secondary-subtle">
                                 <div class="d-flex gap-2 gap-md-2 flex-column flex-md-row justify-content-md-end">
+                                    <a href="https://drive.google.com/drive/folders/11zsrgFtlBtxcELpzHRMSTsaMCluQvdDt?usp=drive_link" target="_blank" class="btn btn-primary btn-sm"><i
+                                            class="bi bi-info-circle"></i> Panduan</a>
                                     <button @click="formlogin = !formlogin" class="btn btn-primary btn-sm" type="button"><i class="bi bi-person-plus"></i> <span
                                             x-text="formlogin ? 'Pendaftaran' : 'Login'"></span></button>
                                     <button @click="panduan = !panduan" class="btn btn-primary btn-sm" type="button"><i class="bi bi-question-circle"></i> Lupa Password?</button>
