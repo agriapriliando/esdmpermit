@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('role', 20)->default('pemohon'); // superadmin, admin, pemohon, nonaktif, disposisi
+            $table->string('role', 20)->default('pemohon'); // adminutama, admin, pemohon, nonaktif, disposisi
             $table->string('api_token')->unique()->nullable();
             $table->rememberToken();
             $table->timestamps();

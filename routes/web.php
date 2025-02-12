@@ -104,7 +104,7 @@ Route::get('aktivasi/{token}', AktivasiController::class)->name('aktivasi');
 Route::post('daftar', DaftarController::class)->name('daftar');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
-    Route::middleware(['cekrole:admin|superadmin|disposisi'])->group(function () {
+    Route::middleware(['cekrole:admin|adminutama|disposisi'])->group(function () {
         Route::get('profile/admin', AdminProfile::class)->name('admin.profile');
         Route::get('profile/admin/{id_user}', UseradminEdit::class)->name('admin.edit');
         Route::get('admin/{name_stat}', AdminAppreqlist::class)->name('admin.appreq');

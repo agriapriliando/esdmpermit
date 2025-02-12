@@ -93,7 +93,7 @@ class UsersList extends Component
             'admins' => User::where('role', '!=', 'pemohon')
                 ->search($this->search_admin)
                 ->where('id', '!=', Auth::id())
-                ->where('role', '!=', 'superadmin')
+                ->where('role', '!=', 'adminutama')
                 ->paginate($perPage = 20, $columns = ['*'], $pageName = 'admins'),
         ]);
     }

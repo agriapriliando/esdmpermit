@@ -27,7 +27,7 @@
                         @endif
                     @endforeach
                 @endif
-                @if (session('admin') || session('superadmin'))
+                @if (session('admin') || session('adminutama'))
                     <li class="nav-header">Daftar Pengajuan</li>
                     @if (session('admin'))
                         @foreach ($stats as $stat)

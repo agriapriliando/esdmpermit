@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
                 'nohp' => '-',
                 'email' => 'adminutama@gmail.com',
                 'password' => bcrypt('123'),
-                'role' => 'superadmin',
+                'role' => 'adminutama',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

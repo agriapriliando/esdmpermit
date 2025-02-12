@@ -62,7 +62,7 @@ class AdminAppreqdetail extends Component
                 'user_processed' => Auth::id()
             ]);
         }
-        if (Auth::user()->role != 'superadmin') {
+        if (Auth::user()->role != 'adminutama') {
             // cek pesan, otomatis viewed saat detail pengajuan dibuka
             Correspondence::where('appreq_id', $this->appreqid)
                 ->where('viewed', 0)

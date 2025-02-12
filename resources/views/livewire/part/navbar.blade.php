@@ -16,7 +16,7 @@
                             <span class="badge bg-success pillbadge rounded-pill text-bg-success">
                                 Evaluator
                             </span>
-                        @elseif (Auth::user()->role == 'superadmin')
+                        @elseif (Auth::user()->role == 'adminutama')
                             <span class="badge bg-success pillbadge rounded-pill text-bg-success">
                                 Admin Utama
                             </span>

@@ -181,7 +181,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="d-flex float-end">
-                                        @if (Auth::user()->role == 'superadmin')
+                                        @if (Auth::user()->role == 'adminutama')
                                             <button @click="addadmin = true" type="button" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</button>
                                         @endif
                                         <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button"
@@ -191,7 +191,7 @@
                                     </div>
                                 </div>
                             </div>
-                            @if (Auth::user()->role == 'superadmin')
+                            @if (Auth::user()->role == 'adminutama')
                                 <div class="row">
                                     <div class="col-12">
                                         <form x-show="addadmin" x-transition @click.outside="addadmin = false" wire:submit.prevent="userCreate()">
@@ -296,7 +296,7 @@
                                                 <a wire:navigate href="{{ route('admin.edit', $item->id) }}" class="btn btn-sm btn-warning me-1">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                @if (Auth::user()->role == 'superadmin')
+                                                @if (Auth::user()->role == 'adminutama')
                                                     <button @click="open = true" class="btn btn-sm btn-danger" {{ $item->id == Auth::id() ? 'disabled' : '' }}>
                                                         <i class="bi bi-trash"></i>
                                                     </button>

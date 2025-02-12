@@ -57,7 +57,7 @@
                                 <div class="mt-4">
                                     <div style="width: 300px">
                                         <select wire:model.live="stat_id" class="form-select {{ $appreq->stat_id == 6 ? 'text-bg-success' : 'text-bg-warning' }} p-2 rounded" id="status"
-                                            x-on:change="$wire.savestat()" {{ Auth::user()->role == 'superadmin' ? 'disabled' : '' }}>
+                                            x-on:change="$wire.savestat()" {{ Auth::user()->role == 'adminutama' ? 'disabled' : '' }}>
                                             @foreach ($stats as $s)
                                                 <option value="{{ $s->id }}" {{ $s->id === $stat_id ? 'selected' : '' }}> Status : {{ $s->desc_stat }}</option>
                                             @endforeach
@@ -171,7 +171,7 @@
                                             <div class="p-3 rounded shadow" x-data="{ open: false }">
                                                 <div class="d-flex justify-content-between mb-2">
                                                     <h3>Korespondensi</h3>
-                                                    @if (Auth::user()->role != 'superadmin')
+                                                    @if (Auth::user()->role != 'adminutama')
                                                         @if ($appreq->stat_id == 2 || $appreq->stat_id == 3 || $appreq->stat_id == 4)
                                                             <button
                                                                 x-on:click="
