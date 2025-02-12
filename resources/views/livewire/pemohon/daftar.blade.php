@@ -90,17 +90,98 @@
                                             src="https://cdn.dribbble.com/assets/dribbble-ball-mark-2bd45f09c2fb58dbbfb44766d5d1d07c5a12972d602ef8b32204d28fa3dda554.svg" alt=""></a>
                                 </div>
                                 <div class="mb-5">
-                                    <h3>Login</h3>
+                                    <h3>Daftar</h3>
                                 </div>
                             </div>
                         </div>
                         <div x-data="{ isSubmitting: false }">
-                            <form x-on:submit="isSubmitting = true" wire:submit="login">
+                            <form x-on:submit="isSubmitting = true" wire:submit.prevent="daftar">
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
                                     <div class="col-12">
+                                        <label for="name" class="form-label">Nama Lengkap (PIC) <span class="text-danger">*</span></label>
+                                        <input wire:model.live.debounce.2000ms="name" type="name" class="form-control @error('name') is-invalid @enderror" name="name" id="name"
+                                            placeholder="Nama Lengkap" required>
+                                        @error('name')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="nohp" class="form-label">No HP PIC <span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">62</span>
+                                            <input wire:model.live.debounce.2000ms="nohp" type="nohp" inputmode="numeric" class="form-control @error('nohp') is-invalid @enderror"
+                                                name="nohp" id="nohp" placeholder="No HP" required>
+                                        </div>
+                                        @error('nohp')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                                        <input wire:model.live.debounce.2000ms="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email"
+                                            placeholder="Email" required>
+                                        <small>Masukan Email yang digunakan di <span class="fw">oss.go.id</span></small>
+                                        @error('email')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="name_company" class="form-label">Nama Perusahaan <span class="text-danger">*</span></label>
+                                        <div class="d-flex">
+                                            <select wire:model.live="type_company" class="form-select" style="width: 85px !important" required>
+                                                <option value="">Pilih</option>
+                                                <option value="CV">CV</option>
+                                                <option value="PT">PT</option>
+                                            </select>
+                                            <input wire:model.live.debounce.2000ms="name_company" type="name_company" class="form-control @error('name_company') is-invalid @enderror"
+                                                name="name_company" id="name_company" placeholder="Nama Perusahaan" required>
+                                            @error('name_company')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="commodity_id" class="form-label">Pilih Komoditas <span class="text-danger">*</span></label>
+                                        <select wire:model.live="commodity_id" name="commodity_id" class="form-select" required>
+                                            <option value="">Pilihan</option>
+                                            @foreach ($commodities as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name_commodity . ' - ' . $item->group }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('commodity_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-12 mb-2">
+                                        <label for="region_id" class="form-label">Lokasi Pertambangan <span class="text-danger">*</span></label>
+                                        <select wire:model.live="region_id" name="region_id" class="form-select" required>
+                                            <option value="">Pilihan</option>
+                                            @foreach ($all_kab as $kab)
+                                                <option value="{{ $kab->id }}">{{ $kab->name_region }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('region_id')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+                                    <hr class="mb-2">
+                                    <div class="col-12">
                                         <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                        <input autocomplete="off" wire:model="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" id="username"
-                                            placeholder="Username" required>
+                                        <input wire:model.live.debounce.2000ms="username" autocomplete="off" wire:model="username" type="username"
+                                            class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="Username" required>
+                                        <small>Digunakan untuk login</small>
                                         @error('username')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -110,8 +191,8 @@
                                     <div class="col-12" x-data="{ show: true }">
                                         <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                         <div class="input-group">
-                                            <input :type="show ? 'password' : 'text'" wire:model.live="password" class="form-control @error('password') is-invalid @enderror" name="password"
-                                                id="password" placeholder="Password">
+                                            <input wire:model.live.debounce.2000ms="password" :type="show ? 'password' : 'text'" wire:model.live="password"
+                                                class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password">
                                             <span class="input-group-text" @click="show = !show">
                                                 <i :class="show ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                                             </span>
@@ -124,9 +205,10 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="d-grid">
-                                            <button class="btn bsb-btn-xl btn-primary" type="submit"><i class="bi bi-box-arrow-in-right" wire:loading.attr="disabled"></i> L o g i n</button>
-                                            <button type="button" x-show="isSubmitting" disabled class="btn bsb-btn-xl btn-secondary">
-                                                ⏳ Sedang login...
+                                            <button class="btn bsb-btn-xl btn-primary" type="submit" {{ $errors->any() ? 'disabled' : '' }} wire:loading.attr="disabled"><i
+                                                    class="bi bi-box-arrow-in-right"></i> D A F T A R</button>
+                                            <button type="button" disabled x-show="isSubmitting" class="btn bsb-btn-xl btn-warning mt-1">
+                                                ⏳ Sedang menyimpan...
                                             </button>
                                         </div>
                                     </div>
@@ -139,7 +221,7 @@
                                 <div class="d-flex gap-2 gap-md-2 flex-column flex-md-row justify-content-md-end">
                                     <a href="https://drive.google.com/drive/folders/11zsrgFtlBtxcELpzHRMSTsaMCluQvdDt?usp=drive_link" target="_blank" class="btn btn-primary btn-sm"><i
                                             class="bi bi-info-circle"></i> Panduan</a>
-                                    <a wire:navigate href="{{ url('daftar') }}" class="btn btn-primary btn-sm"><i class="bi bi-person-plus"></i> Pendaftaran</a>
+                                    <a wire:navigate href="{{ route('login') }}" class="btn btn-primary btn-sm"><i class="bi bi-person-plus"></i> Login</a>
                                     <button @click="panduan = !panduan" class="btn btn-primary btn-sm" type="button"><i class="bi bi-question-circle"></i> Lupa Password?</button>
                                     <a href="#!" class="btn btn-primary btn-sm d-none"><i class="bi bi-headset"></i> Hubungi Kami</a>
                                 </div>

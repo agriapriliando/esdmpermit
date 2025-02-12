@@ -14,6 +14,7 @@ use App\Livewire\Login;
 use App\Livewire\Pemohon\AppreqCreate;
 use App\Livewire\Pemohon\AppreqDetail;
 use App\Livewire\Pemohon\AppreqList;
+use App\Livewire\Pemohon\Daftar;
 use App\Livewire\Pemohon\Profile;
 use App\Livewire\Resetpass;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +102,7 @@ Route::get('logout', function () {
     return redirect()->route('login');
 })->name('logout');
 Route::get('aktivasi/{token}', AktivasiController::class)->name('aktivasi');
-Route::post('daftar', DaftarController::class)->name('daftar');
+Route::get('daftar', Daftar::class)->name('daftar');
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['cekrole:admin|adminutama|disposisi'])->group(function () {
