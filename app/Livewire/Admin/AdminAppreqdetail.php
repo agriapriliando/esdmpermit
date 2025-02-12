@@ -86,7 +86,7 @@ class AdminAppreqdetail extends Component
         Doc::where('appreq_id', $this->appreqid)->delete();
         $this->appreq->delete();
         session()->flash('delete', "Detail Pengajuan Berhasil Dihapus");
-        return redirect('/admin/perbaikan');
+        return redirect('/admin/dibatalkan');
     }
 
     public function resetFileupload()
