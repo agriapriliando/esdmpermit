@@ -98,8 +98,8 @@
                             <div class="row gy-3 gy-md-4 overflow-hidden">
                                 <div class="col-12">
                                     <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                    <input wire:model="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="Username"
-                                        required>
+                                    <input autocomplete="off" wire:model="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" id="username"
+                                        placeholder="Username" required>
                                     @error('username')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -212,7 +212,7 @@
                                 <hr class="mb-2">
                                 <div class="col-12">
                                     <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
-                                    <input wire:model="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" id="username"
+                                    <input autocomplete="off" wire:model="username" type="username" class="form-control @error('username') is-invalid @enderror" name="username" id="username"
                                         placeholder="Username" required>
                                     <small>Digunakan untuk login</small>
                                     @error('username')
@@ -225,7 +225,7 @@
                                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                     <div class="input-group">
                                         <input :type="show ? 'password' : 'text'" wire:model.live="password" class="form-control @error('password') is-invalid @enderror" name="password"
-                                            id="password">
+                                            id="password" placeholder="Password">
                                         <span class="input-group-text" @click="show = !show">
                                             <i :class="show ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                                         </span>

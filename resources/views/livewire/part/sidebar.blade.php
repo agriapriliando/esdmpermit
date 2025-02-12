@@ -1,10 +1,10 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"> <!--begin::Sidebar Brand-->
-    <div class="sidebar-brand"> <!--begin::Brand Link-->
-        <div class="p-5">
+    <div class="sidebar-brand py-5">
+        <div class="py-5">
             <a href="./index.html" class="brand-link"> <!--begin::Brand Image-->
                 <img src="{{ asset('') }}assets/img/newlogo_miners_putih.png" alt="AdminLTE Logo" class="opacity-75 shadow" width="190"> <!--end::Brand Image-->
             </a>
-        </div>
+        </div> <!--begin::Brand Link-->
         <!--end::Brand Link-->
     </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
     <div class="sidebar-wrapper">
