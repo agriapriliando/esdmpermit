@@ -124,7 +124,7 @@
                                                             class="modal-hapus">
                                                             <div class="alert alert-danger text-center">Yakin ingin menghapus/ membatalkan pengajuan ini?
                                                                 <p class="fw-bold">{{ $item->name }}</p>
-                                                                <button @click="$dispatch('notify', { message: 'Pengajuan Berhasil Dihapus..' })" wire:click.prevent="delete({{ $item->ver_code }})"
+                                                                <button @click="$dispatch('notify', { message: 'Pengajuan Berhasil Dihapus..' })" wire:click.prevent="delete('{{ $item->ver_code }}')"
                                                                     class="btn btn-sm btn-danger">Hapus!!</button>
                                                                 <button @click="open = false" class="btn btn-sm btn-warning">Batal</button>
                                                             </div>
