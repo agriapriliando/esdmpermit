@@ -240,8 +240,8 @@
                                                     <label for="role">Role</label>
                                                     <select wire:model="role" class="form-select" aria-label="Default select example">
                                                         <option value="">== Pilih Role ==</option>
-                                                        <option value="admin">Evaluator</option>
-                                                        <option value="disposisi">Operator</option>
+                                                        <option value="evaluator">Evaluator</option>
+                                                        <option value="operator">Operator</option>
                                                     </select>
                                                     @error('role')
                                                         <div class="invalid-feedback">
