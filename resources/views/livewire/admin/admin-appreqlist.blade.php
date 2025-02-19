@@ -41,11 +41,11 @@
                                 <div class="p-3" x-show="show" x-transition class="mt-1" @click.outside="show = false">
                                     * Klik Detail untuk melihat detail pengajuan<br>
                                     * Diajukan = Status saat pengajuan pertama kali diajukan oleh Pemohon<br>
-                                    * Disposisi = Status saat pengajuan diterima/dibuka oleh Admin Disposisi<br>
-                                    * Diproses = Status saat pengajuan diterima/dibuka oleh Admin Verifikator/Validator<br>
-                                    * Perbaikan = Status Perbaikan Pengajuan, Pemohon bisa memakai Fitur Korespondensi<br>
+                                    * Disposisi = Status saat pengajuan diterima/dibuka oleh Admin Operator<br>
+                                    * Diproses = Status saat pengajuan diterima/dibuka oleh Admin Evaluator<br>
+                                    * Perbaikan = Status Perbaikan Pengajuan<br>
                                     * Dibatalkan = Status Penangguhan atau Pembatalan atau Kesalahan<br>
-                                    * Selesai = Status Penangguhan atau Pembatalan atau Kesalahan<br>
+                                    * Selesai = Status Permohonan telah dipenuhi, dokumen terbit<br>
                                 </div>
                             </div>
                             <div class="d-flex flex-column flex-lg-row float-end">
@@ -105,8 +105,22 @@
                                                 <span class="bg-warning px-2 rounded">{{ $item->ver_code }}</span>
                                                 <div class="mt-1">
                                                     <a wire:navigate href="{{ url('admin/appreqdetail/' . $item->id) }}" class="btn btn-sm btn-success mb-1"><i class="bi bi-eye"></i> Detail</a>
-                                                    <span class="btn btn-sm btn-success mb-1">Status :
-                                                        {{ $item->stat->desc_stat . ' ' . Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}
+                                                    <span class="btn btn-sm btn-success mb-1">
+                                                        Status :
+                                                        {{ $item->stat->desc_stat }}
+                                                        @if ($item->stat_id == 1)
+                                                            {{ Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 2)
+                                                            {{ Carbon\Carbon::parse($item->date_disposisi)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 3)
+                                                            {{ Carbon\Carbon::parse($item->date_processed)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 4)
+                                                            {{ Carbon\Carbon::parse($item->date_finished)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 5)
+                                                            {{ Carbon\Carbon::parse($item->date_rejected)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 6)
+                                                            {{ Carbon\Carbon::parse($item->date_finished)->DiffForHumans() }}
+                                                        @endif
                                                     </span><br>
                                                     @if (count($correspondences) > 0 || count($docs) > 0)
                                                         <span class="btn btn-sm btn-danger mb-1">

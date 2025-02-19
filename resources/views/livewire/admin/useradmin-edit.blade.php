@@ -63,8 +63,8 @@
                                         <div class="mb-2">
                                             <label for="role">Role</label>
                                             <select wire:model="role" class="form-select" aria-label="Default select example">
-                                                <option value="admin" {{ $role == 'admin' ? 'selected' : '' }}>Evaluator</option>
-                                                <option value="disposisi" {{ $role == 'disposisi' ? 'selected' : '' }}>Operator</option>
+                                                <option value="evaluator" {{ $role == 'evaluator' ? 'selected' : '' }}>Evaluator</option>
+                                                <option value="operator" {{ $role == 'operator' ? 'selected' : '' }}>Operator</option>
                                             </select>
                                             @error('role')
                                                 <div class="invalid-feedback">

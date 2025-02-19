@@ -18,4 +18,9 @@ class Doc extends Model
         'file_name',
         'sender',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

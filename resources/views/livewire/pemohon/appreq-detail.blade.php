@@ -45,9 +45,9 @@
                                     <div class="alert alert-danger text-center">
                                         <span class="font-weight-bold">Panduan :</span> <br>
                                         * Fitur Korespondensi terbuka saat Status Pengajuan : Disposisi, Diproses, Perbaikan <br>
-                                        * Pesan yang telah dibaca tidak bisa dihapus <br>
-                                        * Berkas File yang diunggah wajib diberi nama/judul<br>
-                                        * Berkas File Ajuan tidak bisa dihapus<br>
+                                        * Korespondensi tidak bisa dihapus <br>
+                                        * Berkas File sebelum diunggah wajib diberi nama/judul<br>
+                                        * Berkas File Ajuan (Pertama Kali) tidak bisa dihapus<br>
                                         <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                                 <div class="col-md-6">
                                     <table>
                                         <tr>
-                                            <td colspan="2" class="fw-bold" style="min-width: 150px">1. Layanan : <br> {{ $appreq->permitwork->name_permit }}</td>
+                                            <td colspan="2" class="fw-bold" style="min-width: 150px">1. Layanan : {{ $appreq->permitwork->name_permit }}</td>
                                         </tr>
                                         <tr>
                                             <td colspan="2">
@@ -280,7 +280,7 @@
                                                     <div wire:key="d-{{ $d->id }}">
                                                         <li class="list-group-item" x-data="{ docc: false }">
                                                             {{ $d->name_doc }} <br>
-                                                            @if ($d->type_doc == 'Ajuan')
+                                                            @if ($d->type_doc == 'Ajuan Awal')
                                                                 <i class="bi bi-clock-history me-1" style="font-size: 12px">
                                                                     {{ Carbon\Carbon::parse($d->created_at)->translatedFormat('d/m/Y H:i') }} Wib
                                                                 </i>
@@ -291,7 +291,7 @@
                                                             @endif
                                                             <div>
                                                                 <div class="badge text-bg-success me-2 py-2">
-                                                                    Berkas : {{ $d->type_doc }}
+                                                                    Berkas : {{ $d->type_doc . '-' . $d->user->name }}
                                                                 </div>
                                                                 <a class="btn btn-sm btn-success" href="{{ url('storage/file_doc/' . $d->file_name) }}" target="_blank"><i
                                                                         class="bi bi-download"></i> Unduh</a>

@@ -89,6 +89,10 @@ class AppreqDetail extends Component
                 'sender' => 1
             ]);
         }
+        Appreq::where('id', $this->appreqid)->update([
+            'viewed_operator' => 0,
+            'viewed_evaluator' => 0,
+        ]);
     }
 
     public function deletePesan($cor_id)
@@ -118,9 +122,17 @@ class AppreqDetail extends Component
         ];
         if ($this->desc != null) {
             Correspondence::create($data);
+            Appreq::where('id', $this->appreqid)->update([
+                'viewed_operator' => 0,
+                'viewed_evaluator' => 0,
+            ]);
         }
         if ($this->file_upload != null) {
             $this->uploadFile($this->file_upload);
+            Appreq::where('id', $this->appreqid)->update([
+                'viewed_operator' => 0,
+                'viewed_evaluator' => 0,
+            ]);
         }
         $this->reset('file_upload', 'desc');
     }

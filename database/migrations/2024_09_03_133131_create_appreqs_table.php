@@ -31,6 +31,9 @@ return new class extends Migration
             $table->integer('user_rejected')->nullable();
             $table->text('reason_rejected')->nullable();
             $table->text('notes')->nullable();
+            $table->boolean('viewed_operator')->default(0);
+            $table->boolean('viewed_evaluator')->default(0);
+            $table->boolean('viewed_pemohon')->default(0);
             $table->timestamps();
         });
     }

@@ -8,11 +8,11 @@
                 <li class="nav-item"> <a class="nav-link" wire:navigate href="{{ route('admin.profile') }}" role="button">
                         <i class="bi bi-person-circle me-2"></i>
                         Hai, {{ Auth::user()->name }}
-                        @if (Auth::user()->role == 'disposisi')
+                        @if (Auth::user()->role == 'operator')
                             <span class="badge bg-success pillbadge rounded-pill text-bg-success">
                                 Operator
                             </span>
-                        @elseif (Auth::user()->role == 'admin')
+                        @elseif (Auth::user()->role == 'evaluator')
                             <span class="badge bg-success pillbadge rounded-pill text-bg-success">
                                 Evaluator
                             </span>

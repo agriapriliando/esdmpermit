@@ -19,7 +19,7 @@ class DocSeeder extends Seeder
                 'user_id' => 2,
                 'appreq_id' => 1,
                 'name_doc' => 'Surat Permohonan / Pengantar',
-                'type_doc' => 'Ajuan', // ajunan atau revisi
+                'type_doc' => 'Ajuan Awal', // ajunan atau revisi
                 'desc_doc' => 'Detail Surat', // nullable
                 'file_name' => '73248972378946.docx',
                 'sender' => 0,
@@ -30,7 +30,7 @@ class DocSeeder extends Seeder
                 'user_id' => 2,
                 'appreq_id' => 1,
                 'name_doc' => 'KTP Pemohon',
-                'type_doc' => 'Ajuan', // ajunan atau revisi
+                'type_doc' => 'Ajuan Awal', // ajunan atau revisi
                 'desc_doc' => 'KTP Pemohon', // nullable
                 'file_name' => '232489723781212.jpg',
                 'sender' => 0,
@@ -41,7 +41,7 @@ class DocSeeder extends Seeder
                 'user_id' => 2,
                 'appreq_id' => 1,
                 'name_doc' => 'NPWP Perusahaan Pemohon',
-                'type_doc' => 'Ajuan', // ajunan atau revisi
+                'type_doc' => 'Ajuan Awal', // ajunan atau revisi
                 'desc_doc' => 'NPWP Perusahaan Pemohon', // nullable
                 'file_name' => '232489723781212.jpg',
                 'sender' => 0,

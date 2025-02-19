@@ -45,21 +45,31 @@ class AdminAppreqdetail extends Component
         $this->appreqid = $appreq->id;
         $this->stat_id = $appreq->stat_id;
         // update otomatis setelah detail pengajuan dibuka
-        // jika dibuka oleh akun disposisi
-        if (Auth::user()->role == 'disposisi') {
+        // merubah status pengajuan menjadi telah dilihat
+        // jika dibuka oleh akun operator dan status masih diajukan
+        if (Auth::user()->role == 'operator' && $appreq->stat_id == 1) {
             // ubah status ke id 2
             $appreq->update([
                 'stat_id' => 2,
                 'date_disposisi' => Carbon::now(),
-                'user_disposisi' => Auth::id()
+                'user_disposisi' => Auth::id(),
+                'viewed_operator' => 1,
+                'viewed_evaluator' => 0
             ]);
         }
-        if ($appreq->stat_id == 2 && Auth::user()->role == 'admin') {
-            // ubah status ke id 2
+        if ($appreq->stat_id == 2 && Auth::user()->role == 'evaluator') {
+            // ubah status ke id 3 diproses
             $appreq->update([
                 'stat_id' => 3,
                 'date_processed' => Carbon::now(),
-                'user_processed' => Auth::id()
+                'user_processed' => Auth::id(),
+                'viewed_evaluator' => 1,
+            ]);
+        }
+        if (($appreq->stat_id == 2 || $appreq->stat_id == 3 || $appreq->stat_id == 4) && Auth::user()->role == 'evaluator' && $appreq->viewed_evaluator == 0) {
+            // jika belum dibuka oleh operator
+            $appreq->update([
+                'viewed_evaluator' => 1,
             ]);
         }
         if (Auth::user()->role != 'adminutama') {
@@ -155,12 +165,15 @@ class AdminAppreqdetail extends Component
                 'user_id' => Auth::id(),
                 'appreq_id' => $this->appreqid,
                 'name_doc' => $oriName,
-                'type_doc' => 'By Operator',
+                'type_doc' => 'File',
                 'file_name' => $fileName . $ext,
                 'sender' => 0,
                 'viewed' => 0
             ]);
         }
+        $this->appreq->update([
+            'viewed_pemohon' => 0
+        ]);
     }
 
     public function deletePesan($cor_id)
@@ -213,12 +226,29 @@ class AdminAppreqdetail extends Component
             ->update([
                 'viewed' => 1
             ]);
+        //jika yang membuka operator, status disposisi, belum dibuka operator
+        if (Auth::user()->role == 'operator' && $this->appreq->stat_id == 2 && $this->appreq->viewed_operator == 0) {
+            // ubah status ke id 2
+            $this->appreq->update([
+                'stat_id' => 2,
+                'date_disposisi' => Carbon::now(),
+                'user_disposisi' => Auth::id(),
+                'viewed_operator' => 1
+            ]);
+        }
+        // dd($this->appreq);
         //list status
-        if (Auth::user()->role == 'disposisi') {
+        // jika user operator
+        if (Auth::user()->role == 'operator') {
+            //dapatkan status disposisi
             $stat = Stat::where('id', 2)->get();
+        } elseif (Auth::user()->role == 'evaluator') {
+            $stat = Stat::all();
         } else {
+            // dapatkan status selain disposisi dan diajukan
             $stat = Stat::where('id', '!=', 1)->where('id', '!=', 2)->get();
         }
+        // kode jika belum ada histori nama pengguna yang merubah status permohonan
         if ($this->appreq->user_disposisi != null) {
             $user_disposisi = User::findOrFail($this->appreq->user_disposisi);
         } else {

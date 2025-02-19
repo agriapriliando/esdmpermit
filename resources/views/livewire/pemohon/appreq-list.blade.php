@@ -105,7 +105,20 @@
                                                         <i class="bi bi-eye"></i> Detail
                                                     </a>
                                                     <span class="btn btn-sm btn-success mb-1">Status :
-                                                        {{ $item->stat->desc_stat . ' ' . Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}
+                                                        {{ $item->stat->desc_stat . ' ' }}
+                                                        @if ($item->stat_id == 1)
+                                                            {{ Carbon\Carbon::parse($item->date_submitted)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 2)
+                                                            {{ Carbon\Carbon::parse($item->date_disposisi)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 3)
+                                                            {{ Carbon\Carbon::parse($item->date_processed)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 4)
+                                                            {{ Carbon\Carbon::parse($item->date_finished)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 5)
+                                                            {{ Carbon\Carbon::parse($item->date_rejected)->DiffForHumans() }}
+                                                        @elseif($item->stat_id == 6)
+                                                            {{ Carbon\Carbon::parse($item->date_finished)->DiffForHumans() }}
+                                                        @endif
                                                     </span>
                                                     @if (count($correspondences) > 0 || count($docs) > 0)
                                                         <span class="btn btn-sm btn-danger mb-1">

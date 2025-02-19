@@ -257,7 +257,7 @@
                                                                     @if ($c->user->role != 'pemohon')
                                                                         <i class="bi bi-eye mx-1" style="font-size: 12px"> {{ $c->viewed ? 'Sudah Dibaca' : 'Belum Dibaca' }}</i>
                                                                     @endif
-                                                                    @if ($c->viewed == 0 && $c->user_id == 1)
+                                                                    @if ($c->viewed == 0 && $c->user_id == Auth::id())
                                                                         <i x-data="{ cores: false }" class="bi bi-trash filehover position-relative mx-1" @click="cores = true">
                                                                             <div x-show="cores" x-init="setTimeout(() => cores = false, 1000)" @click.outside="cores = false"
                                                                                 style="width: 80px; z-index: 99; cursor: pointer" class="position-absolute top-0 end-0 bg-warning rounded px-2">
@@ -311,7 +311,7 @@
                                                     <div wire:key="d-{{ $d->id }}">
                                                         <li class="list-group-item" x-data="{ docc: false }">
                                                             {{ $d->name_doc }} <br>
-                                                            @if ($d->type_doc == 'Ajuan')
+                                                            @if ($d->type_doc == 'Ajuan Awal')
                                                                 <i class="bi bi-clock-history me-1" style="font-size: 12px">
                                                                     {{ Carbon\Carbon::parse($d->created_at)->translatedFormat('d/m/Y H:i') }} Wib
                                                                 </i>

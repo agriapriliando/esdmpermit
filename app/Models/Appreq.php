@@ -28,6 +28,9 @@ class Appreq extends Model
         'reason_rejected',
         'user_rejected',
         'notes',
+        'viewed_operator',
+        'viewed_evaluator',
+        'viewed_pemohon',
     ];
 
     public function user()

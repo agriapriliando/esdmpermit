@@ -7,6 +7,24 @@
         </div> <!--begin::Brand Link-->
         <!--end::Brand Link-->
     </div> <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper-->
+    <style>
+        .blink {
+            animation: blink-animation 1s steps(5, start) infinite;
+            -webkit-animation: blink-animation 1s steps(5, start) infinite;
+        }
+
+        @keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+
+        @-webkit-keyframes blink-animation {
+            to {
+                visibility: hidden;
+            }
+        }
+    </style>
     <div class="sidebar-wrapper">
         <nav class="mt-2"> <!--begin::Sidebar Menu-->
             <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
@@ -14,28 +32,52 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                @if (session('disposisi'))
+                @if (session('operator'))
                     <li class="nav-header">Daftar Pengajuan</li>
                     @foreach ($stats as $stat)
                         @if ($stat->name_stat == 'disposisi' || $stat->name_stat == 'diajukan')
                             <li class="nav-item">
                                 <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
                                     <i class="nav-icon bi bi-filetype-docx"></i>
-                                    <p>{{ $stat->desc_stat }}</p>
+                                    <div>
+                                        {{ $stat->desc_stat }}
+                                        @if ($stat->id == 1 && $operator_status_diajukan > 0)
+                                            {{-- jika ada diajukan baru belum dibuka operator --}}
+                                            <span class="badge text-bg-warning float-end ms-1 blink">{{ $operator_status_diajukan }}</span>
+                                        @endif
+                                        @if ($stat->id == 2 && $operator_status_disposisi > 0)
+                                            {{-- jika ada berbalas pesan/ file di status disposisi --}}
+                                            <span class="badge text-bg-warning float-end ms-1 blink">{{ $operator_status_disposisi }}</span>
+                                        @endif
+                                    </div>
                                 </a>
                             </li>
                         @endif
                     @endforeach
                 @endif
-                @if (session('admin') || session('adminutama'))
+                @if (session('evaluator') || session('adminutama'))
                     <li class="nav-header">Daftar Pengajuan</li>
-                    @if (session('admin'))
+                    @if (session('evaluator'))
                         @foreach ($stats as $stat)
-                            @if ($stat->name_stat != 'diajukan')
+                            @if ($stat->id != 1)
                                 <li class="nav-item">
                                     <a wire:navigate href="{{ url('admin/' . $stat->name_stat) }}" class="nav-link {{ request()->is('admin/' . $stat->name_stat) ? 'active' : '' }}">
                                         <i class="nav-icon bi bi-filetype-docx"></i>
-                                        <p>{{ $stat->desc_stat }}</p>
+                                        <div>
+                                            {{ $stat->desc_stat }}
+                                            @if ($stat->id == 2 && $evaluator_status_disposisi > 0)
+                                                {{-- jika disposisi belum dibuka oleh evaluator --}}
+                                                <span class="badge text-bg-warning float-end ms-1 blink">{{ $evaluator_status_disposisi }}</span>
+                                            @endif
+                                            @if ($stat->id == 3 && $evaluator_status_diproses > 0)
+                                                {{-- jika diproses belum dibuka oleh evaluator --}}
+                                                <span class="badge text-bg-warning float-end ms-1 blink">{{ $evaluator_status_diproses }}</span>
+                                            @endif
+                                            @if ($stat->id == 4 && $evaluator_status_perbaikan > 0)
+                                                {{-- jika perbaikan belum dibuka oleh evaluator --}}
+                                                <span class="badge text-bg-warning float-end ms-1 blink">{{ $evaluator_status_perbaikan }}</span>
+                                            @endif
+                                        </div>
                                     </a>
                                 </li>
                             @endif

@@ -42,7 +42,7 @@
                         </div> <!-- /.card-header -->
                         <div class="card-body table-responsive">
                             <div class="d-flex flex-column flex-lg-row float-end">
-                                <a wire:navigate href="{{ route('user.create') }}" class="btn btn-success me-2 mb-2"><i class="bi bi-plus"></i> Tambah</a>
+                                <a wire:navigate href="{{ route('user.create') }}" class="btn btn-success me-2 mb-2 d-none"><i class="bi bi-plus"></i> Tambah</a>
                                 <button @click="$dispatch('notify', { message: 'Refresh Daftar Akun Berhasil' })" class="btn btn-warning me-2 mb-2" type="button" x-on:click="$wire.$refresh()"
                                     wire:loading.attr="disabled">
                                     <i class="bi bi-arrow-repeat"></i> Refresh

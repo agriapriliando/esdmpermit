@@ -87,6 +87,7 @@ class AppreqCreate extends Component
                 'ver_code' => $ver_code,
                 'date_submitted' => Carbon::now(),
                 'notes' => $this->notes,
+                'viewed_pemohon' => 1,
             ];
             // dd($dataAppreq);
             DB::transaction(function () use ($dataAppreq, $fileNameArray, $fileNameOriArray) {
@@ -97,7 +98,7 @@ class AppreqCreate extends Component
                         'user_id' => Auth::id(),
                         'appreq_id' => $appreqinput->id,
                         'name_doc' => $fileNameOriArray[$i],
-                        'type_doc' => 'Ajuan',
+                        'type_doc' => 'Ajuan Awal',
                         'file_name' => $name,
                         'sender' => 1,
                     ]);

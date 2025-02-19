@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="card mb-4">
                         <div class="card-header">
-                            <h3 class="card-title">Daftar Layanan Izin Tersedia</h3>
+                            <h3 class="card-title">Daftar Layanan Tersedia</h3>
                             <div class="card-tools">
                                 <div class="input-group" x-data="{ search: '' }">
                                     <input wire:model.live.debounce="search" x-model="search" type="text" name="search" class="form-control form-control-sm float-right" placeholder="Search">
@@ -77,7 +77,7 @@
                                     <tr>
                                         <th style="width: 10px">#</th>
                                         <th>Nama Layanan</th>
-                                        <th>Deskripsi</th>
+                                        <th>Persyaratan</th>
                                         <th>Tanggal</th>
                                         <th style="width: 40px">Label</th>
                                     </tr>
@@ -146,7 +146,7 @@
                                     @enderror
                                 </div>
                                 <div class="mb-2">
-                                    <label>Deskripsi Layanan</label>
+                                    <label>Persyaratan Layanan</label>
                                     <input wire:model="desc_permit" id="desc_permit" type="hidden" name="desc_permit" value="{{ $desc_permit ?? '' }}"
                                         class="@error('desc_permit') is-invalid @enderror">
                                     <trix-editor input="desc_permit" class="@error('desc_permit') is-invalid @enderror"></trix-editor>

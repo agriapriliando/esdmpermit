@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
 
         DB::table('users')->insert([
             [
-                'name' => 'Wilna',
+                'name' => 'Admin Utama',
                 'username' => 'adminutama',
                 'nohp' => '-',
                 'email' => 'adminutama@gmail.com',
@@ -39,22 +39,22 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Jaya',
+                'name' => 'Operator',
                 'username' => 'operator',
                 'nohp' => '-',
                 'email' => 'operator@gmail.com',
                 'password' => bcrypt('123'),
-                'role' => 'disposisi',
+                'role' => 'operator',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'name' => 'Tutu Nainggolan',
+                'name' => 'Evaluator',
                 'username' => 'evaluator',
                 'nohp' => '-',
                 'email' => 'evaluator@gmail.com',
                 'password' => bcrypt('123'),
-                'role' => 'admin',
+                'role' => 'evaluator',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
@@ -64,13 +64,11 @@ class DatabaseSeeder extends Seeder
         $date_now = Carbon::now();
 
         $array = array(
-            array("name" => "CV CAHAYA BAHAGIA", "username" => "cvcahaya", "nohp" => "-", "email" => "@gmail.com", "password" => $password, "role" => "pemohon", "created_at" => $date_now, "updated_at" => $date_now),
-            array("name" => "PT KALMIN SEJATI", "username" => "ptkalminsejati", "nohp" => "-", "email" => "@gmail.com", "password" => $password, "role" => "pemohon", "created_at" => $date_now, "updated_at" => $date_now)
+            array("name" => "PT Ditaria", "username" => "agri", "nohp" => "-", "email" => "@gmail.com", "password" => $password, "role" => "pemohon", "created_at" => $date_now, "updated_at" => $date_now)
         );
 
         $arraycompany = array(
-            array("user_id" => "4", "commodity_id" => "1", "region_id" => "62.13", "name_company" => "CV CAHAYA FAJAR", "province_company" => "KALIMANTAN TENGAH", "kab_kota_company" => "KAB. BARITO TIMUR", "kecamatan_company" => "", "kel_desa_company" => "", "address_sk_company" => "", "notes_company" => ""),
-            array("user_id" => "5", "commodity_id" => "21", "region_id" => "62.08", "name_company" => "PT KALMIN SEJATI", "province_company" => "KALIMANTAN TENGAH", "kab_kota_company" => "KAB. SUKAMARA", "kecamatan_company" => "", "kel_desa_company" => "", "address_sk_company" => "", "notes_company" => "")
+            array("user_id" => "4", "commodity_id" => "21", "region_id" => "62.08", "name_company" => "PT KALMIN SEJATI", "province_company" => "KALIMANTAN TENGAH", "kab_kota_company" => "KAB. SUKAMARA", "kecamatan_company" => "", "kel_desa_company" => "", "address_sk_company" => "", "notes_company" => "")
         );
 
         $i = 0;
