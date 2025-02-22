@@ -242,7 +242,7 @@ class AdminAppreqdetail extends Component
         if (Auth::user()->role == 'operator') {
             //dapatkan status disposisi
             $stat = Stat::where('id', 2)->get();
-        } elseif (Auth::user()->role == 'evaluator') {
+        } elseif (Auth::user()->role == 'adminutama') {
             $stat = Stat::all();
         } else {
             // dapatkan status selain disposisi dan diajukan
