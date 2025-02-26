@@ -165,7 +165,7 @@ class AdminAppreqdetail extends Component
                 'user_id' => Auth::id(),
                 'appreq_id' => $this->appreqid,
                 'name_doc' => $oriName,
-                'type_doc' => 'File by ' . Auth::role(),
+                'type_doc' => 'File by ' . Auth::user()->role,
                 'file_name' => $fileName . $ext,
                 'sender' => 0,
                 'viewed' => 0
