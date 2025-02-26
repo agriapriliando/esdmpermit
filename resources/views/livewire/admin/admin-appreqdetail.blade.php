@@ -335,7 +335,7 @@
 
                                                             </div>
                                                             <div class="position-relative">
-                                                                @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By Operator' && $appreq->stat_id != 6)
+                                                                @if (Auth::user()->role != 'pemohon' && $d->type_doc == 'By ' . Auth::user()->role && $appreq->stat_id != 6)
                                                                     <a class="btn btn-danger btn-sm" @click="docc = true">
                                                                         <i class="bi bi-trash"></i>
                                                                     </a>
