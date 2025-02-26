@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('appreq_id')->constrained();
             $table->string('name_doc');
-            $table->enum('type_doc', ['Ajuan Awal', 'Revisi', 'by Operator', 'by Evaluator']);
+            $table->string('type_doc');
+            // $table->enum('type_doc', ['Ajuan Awal', 'Revisi', 'by Operator', 'by Evaluator']);
             $table->text('desc_doc')->nullable();
             $table->boolean('sender')->default(0); // 0 untuk pemohon // 1 untuk operator
             $table->boolean('viewed')->default(0);
