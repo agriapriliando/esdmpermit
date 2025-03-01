@@ -92,6 +92,12 @@ Route::get('/datawilayah', function () {
     file_put_contents($outputFile, $data,  FILE_APPEND);
 });
 
+Route::get('/excel', function () {
+    return redirect()->away('https://docs.google.com/spreadsheets/d/1kcnnXHioA1gC4xMQjvM-2M9Gk_MLwT_L_-EheeHBkVg/edit?usp=sharing');
+});
+Route::get('/layanan', function () {
+    return redirect()->away('https://docs.google.com/spreadsheets/d/e/2PACX-1vT9TtQ7hcSXi6cnhF_U7DfGs2_2DTutESVEqfgasJQI94aOoLxsE2GxjoIczM96QU1RKuAKc3p4FjIK/pubhtml');
+});
 
 Route::get('/', Login::class)->name('login');
 Route::get('login', Login::class)->name('login');
