@@ -14,7 +14,7 @@ class PermitworkSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('permitworks')->truncate();
+        // DB::table('permitworks')->truncate();
         $daftarjudul = [
             [
                 "1",
