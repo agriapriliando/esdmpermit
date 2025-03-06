@@ -121,7 +121,7 @@ class AppreqCreate extends Component
             $this->permitwork_desc = '';
         }
         return view('livewire.pemohon.appreq-create', [
-            'permitworks' => Permitwork::all(),
+            'permitworks' => Permitwork::where('aktif', 1)->get(),
             'company' => Company::where('user_id', Auth::id())->first(),
         ]);
     }

@@ -37,8 +37,9 @@
                                 <br>
                                 * Berkas unggah berformat pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar<br>
                                 * Berkas unggah dapat berjumlah lebih dari satu.<br>
-                                * Berkas Satuan maksimal 10MB.<br>
-                                * Untuk berkas satuan yang berukuran melebihi 10Mb, silahkan diunggah ke google drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.<br>
+                                * Berkas per File maksimal 10MB atau 10.000 KB.<br>
+                                * Untuk berkas satuan yang berukuran melebihi 10Mb, silahkan diunggah ke Google Drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.<br>
+                                * Kolom Keterangan akan terlihat / terbuka setelah proses Cek Berkas Berhasil.<br>
                                 * Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai kebutuhan. <br>
                             </p>
                             <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup Panduan</button>
@@ -62,17 +63,13 @@
                                     <div class="mb-2">
                                         <div wire:ignore class="form-group mb-2">
                                             <label for="permitwork_id">Daftar Layanan</label>
-                                            @if (date('l') != 'Saturday' || date('l') != 'Sunday')
-                                                <select wire:model.live="permitwork_id" name="permitwork_id" class="form-control select2" id="permitwork_id" style="width: 100%;">
-                                                    <option value="">== Pilih ==</option>
-                                                    @foreach ($permitworks as $a)
-                                                        <option value="{{ $a->id }}">{{ $a->name_permit }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <div wire:loading class="alert alert-warning">Tunggu, sedang mengecek Syarat dan Ketentuan</div>
-                                            @else
-                                                <div class="fw-bold">Mohon maaf Pengajuan hanya bisa dilakukan dihari kerja Senin s.d. Jumat. Terima Kasih.</div>
-                                            @endif
+                                            <select wire:model.live="permitwork_id" name="permitwork_id" class="form-control select2" id="permitwork_id" style="width: 100%;">
+                                                <option value="">== Pilih ==</option>
+                                                @foreach ($permitworks as $a)
+                                                    <option value="{{ $a->id }}">{{ $a->name_permit }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div wire:loading class="alert alert-warning">Tunggu, sedang mengecek Syarat dan Ketentuan</div>
                                         </div>
                                         @error('permitwork_id')
                                             <div class="alert alert-danger">
@@ -126,8 +123,9 @@
                                             <label for="notes">Keterangan : </label>
                                             <input wire:model="notes" id="notes" type="hidden" name="notes">
                                             <trix-editor input="notes"></trix-editor>
-                                            <small>Untuk File Berukuran lebih dari 10Mb, silahkan diunggah ke google drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.</small><br>
-                                            <small>Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai kebutuhan.</small>
+                                            <small>Untuk File Berukuran lebih dari 10Mb atau 10.000 KB, silahkan diunggah ke google drive (atau sejenisnya), lalu sertakan linknya di kolom
+                                                Keterangan.</small><br>
+                                            <small>Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai keperluan.</small>
                                         </div>
                                         <div class="mb-2 d-grid" x-data="{ open: false }">
                                             <button @click="open = true" type="button" class="btn btn-success" wire:loading.attr="disabled" wire:target="file_upload">

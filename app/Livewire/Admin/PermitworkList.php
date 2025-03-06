@@ -5,11 +5,14 @@ namespace App\Livewire\Admin;
 use App\Models\Permitwork;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class PermitworkList extends Component
 {
+    use WithPagination;
+
     public $search = '';
-    public $pagelength = 20;
+    public $pagelength = 5;
     public $title = 'Tambah Layanan';
     public $id;
 
@@ -76,6 +79,14 @@ class PermitworkList extends Component
         $this->dispatch('permitwork-deleted', message: 'Jenis Layanan ' . $permitwork->name_permit . ' Berhasil Dihapus');
     }
 
+    public function changeAktif($id)
+    {
+        $permitwork = Permitwork::find($id);
+        $permitwork->update([
+            "aktif" => !$permitwork->aktif
+        ]);
+    }
+
     public function render()
     {
         return view('livewire.admin.permitwork-list', [
@@ -86,7 +97,7 @@ class PermitworkList extends Component
                 ->when($this->tertaut_count == 'B', function ($query) {
                     $query->has('appreqs', 0);
                 })
-                ->orderBy('name_permit')
+                ->orderBy('id')
                 ->paginate($this->pagelength)
         ]);
     }

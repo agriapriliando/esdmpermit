@@ -11,7 +11,8 @@ class Permitwork extends Model
 
     protected $fillable = [
         'name_permit',
-        'desc_permit'
+        'desc_permit',
+        'aktif'
     ];
 
     public function appreqs()

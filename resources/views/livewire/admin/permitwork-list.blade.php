@@ -22,7 +22,7 @@
                     <ol class="breadcrumb float-sm-end">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            Daftar Akun
+                            Daftar Layanan
                         </li>
                     </ol>
                 </div>
@@ -59,7 +59,7 @@
                             <div class="d-flex flex-column flex-lg-row">
                                 <div class="me-2 mb-2">
                                     <select wire:model.live="pagelength" class="form-select" aria-label="Default select example" id="pagelength">
-                                        <option value="">All</option>
+                                        <option value="5">Default</option>
                                         <option value="20">20</option>
                                         <option value="50">50</option>
                                     </select>
@@ -79,7 +79,7 @@
                                         <th>Nama Layanan</th>
                                         <th>Persyaratan</th>
                                         <th>Tanggal</th>
-                                        <th style="width: 40px">Label</th>
+                                        <th style="width: 40px">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -112,6 +112,8 @@
                                                         <button class="btn btn-sm btn-warning">Batal</button>
                                                     </div>
                                                 </div>
+                                                <button wire:click.prevent="changeAktif({{ $item->id }})"
+                                                    class="ms-2 btn btn-sm {{ $item->aktif ? 'btn-success' : 'btn-danger' }}">{{ $item->aktif ? 'Aktif' : 'Tidak Aktif' }}</button>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -119,6 +121,7 @@
                             </table>
                         </div> <!-- /.card-body -->
                         <div class="card-footer clearfix">
+                            {{ $permitworks->links() }}
                         </div>
                     </div> <!-- /.card -->
                 </div> <!-- /.col -->

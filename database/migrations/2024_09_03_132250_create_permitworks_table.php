@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name_permit');
             $table->text('desc_permit')->nullable();
+            $table->boolean('aktif')->default(1);
             $table->timestamps();
         });
     }
