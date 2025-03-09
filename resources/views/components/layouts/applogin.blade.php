@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/css/adminlte.css"><!--end::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('') }}assets/css/login.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head> <!--end::Head--> <!--begin::Body-->
 <style>
