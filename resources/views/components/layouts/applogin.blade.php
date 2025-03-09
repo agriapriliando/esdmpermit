@@ -19,16 +19,49 @@
         crossorigin="anonymous"><!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('') }}assets/css/adminlte.css"><!--end::Required Plugin(AdminLTE)-->
     <link rel="stylesheet" href="{{ asset('') }}assets/css/login.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </head> <!--end::Head--> <!--begin::Body-->
 <style>
     .filehover {
         cursor: pointer;
     }
+
+    .splide__slide img {
+        width: 100%;
+        /* Paksa lebar penuh */
+        height: 500px;
+        /* Atur tinggi sesuai kebutuhan */
+        object-fit: cover;
+        /* Potong gambar agar pas tanpa merusak proporsi */
+        cursor: pointer;
+    }
+
+    .gradient-background {
+        background: linear-gradient(245deg, #385bee, #ef49df);
+        background-size: 120% 120%;
+        animation: gradient-animation 4s ease infinite;
+    }
+
+    @keyframes gradient-animation {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    }
 </style>
 
-<body class="login-page bg-body-secondary">
-    <div class="scroll-bg"></div>
+<body class="login-page bg-body-secondary gradient-background">
+    {{-- <div class="scroll-bg"></div> --}}
     {{ $slot }}
     <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/browser/overlayscrollbars.browser.es6.min.js" integrity="sha256-H2VM7BKda+v2Z4+DRy69uknwxjyDRhszjXFhsL4gD3w=" crossorigin="anonymous">
     </script> <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
@@ -58,6 +91,7 @@
             }
         });
     </script> <!--end::OverlayScrollbars Configure--> <!--end::Script-->
+    @stack('scriptlogin')
 </body><!--end::Body-->
 
 </html>

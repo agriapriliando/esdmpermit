@@ -372,7 +372,12 @@ body .dribbble img {
     animation: scrollBg 250s linear forwards;
 }
 
-#overlay {
+.form-control:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.overlay {
     position: fixed;
     /* Sit on top of the page content */
     display: block;

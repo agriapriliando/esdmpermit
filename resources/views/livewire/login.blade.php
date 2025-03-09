@@ -1,6 +1,6 @@
 <!-- Login 5 - Bootstrap Brain Component -->
 
-<section class="p-3 p-md-4 p-xl-5">
+<section class="p-md-1 p-xl-5">
     <div class="container mb-5">
         @session('success')
             <div style="z-index: 3;" class="alert alert-primary alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
@@ -30,8 +30,8 @@
         @endsession
         <div class="card border-light-subtle shadow-sm">
             <div class="row g-0" x-data="{ panduan: false, formlogin: true, }">
-                <div x-show="panduan" id="overlay"></div>
-                <div x-show="panduan" class="position-fixed bg-white text-white p-3 rounded shadow-lg top-50 start-50 translate-middle" style="z-index: 3;">
+                <div x-cloak x-show="panduan" class="overlay"></div>
+                <div x-cloak x-show="panduan" class="position-fixed bg-white text-white p-3 rounded shadow-lg top-50 start-50 translate-middle" style="z-index: 3;">
                     <div class="text-center text-black" @click.outside="panduan = false" x-transition>
                         <p x-data="{ copiedformat: null, copiedd: false }">
                             <span class="fw-bold">Lupa Password atau Username?</span><br>
@@ -57,7 +57,6 @@
                                     "\r\n" + "Diisi oleh Admin ESDM" +
                                     "\r\n" + "Username : ..." +
                                     "\r\n" + "Password : ...";
-                                console.log(textformat);
                             </script>
                             <i x-init="copiedformat = textformat.trim()" class="bi bi-copy filehover" @click="navigator.clipboard.writeText(copiedformat).then(() => copiedd = true)"> Salin Format</i>
                             <span x-show="copiedd" x-transition @click.outside="copiedd = false">Disalin</span>
@@ -65,7 +64,7 @@
                         <button @click="panduan = false" class="btn btn-sm btn-warning">Tutup</button>
                     </div>
                 </div>
-                <div class="col-12 col-md-6 text-bg-primary pb-4">
+                <div class="col-12 col-md-6 text-bg-primary pb-4 rounded">
                     <div class="d-flex align-items-center justify-content-center h-100">
                         <div class="col-10 col-xl-8 py-3">
                             <img class="img-fluid rounded mb-2" loading="lazy" src="{{ asset('') }}assets/img/newlogo_miners_putih.png" width="260" alt="BootstrapBrain Logo">
@@ -149,5 +148,175 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <img class="img-fluid bg-white rounded" src="{{ asset('') }}assets/alur_miners_2025.jpg" alt="">
+            </div>
+        </div>
+        <div class="row p-3">
+            <div class="col-12 bg-white p-3 rounded">
+                <table class="table table-striped" x-data="{ layanan: false }">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                DAFTAR LAYANAN
+                                <button class="btn btn-sm btn-primary ms-2" @click="layanan = !layanan">Lihat Detail</button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody x-show="layanan" x-transition @click.outside="layanan = false">
+                        @foreach ($permitworks as $permitwork)
+                            <tr>
+                                <td x-data="{ syarat: false }">
+                                    {{ $permitwork->name_permit }} <button class="btn btn-sm btn-primary" @click="syarat = !syarat"><i class="bi bi-info-circle"></i></button>
+                                    <br>
+                                    <div x-show="syarat" x-transition class="px-3">
+                                        Persyaratan : <br>
+                                        {!! $permitwork->desc_permit !!}
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <div id="chartpengajuan" class="mt-3 p-2 bg-white rounded">
+                </div>
+            </div>
+            <div class="col-md-6 col-12">
+                <div id="chartperizinan" class="mt-3 p-2 bg-white rounded">
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="mt-3 p-4 bg-white rounded shadow-lg">
+                    <h3 class="text-center">Link Pintasan</h3>
+                    <a href="#" target="_blank" class="btn btn-primary">Website DESDM Kalteng</a>
+                    <a href="#" target="_blank" class="btn btn-primary">Website Diskominfo Kalteng</a>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+@push('scriptlogin')
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script>
+        // new Splide('.splide', {
+        //     type: 'loop', // Agar bisa loop
+        //     perPage: 2, // Menampilkan 3 slide per halaman
+        //     focus: 'center', // Menjadikan slide aktif berada di tengah
+        //     // gap: '1rem', // Jarak antar slide
+        //     breakpoints: {
+        //         1028: { // Jika layar ≤ 1028px
+        //             perPage: 1, // Mobile: 1 slide per halaman
+        //             height: "200px" // Mobile: tinggi 250px
+        //         }
+        //     }
+        // }).mount();
+        // dataslide = document.querySelectorAll('.splide__slide img');
+        // console.log(dataslide[0]);
+        // document.querySelectorAll(".splide__slide img").forEach((img) => {
+        //     img.addEventListener("click", function() {
+        //         let dataUrl = this.getAttribute("data-url");
+        //         window.open(dataUrl, "_blank");
+        //     });
+        // });
+    </script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script>
+        var chartpengajuan = {{ Js::from($chartpengajuan) }};
+        Highcharts.chart('chartpengajuan', {
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: 'Jumlah Pengajuan Tahun 2025'
+            },
+            subtitle: {
+                text: 'Sumber: ' +
+                    '<a href="https://minerskalteng.com" ' +
+                    'target="_blank">Minerskalteng.com</a>'
+            },
+            xAxis: {
+                categories: [
+                    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+                    'Oct', 'Nov', 'Dec'
+                ]
+            },
+            yAxis: {
+                title: {
+                    text: 'Jumlah Pengajuan'
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: [{
+                name: 'Diajukan',
+                data: chartpengajuan['diajukan'],
+            }, {
+                name: 'Disposisi',
+                data: chartpengajuan['disposisi'],
+            }, {
+                name: 'Diproses',
+                data: chartpengajuan['diproses'],
+            }, {
+                name: 'Perbaikan',
+                data: chartpengajuan['perbaikan'],
+            }, {
+                name: 'Selesai',
+                data: chartpengajuan['selesai'],
+            }, ],
+        });
+        Highcharts.chart('chartperizinan', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Jumlah Perizinan Pertambangan Kalimantan Tengah'
+            },
+            subtitle: {
+                text: 'Sumber: ' +
+                    '<a href="https://minerskalteng.com" ' +
+                    'target="_blank">Minerskalteng.com</a>'
+            },
+            xAxis: {
+                categories: ['IUP Mineral Bukan Logam', 'IUP Batuan', 'SIPB', 'IUJP', 'IPP'],
+                crosshair: true,
+                accessibility: {
+                    description: 'Countries'
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Jumlah Perizinan'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' Izin'
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Jumlah',
+                data: [50, 25, 39, 21, 33]
+            }]
+        });
+    </script>
+@endpush

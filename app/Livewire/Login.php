@@ -2,8 +2,11 @@
 
 namespace App\Livewire;
 
+use App\Models\Appreq;
 use App\Models\Commodity;
+use App\Models\Permitwork;
 use App\Models\Region;
+use App\Models\Stat;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
@@ -47,9 +50,18 @@ class Login extends Component
 
     public function render()
     {
+        $chartpengajuan = [];
+        foreach (Stat::all() as $stat) {
+            for ($i = 1; $i <= 12; $i++) {
+                $chartpengajuan[$stat->name_stat][] = Appreq::whereMonth('created_at', $i)->where('stat_id', $stat->id)->count();
+            }
+        }
+        // dd($chartpengajuan);
         return view('livewire.login', [
             'commodities' => Commodity::all(),
+            'permitworks' => Permitwork::where('aktif', 1)->get(),
             'all_kab' => Region::where('parent_region', '62')->get(),
+            'chartpengajuan' => $chartpengajuan,
         ]);
     }
 }
