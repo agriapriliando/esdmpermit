@@ -195,8 +195,9 @@
             <div class="col-12">
                 <div class="mt-3 p-4 bg-white rounded shadow-lg">
                     <h3 class="text-center">Link Pintasan</h3>
-                    <a href="#" target="_blank" class="btn btn-primary">Website DESDM Kalteng</a>
-                    <a href="#" target="_blank" class="btn btn-primary">Website Diskominfo Kalteng</a>
+                    @foreach ($linktautan as $l)
+                    <a href="{{ $l['link'] }}" target="_blank" class="btn btn-primary m-2">{{ $l['name'] }}</a>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -204,6 +205,9 @@
 </section>
 @push('scriptlogin')
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script>
         // new Splide('.splide', {
         //     type: 'loop', // Agar bisa loop
@@ -225,11 +229,6 @@
         //         window.open(dataUrl, "_blank");
         //     });
         // });
-    </script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script>
         var chartpengajuan = {{ Js::from($chartpengajuan) }};
         Highcharts.chart('chartpengajuan', {
             chart: {
