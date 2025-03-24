@@ -96,6 +96,7 @@
                         </div>
                         <div x-data="{ isSubmitting: false }">
                             <form x-on:submit="isSubmitting = true" wire:submit.prevent="daftar">
+                                @csrf
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
                                     <div class="col-12">
                                         <label for="name" class="form-label">Nama Lengkap (PIC) <span class="text-danger">*</span></label>

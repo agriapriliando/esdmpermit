@@ -95,6 +95,7 @@
                         </div>
                         <div x-data="{ isSubmitting: false }">
                             <form x-on:submit="isSubmitting = true" wire:submit="login">
+                                @csrf
                                 <div class="row gy-3 gy-md-4 overflow-hidden">
                                     <div class="col-12">
                                         <label for="username" class="form-label">Username <span class="text-danger">*</span></label>
@@ -196,7 +197,7 @@
                 <div class="mt-3 p-4 bg-white rounded shadow-lg">
                     <h3 class="text-center">Link Pintasan</h3>
                     @foreach ($linktautan as $l)
-                    <a href="{{ $l['link'] }}" target="_blank" class="btn btn-primary m-2">{{ $l['name'] }}</a>
+                        <a href="{{ $l['link'] }}" target="_blank" class="btn btn-primary m-2">{{ $l['name'] }}</a>
                     @endforeach
                 </div>
             </div>
