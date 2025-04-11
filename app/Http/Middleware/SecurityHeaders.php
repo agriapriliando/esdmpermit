@@ -38,7 +38,7 @@ class SecurityHeaders
             "frame-src 'self' *.youtube.com *.vimeo.com; " .
             "object-src 'none'; " .
             "base-uri 'self';";
-
+        $response->headers->remove('Content-Security-Policy');
         $response->headers->set('Content-Security-Policy', $csp);
         $response->headers->set('Referrer-Policy', 'no-referrer-when-downgrade');
         $response->headers->set('X-XSS-Protection', '1; mode=block');
@@ -48,6 +48,8 @@ class SecurityHeaders
         $response->headers->set('Access-Control-Allow-Origin', '*');
         $response->headers->set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type,Authorization,X-Requested-With,X-CSRF-Token');
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
+        $response->headers->set('X-Content-Type-Options', 'nosniff');
         // if (!app()->environment('testing')) {
 
         //     $this->removeUnwantedHeaders($this->unwantedHeaders);
