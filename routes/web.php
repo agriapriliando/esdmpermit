@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AktivasiController;
 use App\Http\Controllers\DaftarController;
+use App\Http\Controllers\LoginController;
 use App\Livewire\Admin\AdminAppreqdetail;
 use App\Livewire\Admin\AdminAppreqlist;
 use App\Livewire\Admin\AdminProfile;
@@ -99,8 +100,9 @@ Route::get('/layanan', function () {
     return redirect()->away('https://docs.google.com/spreadsheets/d/e/2PACX-1vT9TtQ7hcSXi6cnhF_U7DfGs2_2DTutESVEqfgasJQI94aOoLxsE2GxjoIczM96QU1RKuAKc3p4FjIK/pubhtml');
 });
 
-Route::get('/', Login::class)->name('login');
-Route::get('login', Login::class)->name('login');
+Route::get('/', [LoginController::class, 'index'])->middleware('securityheaders');
+Route::get('login', [LoginController::class, 'index'])->name('login')->middleware('securityheaders');
+Route::post('/login', [LoginController::class, 'login']);
 Route::get('logout', function () {
     Auth::logout();
     session()->invalidate();
@@ -108,7 +110,8 @@ Route::get('logout', function () {
     return redirect()->route('login');
 })->name('logout');
 Route::get('aktivasi/{token}', AktivasiController::class)->name('aktivasi');
-Route::get('daftar', Daftar::class)->name('daftar');
+Route::get('daftar', [LoginController::class, 'daftar'])->name('daftar')->middleware('securityheaders');
+Route::post('/daftar', DaftarController::class);
 Route::get('reset', Resetpass::class)->name('resetpass');
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['cekrole:evaluator|adminutama|operator'])->group(function () {

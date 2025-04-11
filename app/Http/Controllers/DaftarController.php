@@ -21,6 +21,9 @@ class DaftarController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
             'nohp' => 'required',
+        ], [
+            'username.unique' => 'Username sudah terdaftar',
+            'email.unique' => 'Email sudah terdaftar',
         ]);
         $data_company = $request->validate([
             'name_company' => 'required',
