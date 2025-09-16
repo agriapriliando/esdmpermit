@@ -52,8 +52,8 @@ class StatSeeder extends Seeder
             ],
             [
                 'no_urut' => 6,
-                'name_stat' => 'selesai',
-                'desc_stat' => 'Selesai',
+                'name_stat' => 'terbit',
+                'desc_stat' => 'Terbit',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],

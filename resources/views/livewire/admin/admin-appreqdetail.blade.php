@@ -53,7 +53,7 @@
                                     class="float-end btn btn-warning me-1 mb-2" type="button" wire:loading.attr="disabled">
                                     <i class="bi bi-arrow-repeat"></i> Refresh
                                 </a>
-                                <button @click="history.back()" class="float-end btn btn-warning me-1 mb-2" type="button"><i class="bi bi-arrow-left"></i> Kembali</button>
+                                <a wire:navigate href="{{ route('admin.appreq', $appreq->stat->name_stat) }}" class="float-end btn btn-warning me-1 mb-2"><i class="bi bi-arrow-left"></i> Kembali</a>
                                 <div class="mt-4">
                                     <div style="width: 300px">
                                         <select wire:model.live="stat_id" class="form-select {{ $appreq->stat_id == 6 ? 'text-bg-success' : 'text-bg-warning' }} p-2 rounded" id="status"
@@ -73,11 +73,11 @@
                                     @endsession
                                 </div>
                             </div>
-                            {{-- stat id 6 selesai --}}
+                            {{-- stat id 6 terbit --}}
                             @if ($appreq->stat_id == 6)
                                 <div>
                                     <div class="px-1 mt-2 bg-success text-bg-success rounded mb-2">
-                                        <h4>Pengajuan ini telah Selesai</h4>
+                                        <h4>Dokumen Pengajuan ini telah Diterbitkan</h4>
                                     </div>
                                 </div>
                             @endif
@@ -137,18 +137,20 @@
                                                 </td>
                                             @endif
                                         </tr>
-                                        <tr>
-                                            <td class="fw-bold">9. Tanggal Selesai</td>
-                                            @if ($appreq->date_finished != null)
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
-                                                    <span class="badge rounded-pill text-bg-warning">oleh
-                                                        {{ $user_finished['name'] }}</span>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                        @if ($appreq->date_rejected != null)
+                                        @if ($appreq->stat_id == 6)
                                             <tr>
-                                                <td class="fw-bold">Tanggal Ditolak</td>
+                                                <td class="fw-bold">9. Tanggal Terbit</td>
+                                                @if ($appreq->date_finished != null)
+                                                    <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
+                                                        <span class="badge rounded-pill text-bg-warning">oleh
+                                                            {{ $user_finished['name'] }}</span>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endif
+                                        @if ($appreq->date_rejected != null && $appreq->stat_id != 6)
+                                            <tr class="bg-danger text-bg-danger">
+                                                <td class="fw-bold">Tanggal Dibatalkan</td>
                                                 <td>: {{ Carbon\Carbon::parse($appreq->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib
                                                     <span class="badge rounded-pill text-bg-warning">oleh
                                                         {{ $user_rejected['name'] }}</span>

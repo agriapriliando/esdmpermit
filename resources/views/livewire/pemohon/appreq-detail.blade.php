@@ -62,7 +62,7 @@
                                     @if ($appreq->stat_id == 6)
                                         <div>
                                             <div class="px-3 py-1 mb-1 bg-success text-bg-success rounded">
-                                                Pengajuan ini telah selesai, Dokumen telah terbit. Silahkan Cek Daftar Berkas File
+                                                Dokumen Pengajuan ini telah Diterbitkan, Dokumen telah terbit. Silahkan Cek Daftar Berkas File
                                             </div>
                                         </div>
                                     @else
@@ -119,18 +119,20 @@
                                                 </td>
                                             @endif
                                         </tr>
-                                        <tr>
-                                            <td class="fw-bold">9. Tanggal Selesai</td>
-                                            @if ($appreq->date_finished != null)
-                                                <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
-                                                    <span class="badge rounded-pill text-bg-warning">oleh
-                                                        {{ $user_finished['name'] }}</span>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                        @if ($appreq->date_rejected != null)
+                                        @if ($appreq->stat_id == 6)
                                             <tr>
-                                                <td class="fw-bold">Tanggal Ditolak</td>
+                                                <td class="fw-bold">9. Tanggal Terbit</td>
+                                                @if ($appreq->date_finished != null)
+                                                    <td>: {{ Carbon\Carbon::parse($appreq->date_finished)->translatedFormat('d/m/Y H:i') }} Wib
+                                                        <span class="badge rounded-pill text-bg-warning">oleh
+                                                            {{ $user_finished['name'] }}</span>
+                                                    </td>
+                                                @endif
+                                            </tr>
+                                        @endif
+                                        @if ($appreq->date_rejected != null && $appreq->stat_id != 6)
+                                            <tr>
+                                                <td class="fw-bold">Tanggal Dibatalkan</td>
                                                 <td>: {{ Carbon\Carbon::parse($appreq->date_rejected)->translatedFormat('d/m/Y H:i') }} Wib
                                                     <span class="badge rounded-pill text-bg-warning">oleh
                                                         {{ $user_rejected['name'] }}</span>

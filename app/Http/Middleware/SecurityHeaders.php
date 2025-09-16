@@ -33,7 +33,7 @@ class SecurityHeaders
             "style-src 'self' *.jsdelivr.net 'nonce-{$nonce}'; " .
             "img-src 'self' * data:; " .
             "font-src 'self' *.jsdelivr.net data: ; " .
-            "connect-src 'self' plausible.io/api/event; " .
+            "connect-src 'self' plausible.io/api/event cdn.jsdelivr.net; " .
             "media-src 'self'; " .
             "frame-src 'self' *.youtube.com *.vimeo.com; " .
             "object-src 'none'; " .

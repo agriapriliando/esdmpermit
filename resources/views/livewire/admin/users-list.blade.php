@@ -166,9 +166,8 @@
                             @endsession
                             <h3 class="card-title">Daftar Akun Pengelola</h3>
                             <div class="card-tools">
-                                <div class="input-group" x-data="{ search: _admin '' }">
-                                    <input wire:model.live.debounce="search_admin" x-model="search_admin" type="text" name="search_admin" class="form-control form-control-sm float-right"
-                                        placeholder="Cari">
+                                <div class="input-group">
+                                    <input wire:model.live.debounce="search_admin" type="text" class="form-control form-control-sm float-right" placeholder="Cari">
                                     <div class="input-group-append">
                                         <button wire:click="resetSearchAdmin" type="submit" class="btn btn-warning">
                                             <i class="bi bi-x-square-fill"></i>

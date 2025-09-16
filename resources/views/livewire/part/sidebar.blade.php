@@ -125,9 +125,9 @@
                             <p>Daftar Ajuan</p>
                         </a>
                     </li>
-                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan/selesai') }}" class="nav-link {{ request()->is('pengajuan/selesai') ? 'active' : '' }}"> <i
+                    <li class="nav-item"> <a wire:navigate href="{{ url('pengajuan/terbit') }}" class="nav-link {{ request()->is('pengajuan/terbit') ? 'active' : '' }}"> <i
                                 class="nav-icon bi bi-filetype-docx"></i>
-                            <p>Ajuan Selesai</p>
+                            <p>Ajuan Terbit</p>
                         </a>
                     </li>
                 @endif

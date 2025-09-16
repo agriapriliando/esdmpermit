@@ -55,7 +55,7 @@ class AppreqList extends Component
                     ->where('user_id', Auth::id())
                     ->orderBy('created_at', 'desc')
                     ->paginate($this->pagelength),
-                'stats' => Stat::where('id', '!=', 4)->get()
+                'stats' => Stat::where('id', '!=', 5)->get()
             ]);
         } else {
             return view('livewire.pemohon.appreq-list', [

@@ -92,6 +92,17 @@
                                     <div class="mb-5">
                                         <h3>Daftar</h3>
                                     </div>
+                                    @if (session('error_mail'))
+                                        <div class="alert alert-danger">
+                                            {{ session('error_mail') }}
+                                            <small class="d-block text-muted">{{ session('error_mail_detail') }}</small>
+                                        </div>
+                                    @endif
+                                    @session('error')
+                                        <div class="alert alert-danger" role="alert">
+                                            <span>{{ session('error') }}</span>
+                                        </div>
+                                    @endsession
                                 </div>
                             </div>
                             <div x-data="{ isSubmitting: false }">

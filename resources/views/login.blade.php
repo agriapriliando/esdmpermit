@@ -2,7 +2,7 @@
     <!-- Login 5 - Bootstrap Brain Component -->
 
     <section class="p-md-1 p-xl-5">
-        <div class="container mb-5">
+        <div class="container mb-5 mt-2">
             @session('success')
                 <div class="zindex alert alert-primary alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
                     <strong>{{ session('success') }}</strong><br>
@@ -24,13 +24,14 @@
                 </div>
             @endsession
             @session('error')
-                <div id="zindex alert-error" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition role="alert">
+                <div id="zindex alert-error" style="x-index: 999999 !important;" class="alert alert-danger alert-dismissible fade show position-fixed top-50 start-50 translate-middle" x-transition
+                    role="alert">
                     <strong>{{ session('error') }}</strong>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endsession
             <div class="card border-light-subtle shadow-sm">
-                <div class="row g-0" x-data="{ panduan: false, formlogin: true, }">
+                <div class="row g-0" x-data="{ panduan: false, formlogin: true, }" x-cloak>
                     <div x-cloak x-show="panduan" class="overlay"></div>
                     <div x-cloak x-show="panduan" class="position-fixed bg-white text-white p-3 rounded shadow-lg top-50 start-50 translate-middle zindex ">
                         <div class="text-center text-black" @click.outside="panduan = false" x-transition>
@@ -92,6 +93,26 @@
                                     <div class="mb-5">
                                         <h3>Login</h3>
                                     </div>
+                                    @session('success')
+                                        <div class="alert alert-success" role="alert">
+                                            <span>{{ session('success') }}</span>
+                                        </div>
+                                    @endsession
+                                    @session('successdaftar')
+                                        <div class="alert alert-success" role="alert">
+                                            <span>{{ session('successdaftar') }}</span>
+                                        </div>
+                                    @endsession
+                                    @session('aktivasi')
+                                        <div class="alert alert-success" role="alert">
+                                            <span>{{ session('aktivasi') }}</span>
+                                        </div>
+                                    @endsession
+                                    @session('error')
+                                        <div class="alert alert-danger" role="alert">
+                                            <span>{{ session('error') }}</span>
+                                        </div>
+                                    @endsession
                                 </div>
                             </div>
                             <div x-data="{ isSubmitting: false }">
@@ -280,8 +301,8 @@
                     name: 'Perbaikan',
                     data: chartpengajuan['perbaikan'],
                 }, {
-                    name: 'Selesai',
-                    data: chartpengajuan['selesai'],
+                    name: 'Terbit',
+                    data: chartpengajuan['terbit'],
                 }, ],
             });
             Highcharts.chart('chartperizinan', {
@@ -320,7 +341,7 @@
                 },
                 series: [{
                     name: 'Jumlah',
-                    data: [50, 25, 39, 21, 33]
+                    data: [5, 10, 15, 20, 25]
                 }]
             });
         </script>

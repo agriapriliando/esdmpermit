@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
 </head> <!--end::Head--> <!--begin::Body-->
 <style nonce="{{ session()->get('csp_nonce') }}">
+    [x-cloak] {
+        display: none !important;
+    }
+
     .filehover {
         cursor: pointer;
     }

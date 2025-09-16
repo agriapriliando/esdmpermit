@@ -45,7 +45,7 @@
                                     * Diproses = Status saat pengajuan diterima/dibuka oleh Admin Evaluator<br>
                                     * Perbaikan = Status Perbaikan Pengajuan<br>
                                     * Dibatalkan = Status Penangguhan atau Pembatalan atau Kesalahan<br>
-                                    * Selesai = Status Permohonan telah dipenuhi, dokumen terbit<br>
+                                    * Terbit = Status Permohonan telah dipenuhi, dokumen terbit<br>
                                 </div>
                             </div>
                             <div class="d-flex flex-column flex-lg-row float-end">

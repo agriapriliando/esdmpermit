@@ -275,8 +275,8 @@
                 name: 'Perbaikan',
                 data: chartpengajuan['perbaikan'],
             }, {
-                name: 'Selesai',
-                data: chartpengajuan['selesai'],
+                name: 'Terbit',
+                data: chartpengajuan['terbit'],
             }, ],
         });
         Highcharts.chart('chartperizinan', {

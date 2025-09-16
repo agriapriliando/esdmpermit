@@ -16,7 +16,7 @@ class Sidebar extends Component
         $evaluator_status_diproses = Appreq::where('viewed_evaluator', 0)->where('stat_id', 3)->count();
         $evaluator_status_perbaikan = Appreq::where('viewed_evaluator', 0)->where('stat_id', 4)->count();
         $evaluator_status_dibatalkan = Appreq::where('viewed_evaluator', 0)->where('stat_id', 5)->count();
-        $evaluator_status_selesai = Appreq::where('viewed_evaluator', 0)->where('stat_id', 6)->count();
+        $evaluator_status_terbit = Appreq::where('viewed_evaluator', 0)->where('stat_id', 6)->count();
         return view('livewire.part.sidebar', [
             'stats' => Stat::all(),
             'operator_status_diajukan' => $operator_status_diajukan,
@@ -25,7 +25,7 @@ class Sidebar extends Component
             'evaluator_status_diproses' => $evaluator_status_diproses,
             'evaluator_status_perbaikan' => $evaluator_status_perbaikan,
             'evaluator_status_dibatalkan' => $evaluator_status_dibatalkan,
-            'evaluator_status_selesai' => $evaluator_status_selesai
+            'evaluator_status_terbit' => $evaluator_status_terbit
         ]);
     }
 }

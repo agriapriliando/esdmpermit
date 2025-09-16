@@ -9,6 +9,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Throwable;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 class DaftarController extends Controller
 {
@@ -44,16 +47,51 @@ class DaftarController extends Controller
         unset($data_company['type_company']);
         // dd($url);
         try {
-            $url = route("aktivasi", $datauser['api_token']);
+            DB::beginTransaction();
+
             $user = User::create($datauser);
+
             $data_company['user_id'] = $user->id;
             Company::create($data_company);
-            Mail::to($datauser['email'])->send(new AktivasiAkun($user['name'], $datauser['username'], $request->password, $url));
-            session()->flash('successdaftar', 'Pendaftaran Akun ' . $data_company['name_company'] . ' Dengan Email ' . $datauser['email'] . ' Berhasil.');
+
+            $url = route('aktivasi', $user->api_token ?? $datauser['api_token']);
+
+            // Kirim email sinkron. Jika gagal, akan lempar exception.
+            Mail::to($datauser['email'])->send(
+                new AktivasiAkun($user->name, $user->username, $request->password, $url)
+            );
+
+            DB::commit();
+
+            session()->flash(
+                'successdaftar',
+                'Pendaftaran Akun ' . $data_company['name_company'] . ' Dengan Email ' . $datauser['email'] . ' Berhasil.'
+            );
             return redirect()->route('login');
-        } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
+        } catch (Throwable $e) {
+            DB::rollBack();
+
+            // Bedakan error pengiriman email vs error lain
+            if ($e instanceof TransportExceptionInterface) {
+                session()->flash('error_mail', 'Gagal mengirim email aktivasi. Pendaftaran dibatalkan. Silakan coba lagi atau hubungi admin.');
+                // Opsional: detail teknis (sembunyikan di production UI)
+                session()->flash('error_mail_detail', $e->getMessage());
+            } else {
+                session()->flash('error', 'Terjadi kesalahan saat pendaftaran. Pendaftaran dibatalkan. ' . $e->getMessage());
+            }
+            return redirect()->route('daftar');
         }
+        // try {
+        //     $url = route("aktivasi", $datauser['api_token']);
+        //     $user = User::create($datauser);
+        //     $data_company['user_id'] = $user->id;
+        //     Company::create($data_company);
+        //     Mail::to($datauser['email'])->send(new AktivasiAkun($user['name'], $datauser['username'], $request->password, $url));
+        //     session()->flash('successdaftar', 'Pendaftaran Akun ' . $data_company['name_company'] . ' Dengan Email ' . $datauser['email'] . ' Berhasil.');
+        //     return redirect()->route('login');
+        // } catch (\Exception $e) {
+        //     session()->flash('error', $e->getMessage());
+        // }
         return redirect()->route('login');
     }
 }
