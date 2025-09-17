@@ -59,3 +59,10 @@ services:
             MYSQL_DATABASE: db_esdmpermit
             MYSQL_USER: ditaria
             MYSQL_PASSWORD: 177borneo
+
+    certbot:
+        image: certbot/certbot
+        volumes:
+            - .:/var/www
+            - .docker/letsencrypt:/etc/letsencrypt
+        entrypoint: /bin/sh
