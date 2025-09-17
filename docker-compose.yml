@@ -56,6 +56,6 @@ services:
             - .docker/db/sql:/docker-entrypoint-initdb.d
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: refactorian
-            MYSQL_USER: refactorian
-            MYSQL_PASSWORD: refactorian
+            MYSQL_DATABASE: db_esdmpermit
+            MYSQL_USER: ditaria
+            MYSQL_PASSWORD: 177borneo
