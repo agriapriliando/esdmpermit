@@ -65,4 +65,3 @@ services:
         volumes:
             - .:/var/www
             - .docker/letsencrypt:/etc/letsencrypt
-        entrypoint: /bin/sh
