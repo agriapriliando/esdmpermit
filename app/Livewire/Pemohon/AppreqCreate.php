@@ -54,6 +54,7 @@ class AppreqCreate extends Component
             'file_upload.required' => 'Silahkan Memilih Berkas',
             'file_upload.*.mimes' => 'Silahkan Memilih Berkas dengan Format: pdf, doc, docx, xls, xlsx, jpeg, jpg, zip, rar, png',
             'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
+            'file_upload.0.max'      => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
         ];
     }
 
