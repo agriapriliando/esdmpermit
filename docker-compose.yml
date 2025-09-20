@@ -4,7 +4,7 @@ services:
     ####################################################################################################
     frankenphp:
         build:
-            context: ./app/php
+            context: .docker/php
             dockerfile: Dockerfile
         container_name: frankenphp
         ports:
