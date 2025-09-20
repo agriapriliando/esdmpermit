@@ -25,11 +25,12 @@ services:
             context: .docker/php
             dockerfile: Dockerfile
         container_name: laravel-queue
-        command: php artisan queue:work --tries=3 --sleep=3
         working_dir: /app
         volumes:
             - .:/app
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
+        env_file:
+            - .env
         depends_on:
             - db
 

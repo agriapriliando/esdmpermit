@@ -17,7 +17,8 @@ RUN apt-get update \
     libicu-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libpng-dev
+    libpng-dev \
+    supervisor
 
 # Ekstensi dasar Laravel
 RUN docker-php-ext-install \
@@ -45,5 +46,14 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 RUN curl -sL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm@latest yarn
+
+# buat folder supervisor
+RUN mkdir -p /etc/supervisor/conf.d
+
+# copy konfigurasi supervisor
+COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# default command jalankan supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 WORKDIR /app
