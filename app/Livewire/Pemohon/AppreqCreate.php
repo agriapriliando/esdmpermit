@@ -17,28 +17,12 @@ class AppreqCreate extends Component
 {
     use WithFileUploads;
 
-    #[Validate(
-        [
-            'permitwork_id' => 'required',
-            'file_upload' => 'required',
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar,png|max:11000'
-        ],
-        messages: [
-            'permitwork_id.required' => 'Silahkan Memilih Layanan',
-            'file_upload.required' => 'Silahkan Memilih Berkas',
-            'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar,png',
-            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
-        ]
-    )]
     public $permitwork_id = '';
     public $permitwork_desc;
-
     public $search = '';
     public $pagelength = 10;
     public $tertaut_count;
-
     public Permitwork $permitwork;
-
     public $file_upload = [];
     public $notes;
 
@@ -46,6 +30,31 @@ class AppreqCreate extends Component
     {
         $this->permitwork_id = $permitwork->id;
         $this->permitwork_desc = $permitwork->desc_permit;
+    }
+
+    /**
+     * Aturan validasi
+     */
+    protected function rules()
+    {
+        return [
+            'permitwork_id' => 'required',
+            'file_upload' => 'required',
+            'file_upload.*' => 'mimes:pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar,png|max:10240', // 10MB
+        ];
+    }
+
+    /**
+     * Custom error messages
+     */
+    protected function messages()
+    {
+        return [
+            'permitwork_id.required' => 'Silahkan Memilih Layanan',
+            'file_upload.required' => 'Silahkan Memilih Berkas',
+            'file_upload.*.mimes' => 'Silahkan Memilih Berkas dengan Format: pdf, doc, docx, xls, xlsx, jpeg, jpg, zip, rar, png',
+            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
+        ];
     }
 
     public function updatedFileUpload()
