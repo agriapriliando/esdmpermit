@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendActivationEmail;
 use App\Mail\AktivasiAkun;
 use App\Models\Company;
 use App\Models\Region;
@@ -47,26 +48,24 @@ class DaftarController extends Controller
         unset($data_company['type_company']);
         // dd($url);
         try {
+            // Kirim email sinkron. Jika gagal, akan lempar exception.
+            // Mail::to($datauser['email'])->send(
+            //     new AktivasiAkun($user->name, $user->username, $request->password, $url)
+            // );
             DB::beginTransaction();
 
             $user = User::create($datauser);
-
             $data_company['user_id'] = $user->id;
             Company::create($data_company);
 
-            $url = route('aktivasi', $user->api_token ?? $datauser['api_token']);
-
-            // Kirim email sinkron. Jika gagal, akan lempar exception.
-            Mail::to($datauser['email'])->send(
-                new AktivasiAkun($user->name, $user->username, $request->password, $url)
-            );
-
             DB::commit();
 
-            session()->flash(
-                'successdaftar',
-                'Pendaftaran Akun ' . $data_company['name_company'] . ' Dengan Email ' . $datauser['email'] . ' Berhasil.'
-            );
+            $url = route('aktivasi', $user->api_token ?? $datauser['api_token']);
+
+            // Job hanya akan jalan setelah commit
+            SendActivationEmail::dispatch($user->id, $request->password, $url)->afterCommit();
+
+            session()->flash('successdaftar', "Pendaftaran berhasil, email aktivasi sedang dikirim ke {$user->email}");
             return redirect()->route('login');
         } catch (Throwable $e) {
             DB::rollBack();
