@@ -100,12 +100,12 @@
                                                     </ol>
                                                 </div>
                                                 @error('file_upload')
-                                                    <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
+                                                    <div class="alert alert-danger" x-show="alert">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
                                                 @error('file_upload.*')
-                                                    <div class="alert alert-danger" x-show="alert" x-init="setTimeout(() => alert = false, 10000)">
+                                                    <div class="alert alert-danger" x-show="alert">
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
