@@ -3,7 +3,7 @@ services:
     # FrankenPHP (ganti PHP + Nginx)
     ####################################################################################################
     frankenphp:
-        image: dunglas/frankenphp:1-php8.1
+        image: dunglas/frankenphp:php8.2
         container_name: frankenphp
         ports:
             - "80:80"
