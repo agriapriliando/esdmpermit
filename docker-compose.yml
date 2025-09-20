@@ -22,7 +22,7 @@ services:
     ####################################################################################################
     queue:
         build:
-            context: ./app/php
+            context: .docker/php
             dockerfile: Dockerfile
         container_name: laravel-queue
         command: php artisan queue:work --tries=3 --sleep=3
