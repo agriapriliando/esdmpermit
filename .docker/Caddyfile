@@ -1,0 +1,5 @@
+miners.kalteng.go.id {
+    root * /app/public
+    php_server
+    file_server
+}

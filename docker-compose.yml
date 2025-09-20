@@ -13,13 +13,7 @@ services:
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
             - ./.docker/caddy_data:/data
             - ./.docker/caddy_config:/config
-        environment:
-            CADDYFILE: |
-                miners.kalteng.go.id {
-                    root * /app/public
-                    php_server
-                    file_server
-                }
+            - ./.docker/Caddyfile:/etc/frankenphp/Caddyfile
 
     ####################################################################################################
     # phpMyAdmin
