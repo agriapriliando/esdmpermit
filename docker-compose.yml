@@ -10,16 +10,15 @@ services:
             - "443:443"
         volumes:
             - .:/app
-            - .docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
-            - .docker/letsencrypt:/etc/letsencrypt
+            - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - ./.docker/letsencrypt:/etc/letsencrypt
         environment:
-            # Domain project kamu
             SERVER_NAME: miners.kalteng.go.id
-            # Jalankan Laravel (gunakan runtime bawaan FrankenPHP)
-            APP_RUNTIME: Runtime\\FrankenPhpSymfony\\Runtime
             FRANKENPHP_CONFIG: |
-                worker / {
-                  root /app/public
+                :80 {
+                    root * /app/public
+                    php_server
+                    file_server
                 }
 
     ####################################################################################################
