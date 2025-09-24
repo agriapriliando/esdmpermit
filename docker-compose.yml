@@ -6,6 +6,8 @@ services:
         build:
             context: .docker/php
             dockerfile: Dockerfile
+        # jika image sudah dibuat, jadi saat build ulang tidak membuat duplikat
+        # image: esdmpermit-frankenphp:latest
         container_name: frankenphp
         ports:
             - "80:80"
@@ -16,6 +18,8 @@ services:
             - ./.docker/caddy_data:/data
             - ./.docker/caddy_config:/config
             - ./.docker/Caddyfile:/etc/frankenphp/Caddyfile
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
 
     ####################################################################################################
     # Laravel Queue Worker
@@ -24,47 +28,15 @@ services:
         build:
             context: .docker/php
             dockerfile: Dockerfile
-        container_name: laravel-queue
+        # jika image sudah dibuat, jadi saat build ulang tidak membuat duplikat
+        # image: esdmpermit-queue:latest
+        container_name: queue
         working_dir: /app
         volumes:
             - .:/app
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
         env_file:
             - .env
-        depends_on:
-            - db
 
-    ####################################################################################################
-    # phpMyAdmin
-    ####################################################################################################
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        ports:
-            - "8080:80"
-        environment:
-            PMA_HOST: db
-            PMA_PORT: 3306
-            PMA_ARBITRARY: 1
-        depends_on:
-            - db
-        volumes:
-            - .docker/phpmyadmin/sessions:/sessions
-
-    ####################################################################################################
-    # Database (MariaDB)
-    ####################################################################################################
-    db:
-        image: mariadb:10.11
-        container_name: mariadb
-        ports:
-            - "3306:3306"
-        environment:
-            MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: db_esdmpermit
-            MYSQL_USER: ditaria
-            MYSQL_PASSWORD: 177borneo
-        volumes:
-            - .docker/db/data:/var/lib/mysql
-            - .docker/logs:/var/log/mysql
-            - .docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
-            - .docker/db/sql:/docker-entrypoint-initdb.d
