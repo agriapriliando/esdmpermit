@@ -33,7 +33,7 @@ services:
         # image: esdmpermit-queue:latest
         container_name: queue
         working_dir: /app
-        command: php artisan queue:work --verbose --tries=3 --timeout=90
+        command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
         volumes:
             - .:/app
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
@@ -41,4 +41,5 @@ services:
             - "host.docker.internal:host-gateway"
         env_file:
             - .env
+        restart: always
 

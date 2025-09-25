@@ -55,7 +55,10 @@ RUN curl -sL https://deb.nodesource.com/setup_22.x | bash - \
 RUN mkdir -p /etc/supervisor/conf.d
 
 # copy konfigurasi supervisor
-COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# copy konfigurasi supervisor
+COPY .docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # default command jalankan supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
