@@ -58,7 +58,7 @@ RUN mkdir -p /etc/supervisor/conf.d
 # COPY ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # copy konfigurasi supervisor
-COPY .docker/php/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # default command jalankan supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
