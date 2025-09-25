@@ -21,12 +21,14 @@ use App\Livewire\Resetpass;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/mail', function () {
-    return view('mail.aktivasi');
-});
-Route::get('/test/page', function () {
-    dd(phpinfo());
-});
+
+Route::any('{any}', function () {
+    return "Mohon Maaf Aplikasi sedang dalam perbaikan. Terima kasih.";
+})->where('any', '.*');
+
+// Route::get('/test/page', function () {
+//     dd(phpinfo());
+// });
 
 Route::get('/datawilayah', function () {
     if (($open = fopen("data_wilayah.csv", "r")) !== false) {
