@@ -33,11 +33,11 @@ services:
         image: esdmpermit-queue:latest
         container_name: queue
         working_dir: /app
-        command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+        command: ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
         volumes:
             - .:/app
-            - ./.docker/php/supervisord.conf:/etc/supervisord.conf
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
+            - ./.docker/php/supervisord.conf:/etc/supervisord.conf
         extra_hosts:
             - "host.docker.internal:host-gateway"
         env_file:
