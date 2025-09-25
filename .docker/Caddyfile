@@ -1,5 +1,6 @@
 miners.kalteng.go.id {
     root * /app/public
-    php_server
+
+    php_fastcgi frankenphp:9000
     file_server
 }
