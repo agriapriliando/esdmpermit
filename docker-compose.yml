@@ -30,7 +30,7 @@ services:
             context: .docker/php
             dockerfile: Dockerfile
         # jika image sudah dibuat, jadi saat build ulang tidak membuat duplikat
-        # image: esdmpermit-queue:latest
+        image: esdmpermit-queue:latest
         container_name: queue
         working_dir: /app
         command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
