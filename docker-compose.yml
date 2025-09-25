@@ -9,6 +9,7 @@ services:
         # jika image sudah dibuat, jadi saat build ulang tidak membuat duplikat
         # image: esdmpermit-frankenphp:latest
         container_name: frankenphp
+        command: frankenphp run --config /etc/frankenphp/Caddyfile
         ports:
             - "80:80"
             - "443:443"
@@ -32,6 +33,7 @@ services:
         # image: esdmpermit-queue:latest
         container_name: queue
         working_dir: /app
+        command: php artisan queue:work --verbose --tries=3 --timeout=90
         volumes:
             - .:/app
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
