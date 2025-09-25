@@ -1,5 +1,38 @@
+# Laravel + FrankenPHP config
 miners.kalteng.go.id {
+    # Root Laravel public
     root * /app/public
+
+    # Jalankan PHP langsung dengan FrankenPHP (tidak butuh php-fpm)
     php_server
+
+    # Serve static files (css, js, images, dll.)
     file_server
+
+    # Redirect otomatis HTTP -> HTTPS
+    redir http://miners.kalteng.go.id https://miners.kalteng.go.id permanent
+
+    # Compression
+    encode gzip zstd
+
+    # Security headers
+    header {
+        # Jangan izinkan domain dipakai dalam iframe pihak ketiga
+        X-Frame-Options "SAMEORIGIN"
+
+        # Aktifkan XSS protection di browser
+        X-XSS-Protection "1; mode=block"
+
+        # Cegah MIME sniffing
+        X-Content-Type-Options "nosniff"
+
+        # Content Security Policy basic
+        Content-Security-Policy "default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval'"
+
+        # Referrer policy
+        Referrer-Policy "strict-origin-when-cross-origin"
+    }
+
+    # Laravel pretty URLs (tanpa index.php)
+    try_files {path} {path}/ /index.php?{query}
 }
