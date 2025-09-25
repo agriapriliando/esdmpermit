@@ -36,6 +36,7 @@ services:
         command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
         volumes:
             - .:/app
+            - ./.docker/php/supervisord.conf:/etc/supervisord.conf
             - ./.docker/php/php.ini:/usr/local/etc/php/conf.d/uploads.ini
         extra_hosts:
             - "host.docker.internal:host-gateway"
