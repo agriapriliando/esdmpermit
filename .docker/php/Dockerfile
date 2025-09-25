@@ -18,7 +18,8 @@ RUN apt-get update \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
-    supervisor
+    supervisor \
+    libmagickwand-dev --no-install-recommends
 
 # Ekstensi dasar Laravel
 RUN docker-php-ext-install \
@@ -35,6 +36,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 
 # Redis
 RUN pecl install redis && docker-php-ext-enable redis
+
+# Imagick
+RUN pecl install imagick && docker-php-ext-enable imagick
 
 # Composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \

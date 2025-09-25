@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Route::any('{any}', function () {
-    return "Mohon Maaf Aplikasi sedang dalam perbaikan. Terima kasih.";
-})->where('any', '.*');
+// Route::any('{any}', function () {
+//     return "Mohon Maaf Aplikasi sedang dalam perbaikan. Terima kasih.";
+// })->where('any', '.*');
 
 // Route::get('/test/page', function () {
 //     dd(phpinfo());
