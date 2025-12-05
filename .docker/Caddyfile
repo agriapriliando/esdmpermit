@@ -17,5 +17,8 @@ miners.kalteng.go.id {
 }
 
 minerskalteng.com, www.minerskalteng.com {
-    reverse_proxy frankenphp_minersdb:80
+    reverse_proxy frankenphp_minersdb:80 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-For {remote_host}
+    }
 }
