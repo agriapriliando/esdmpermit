@@ -15,3 +15,7 @@ miners.kalteng.go.id {
 
     try_files {path} {path}/ /index.php?{query}
 }
+
+minerskalteng.com, www.minerskalteng.com {
+    reverse_proxy frankenphp_minersdb:80
+}
