@@ -37,7 +37,7 @@
                                 <br>
                                 * Berkas unggah berformat pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar<br>
                                 * Berkas unggah dapat berjumlah lebih dari satu.<br>
-                                * Berkas per File maksimal 10MB atau 10.000 KB.<br>
+                                * Berkas per File maksimal 50MB atau 50.000 KB.<br>
                                 * Untuk berkas satuan yang berukuran melebihi 10Mb, silahkan diunggah ke Google Drive (atau sejenisnya), lalu sertakan linknya di kolom Keterangan.<br>
                                 * Kolom Keterangan akan terlihat / terbuka setelah proses Cek Berkas Berhasil.<br>
                                 * Kolom Keterangan bersifat opsional / tidak wajib, diisi sesuai kebutuhan. <br>

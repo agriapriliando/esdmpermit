@@ -19,7 +19,7 @@ class AppreqDetail extends Component
 
     #[Validate(
         [
-            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png,zip,rar|max:11000'
+            'file_upload.*' => 'extensions:pdf,doc,docx,xls,xlsx,jpeg,jpg,png,zip,rar|max:60000'
         ],
         message: [
             'file_upload.*.extensions' => 'Silahkan Memilih Berkas dengan Format : pdf,doc,docx,xls,xlsx,jpeg,jpg,png',

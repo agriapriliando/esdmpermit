@@ -40,7 +40,7 @@ class AppreqCreate extends Component
         return [
             'permitwork_id' => 'required',
             'file_upload' => 'required',
-            'file_upload.*' => 'mimes:pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar,png|max:10240', // 10MB
+            'file_upload.*' => 'mimes:pdf,doc,docx,xls,xlsx,jpeg,jpg,zip,rar,png|max:60000', // 10MB
         ];
     }
 
@@ -53,8 +53,8 @@ class AppreqCreate extends Component
             'permitwork_id.required' => 'Silahkan Memilih Layanan',
             'file_upload.required' => 'Silahkan Memilih Berkas',
             'file_upload.*.mimes' => 'Silahkan Memilih Berkas dengan Format: pdf, doc, docx, xls, xlsx, jpeg, jpg, zip, rar, png',
-            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
-            'file_upload.0.max'      => 'Ukuran 1 Berkas Tidak Boleh Melebihi 10MB',
+            'file_upload.*.max' => 'Ukuran 1 Berkas Tidak Boleh Melebihi 50MB',
+            'file_upload.0.max'      => 'Ukuran 1 Berkas Tidak Boleh Melebihi 50MB',
         ];
     }
 
