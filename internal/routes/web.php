@@ -35,7 +35,7 @@ use App\Livewire\Profile\Triwulan;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('/home');
+    return redirect('/internal/home');
 });
 
 Route::get('/profiles/view', ExportProfiles::class)->name('exports.view');
