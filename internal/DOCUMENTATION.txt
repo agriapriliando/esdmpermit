@@ -1,0 +1,190 @@
+GAMBARAN PROYEK
+
+- Tujuan: MinersDB menghimpun data profil perusahaan tambang beserta perizinan, kepatuhan, dan dokumen pendukung untuk Bidang Pertambangan DESDM Kalimantan Tengah, lengkap dengan navigasi dan branding khusus.
+- Tumpukan Teknologi: PHP 8.2/Laravel 12, Livewire 3.6, dan Maatwebsite/Excel pada sisi server. Frontend memanfaatkan Vite/Tailwind CSS, Bootstrap, Alpine.js, serta bundel aset Laravel.
+- Ringkasan Arsitektur: Aplikasi monolitik yang memetakan setiap rute ke kelas Livewire. Komponen beroperasi langsung dengan model Eloquent dan berbagi trait unggahan dokumen. Fitur ekspor melakukan eager loading relasi dinamis. Status (ID perusahaan terpilih, token API) disimpan di session/cookie dan diawasi middleware.
+
+STRUKTUR FOLDER
+
+- app/Http/Controllers: Otentikasi eksternal (AuthApiController) dan controller tampilan ekspor.
+- app/Livewire: Komponen halaman (daftar perusahaan, profil, perizinan, pelaporan, ekspor, cetak) dengan aturan validasi dan logika CRUD sendiri.
+- app/Models: Model Eloquent tipis yang mendefinisikan kolom/relasi, termasuk helper latest* untuk ekspor.
+- app/Traits: WithDokumen menyatukan validasi unggahan, penyimpanan, unduh, hapus, serta penanganan pagination.
+- app/Exports: ProfilesExport menyusun daftar kolom dinamis, eager load relasi bertingkat, dan mengatur heading/format Excel.
+- routes/web.php: Satu-satunya daftar rute; seluruh rute mengarah pada Livewire atau controller dengan middleware tertentu.
+- resources/views/components/layouts: Layout utama (app.blade.php) dan layout cetak sederhana.
+- resources/views/livewire: Template Blade untuk setiap komponen Livewire, termasuk pagination kustom.
+- database/migrations: Skema untuk tabel inti, tabel kepatuhan (RKAB, RIPPM, SIPB, dsb.), dokumen, serta tabel bawaan Laravel.
+- database/seeders: Seeder untuk profil dan seluruh modul kepatuhan.
+- config/livewire.php: Konfigurasi layout default, batas unggahan (hingga 150 MB untuk pelaporan), dan opsi SPA.
+
+DOKUMENTASI ROUTING
+
+Semua rute berada di routes/web.php. Tidak ada API terpisah.
+
+GET /                      -> Redirect
+Mengarahkan ke /home.
+
+GET /profiles/view         -> App\Livewire\ExportProfiles
+UI pemilihan kolom & perusahaan untuk ekspor.
+
+GET /profiles/export       -> Blade exports.profiles
+Membungkus komponen ekspor Livewire.
+
+GET /login                 -> AuthApiController@showLoginForm
+Form login bermerek.
+
+POST /login                -> AuthApiController@login
+Menyampaikan kredensial ke API miners dan menyimpan token.
+
+POST /logout               -> AuthApiController@logout
+Menghapus session & cookie, siap memanggil logout API.
+
+GET /home                  -> DaftarPerusahaan
+Daftar perusahaan + filter Livewire (hanya CekApiAuth).
+
+GET /profile/{id}/cetak    -> CetakProfil
+Layout cetak (saat ini placeholder statis).
+
+GET /profile/create        -> ProfileAdd
+Form penambahan profil perusahaan.
+
+GET /profile/{id}          -> Profile
+Detail profil dengan edit inline.
+
+GET /iuran                 -> Profile\Iuran
+Iuran tetap tahunan + dokumen.
+
+GET /iui                   -> Profile\Iui
+Riwayat IUI.
+
+GET /ktt                   -> Profile\Ktt
+Data Kepala Teknik Tambang.
+
+GET /kim                   -> Profile\Kim
+Perizinan KIM.
+
+GET /handak                -> Profile\Handak
+Gudang bahan peledak.
+
+GET /bbc                   -> Profile\Bbc
+Tangki BBC.
+
+GET /le                    -> Profile\Le
+Laporan eksplorasi.
+
+GET /pelabuhan             -> Profile\Pelabuhan
+Persetujuan pelabuhan.
+
+GET /pl                    -> Profile\Pl
+Persetujuan lingkungan.
+
+GET /pa                    -> Profile\Pa
+Project area.
+
+GET /rpt                   -> Profile\Rpt
+Rencana pascatambang.
+
+GET /rr                    -> Profile\Rr
+Rencana reklamasi.
+
+GET /stk                   -> Profile\Stk
+Studi kelayakan.
+
+GET /tb                    -> Profile\Tb
+Tanda batas.
+
+GET /reportmonth           -> Profile\Reportmonth
+Laporan bulanan.
+
+GET /triwulan              -> Profile\Triwulan
+Laporan triwulan.
+
+GET /surat                 -> Profile\Surat
+Surat masuk/keluar.
+
+GET /rippm                 -> Profile\Rippm
+Header RIPPM.
+
+GET /rippmdetail/{id}      -> Profile\RippmDetail
+Detail RIPPM per tahun.
+
+GET /rkabop                -> Profile\Rkabop
+RKAB operasi produksi.
+
+GET /rkabopperalatan/{id}  -> Profile\RkabopPeralatan
+Inventaris peralatan RKAB.
+
+GET /sipbrp                -> Profile\Sipbrp
+Rencana penambangan SIPB.
+
+GET /sipbrtp               -> Profile\Sipbrtp
+Rencana teknis SIPB.
+
+GET /pelaporan             -> Profile\Pelaporan
+Arsip dokumen pelaporan.
+
+Catatan: seluruh rute dalam grup middleware membutuhkan CekApiAuth dan CekIdPerusahaan, kecuali yang diberi withoutMiddleware.
+
+SKEMA BASIS DATA
+
+- profiles: Data master perusahaan (lokasi, izin, direktur, PIC, kontak).
+- ktts, handaks, bbcs, les: Tabel izin teknis terkait KTT, gudang handak, tangki BBC, dan laporan eksplorasi.
+- pl, pa, pelabuhans, pas, tb: Menyimpan persetujuan lingkungan, project area, pelabuhan, pemanfaatan lahan, dan tanda batas.
+- rpts, rrs, stks, sipbrps, sipbrtps: Dokumen teknis pascatambang, reklamasi, studi kelayakan, serta paket SIPB.
+- rippms & rippm_details: Header RIPPM dan rincian multikomponen (pendidikan, kesehatan, budaya, lingkungan, infrastruktur).
+- rkabops & rkabop_peralatans: Rencana kerja anggaran biaya tiga tahun dan daftar peralatan terkait.
+- iurans, iuis, kims: Tabel untuk iuran tetap, izin usaha industri, dan kartu izin meledak.
+- reportmonths, triwulans: Laporan bulanan (12 bulan) dan triwulanan per tahun.
+- dokumens: Metadata file (model, jenis, judul, path, ukuran, ekstensi).
+- tabel bawaan: users, password_reset_tokens, sessions, cache, jobs, failed_jobs, dsb.
+
+RELASI MODEL
+
+- Profile memiliki hasMany ke seluruh modul kepatuhan dan helper latest* untuk mengambil entri terbaru per relasi; tersedia pula scope pencarian per nama, komoditas, kabupaten, dan jenis izin.
+- Rkabop, RkabopPeralatan, Rippm, RippmDetail, Reportmonth, Triwulan, Dokumen masing-masing mendefinisikan fillable dan relasi belongsTo/hasMany yang dimanfaatkan komponen Livewire serta ekspor.
+
+ALUR APLIKASI
+
+1. Login - Pengguna membuka /login, memasukkan kredensial, lalu AuthApiController meneruskan ke API miners.kalteng.go.id. Token dan data user disimpan di session serta cookie opsional (ingat saya).
+
+2. Proteksi rute - CekApiAuth memastikan token tersedia (session atau cookie) dan memaksa redirect jika kosong. CekIdPerusahaan menolak akses modul teknis bila belum ada perusahaan yang dipilih.
+
+3. Pemilihan perusahaan - /home (Livewire DaftarPerusahaan) mengatur ulang session perusahaan, menerapkan filter pencarian, menampilkan pagination bootstrap, dan mengirim event toast saat menghapus data.
+
+4. Detail profil - /profile/{id} memuat seluruh kolom profil, menyiapkan format tanggal, serta menyimpan id_perusahaan dan nama di session untuk rute berikutnya.
+
+5. Modul - Setiap rute modul (Iuran, IUI, RKAB, RIPPM, Laporan Bulanan, Pelaporan, Surat, dsb.) memuat data berdasarkan session('id_perusahaan'), menyediakan validasi baris-per-baris, memanfaatkan WithDokumen untuk unggahan/unduhan, dan memancarkan event untuk toast.
+
+6. Pelaporan & ekspor - Komponen laporan bulanan/triwulan mengisi kolom secara programatis untuk 12 bulan/4 triwulan. /profiles/view memungkinkan pemilihan relasi dan perusahaan, lalu ProfilesExport melakukan eager loading relasi (termasuk nested detail/peralatan) sebelum mengekspor ke Excel.
+
+KOMPONEN KUNCI
+
+- Controller: AuthApiController (login/logout terhadap API eksternal) dan EprofileController (menyediakan daftar kolom ekspor jika dibutuhkan).
+- Livewire: DaftarPerusahaan, Profile, ProfileAdd, Iuran, Iui, Rkabop, RkabopPeralatan, Rippm, RippmDetail, Reportmonth, Pelaporan, Surat, ExportProfiles, dan lain-lain mengatur validasi, paginasi, event, serta integrasi dokumen.
+- Trait: WithDokumen memusatkan validasi (10 MB default, 150 MB khusus pelaporan), penyimpanan, streaming file, dan penghapusan.
+- Ekspor: ExportProfiles + ProfilesExport memetakan setiap modul dan kolom ke heading Excel, mendukung nested eager load (RIPPM detail, RKAB peralatan) serta penentuan format tanggal.
+- Job/Event: Tidak ada job kustom; event Livewire hanya untuk menampilkan toast.
+
+OTENTIKASI & OTORISASI
+
+- Model otentikasi: Tidak memakai guard Laravel standar. Token hasil login API eksternal disimpan di session/cookie, lalu dicek oleh middleware.
+- Middleware:
+  - CekApiAuth: Memvalidasi keberadaan token/cookie dan memuat data user ke session.
+  - CekIdPerusahaan: Menjamin pengguna memilih perusahaan sebelum mengakses modul teknis.
+- Kebijakan/Role: Tidak ada policy atau role-based access. Sidebar hanya menyembunyikan menu ketika belum login atau belum memilih perusahaan.
+
+STRUKTUR FRONTEND
+
+- Layout utama: components.layouts.app memuat navbar, sidebar foldable, stack CSS/JS, serta injeksi Vite saat APP_ENV=local & debug=true.
+- Sidebar dinamis: Menu menampilkan modul berbeda tergantung jenis izin (IUP vs SIPB) dan status login/perusahaan.
+- Template Livewire: Menggunakan wire:model.live, datalist HTML5, script Alpine (misal copy table), serta custom toast event.
+- Pagination khusus: custom-pagination.blade.php mengganti tampilan default Livewire dengan gaya Bootstrap + auto scroll.
+- Aset: Bootstrap/vendor dari public/assets dimasukkan melalui @stack. Tailwind didefinisikan via direktif @theme dan dikompilasi dengan Vite.
+
+KONFIGURASI
+
+- Lingkungan (.env): Menentukan koneksi MySQL (db_minersdb), driver queue/cache (database), level log, dan APP_DEBUG.
+- Livewire: Mengatur namespace komponen, batas unggahan 150 MB, layout default, serta progress bar untuk wire:navigate.
+- Composer scripts: composer run dev menjalankan server, queue listener, logger Pail, dan Vite secara paralel via concurrently; composer run test membersihkan config lalu menjalankan test suite.
+- Vite/Node: npm run dev & npm run build tersedia; dependencies hanya Tailwind 4 beta, Axios, Vite, plugin Laravel.
