@@ -10,7 +10,7 @@ services:
         # image: esdmpermit-frankenphp:latest
         container_name: frankenphp
         command: frankenphp run --config /etc/frankenphp/Caddyfile
-        ports:
+        expose:
             - "80"
         volumes:
             - .:/app
