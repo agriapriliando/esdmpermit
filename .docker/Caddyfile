@@ -1,6 +1,8 @@
-miners.kalteng.go.id {
+:80 {
     root * /app/public
+
     php_server
+
     file_server
 
     encode gzip zstd
@@ -14,11 +16,4 @@ miners.kalteng.go.id {
     }
 
     try_files {path} {path}/ /index.php?{query}
-}
-
-minerskalteng.com, www.minerskalteng.com {
-    reverse_proxy frankenphp_minersdb:80 {
-        header_up X-Forwarded-Proto {scheme}
-        header_up X-Forwarded-For {remote_host}
-    }
 }
