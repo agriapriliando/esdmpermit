@@ -79,5 +79,8 @@ services:
         container_name: frankenphp-internal
         expose:
             - "80"
+        volumes:
+            - ./internal:/app
+            - ./internal/Caddyfile:/etc/frankenphp/Caddyfile
         extra_hosts:
             - "host.docker.internal:host-gateway"
