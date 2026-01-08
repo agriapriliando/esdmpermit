@@ -74,8 +74,8 @@ services:
     ####################################################################################################
     internal:
         build:
-        context: ./internal
-        dockerfile: Dockerfile
+            context: ./internal
+            dockerfile: Dockerfile
         container_name: frankenphp-internal
         expose:
             - "80"
