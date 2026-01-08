@@ -68,3 +68,16 @@ services:
         volumes:
             - ./.docker/nginx/certs:/etc/letsencrypt
             - ./.docker/nginx/webroot:/var/www/certbot
+
+    ####################################################################################################
+    # Internal Service
+    ####################################################################################################
+    internal:
+        build:
+        context: ./internal
+        dockerfile: Dockerfile
+        container_name: frankenphp-internal
+        expose:
+            - "80"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
